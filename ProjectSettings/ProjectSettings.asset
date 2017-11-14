@@ -147,7 +147,9 @@ PlayerSettings:
   resolutionScalingMode: 0
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
-  applicationIdentifier: {}
+  applicationIdentifier:
+    Android: com.DefaultCompany.Arrrrr
+    iOS: com.DefaultCompany.ArrrrrTest
   buildNumber: {}
   AndroidBundleVersionCode: 1
   AndroidMinSdkVersion: 16
@@ -219,7 +221,7 @@ PlayerSettings:
   appleDeveloperTeamID: 
   iOSManualSigningProvisioningProfileID: 
   tvOSManualSigningProvisioningProfileID: 
-  appleEnableAutomaticSigning: 0
+  appleEnableAutomaticSigning: 1
   AndroidTargetDevice: 3
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
@@ -516,9 +518,13 @@ PlayerSettings:
   webGLUseWasm: 0
   webGLCompressionFormat: 1
   scriptingDefineSymbols:
-    4: VUFORIA_IOS_SETTINGS
-    7: VUFORIA_ANDROID_SETTINGS
-    14: VUFORIA_WSA_SETTINGS
+    1: CROSS_PLATFORM_INPUT
+    4: VUFORIA_IOS_SETTINGS;CROSS_PLATFORM_INPUT;MOBILE_INPUT
+    7: VUFORIA_ANDROID_SETTINGS;CROSS_PLATFORM_INPUT;MOBILE_INPUT
+    14: VUFORIA_WSA_SETTINGS;MOBILE_INPUT
+    17: MOBILE_INPUT
+    20: MOBILE_INPUT
+    22: MOBILE_INPUT
   platformArchitecture: {}
   scriptingBackend: {}
   incrementalIl2cppBuild: {}
