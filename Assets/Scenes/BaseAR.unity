@@ -224,7 +224,7 @@ GameObject:
   - component: {fileID: 750990231}
   - component: {fileID: 750990230}
   m_Layer: 0
-  m_Name: ImageTarget
+  m_Name: ImageTargetCube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

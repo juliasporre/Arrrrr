@@ -16,8 +16,8 @@ MonoBehaviour:
     ufoLicenseKey: QWE1NlFQZi8vLy8vQUFBQUtFZHRrQ1RWZGtyK210YmN4US9aOW80dkxiOGJiNmZvYmJiWldoa1ZqZ3MzK0Z4RW1rSG02VSs0eGltU0tzd0xsRnVIc0tXdWFtOE9NOW9JZGhaaEljY29qaE5JZHYwR01vRkVCZVAwcVZweHF4c0tlY3BLY0x1V1JyR1J1aXhQZzVtbWU5anZUTW95MENDMVpRYnUvOTY3ZFVJN2U3Qm9zVWM0MzJGUFU5OTlxQzdGWkdoT0lFR1JUSVM4amdPcXg1WWZ5M1BlQXVNUXNHT244T2hSM040QkZWWWFvQ0NJQ0JjZ2tSWEo0aDY1Mk02c05GZ05nMHBGTnhqZERRaFlEZXpzRlcvaFB1am5nb3Y5blhhNXY1TUhKKzRpSW9QUVpSTEtRdjlaSnV4ZENXb1d6MjR6eWdjQldPcWJVd3ZQdWwwU0JUQlg2VW1wRzd2Z2ZUbFpFM3VDV2pGWmkvdTExMWVSbkxpTG1OZVA=
     delayedInitialization: 0
     cameraDeviceModeSetting: -1
-    maxSimultaneousImageTargets: 1
-    maxSimultaneousObjectTargets: 1
+    maxSimultaneousImageTargets: 5
+    maxSimultaneousObjectTargets: 5
     useDelayedLoadingObjectTargets: 0
     cameraDirection: 0
     mirrorVideoBackground: 0
@@ -44,14 +44,14 @@ MonoBehaviour:
       ContainsMagnet: 0
   databaseLoad:
     dataSetsToLoad:
-    - ArrrrrDB_OT
     - ArrrrrDB
+    - ArrrrrDB_OT
     - VuforiaMars_Images
     - VuforiaMars_Object_OT
     - VuforiaMars_VuMark
     dataSetsToActivate:
-    - ArrrrrDB_OT
     - ArrrrrDB
+    - ArrrrrDB_OT
     - VuforiaMars_Images
     - VuforiaMars_Object_OT
     - VuforiaMars_VuMark
@@ -63,13 +63,13 @@ MonoBehaviour:
     matteShader: {fileID: 15310, guid: 0000000000000000f000000000000000, type: 0}
     videoBackgroundEnabled: 1
   smartTerrainTracker:
-    autoInitTracker: 0
-    autoStartTracker: 0
-    autoInitBuilder: 0
-    sceneUnitsToMillimeter: 0
+    autoInitTracker: 1
+    autoStartTracker: 1
+    autoInitBuilder: 1
+    sceneUnitsToMillimeter: 1000
   deviceTracker:
-    autoInitTracker: 0
-    autoStartTracker: 0
+    autoInitTracker: 1
+    autoStartTracker: 1
     trackingMode: 0
     posePrediction: 0
     modelCorrectionMode: 0
