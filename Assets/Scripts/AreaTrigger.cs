@@ -12,6 +12,6 @@ public class AreaTrigger : MonoBehaviour {
 		//Vector3 pos = contact.point;
 		//Instantiate(explosionPrefab, pos, rot);
 		//Destroy(other);
-		Debug.Log("collision");
+		Debug.Log("collision with: " + other.name);
 	}
 }
