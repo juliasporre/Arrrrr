@@ -778,6 +778,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cube: {fileID: 0}
+  mrRoboto: {fileID: 0}
+  UserDisplay: {fileID: 0}
 --- !u!1 &796381621
 GameObject:
   m_ObjectHideFlags: 0
@@ -803,7 +805,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 796381621}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 713, y: 422, z: 0}
+  m_LocalPosition: {x: 527, y: 367, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 637618223}
@@ -1336,6 +1338,23 @@ Transform:
   m_Father: {fileID: 1244615097}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1388529403 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1193527749061292, guid: df00e130e051c4719b90bc40846f21aa,
+    type: 2}
+  m_PrefabInternal: {fileID: 567846378}
+--- !u!114 &1388529404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1388529403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 253770875472e48609322cf518ef1c46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UserDisplay: {fileID: 796381621}
 --- !u!1 &1427719905
 GameObject:
   m_ObjectHideFlags: 0
@@ -1361,7 +1380,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1427719905}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1009501192, guid: bab6fa851cf5a1a4bba3cec5f191cb8e, type: 3}
+  m_Script: {fileID: 11500000, guid: 5a917f0af64a6423093132dab321c15f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1427719907
