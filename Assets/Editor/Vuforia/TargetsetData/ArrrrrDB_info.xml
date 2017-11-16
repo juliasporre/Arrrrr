@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <QCARInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="QCAR_Dataset_config.xsd">
   <TargetSet version="5.0" toolVersion="4.2.0">
+    <ObjectTarget bbox="0.0 0.0 0.0 142.5 95.0 95.0" captureAppVersion="1.0.0" lastSaved="2017-11-16 12:06:31" name="BigShip" targetId="35f83ee4f45e456688f2135dc3b8bd80" version="2.0" />
+    <ObjectTarget bbox="0.0 0.0 0.0 142.5 95.0 95.0" captureAppVersion="1.0.0" lastSaved="2017-11-15 17:57:26" name="BrokenBoat" targetId="ad23b17153ff41708397a9762edc6f8d" version="2.0" />
     <ObjectTarget bbox="0.0 0.0 0.0 142.5 95.0 95.0" captureAppVersion="1.0.0" lastSaved="2017-11-14 12:31:12" name="MrRoboto" targetId="31a2d9eea0db4836b649f86b56057b0a" version="2.0" />
     <ObjectTarget bbox="0.0 0.0 0.0 142.5 95.0 95.0" captureAppVersion="1.0.0" lastSaved="2017-11-13 11:16:27" name="TestRobot" targetId="5caf1238d0744cbba9647af052a0a55d" version="2.0" />
   </TargetSet>
