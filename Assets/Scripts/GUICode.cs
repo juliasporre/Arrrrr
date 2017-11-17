@@ -10,6 +10,7 @@ public class GUICode : MonoBehaviour {
 	public GameObject UserDisplay;
 	public GameObject explosion;
 	public Font font; 
+	public GameObject Cannon;
 	// Use this for initialization
 	
 	// Update is called once per frame
@@ -49,6 +50,16 @@ public class GUICode : MonoBehaviour {
 			Debug.Log ("ATTACK");
 			explosion.SetActive (true);
 
+
 		}
+
+		if (GUI.Button (new Rect (20, 340, 80, 100), "Place")) {
+			Debug.Log ("Placing");
+			Cannon.transform.parent = null;
+			Cannon.isStatic = true;
+
+
+		}
+
 	}
 }
