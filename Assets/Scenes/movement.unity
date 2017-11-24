@@ -188,8 +188,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114680040205839766, guid: 8405d5337660dfd43affa11168461781,
-          type: 2}
+      - m_Target: {fileID: 170677903}
         m_MethodName: turnPort
         m_Mode: 1
         m_Arguments:
@@ -200,8 +199,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 114678802191126314, guid: 6161d4b6728abba4f944fea330f28e5a,
-          type: 2}
+      - m_Target: {fileID: 1360223759}
         m_MethodName: turnPort
         m_Mode: 1
         m_Arguments:
@@ -247,6 +245,12 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 103631490}
+--- !u!114 &170677903 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114680040205839766, guid: 8405d5337660dfd43affa11168461781,
+    type: 2}
+  m_PrefabInternal: {fileID: 1762949201}
+  m_Script: {fileID: 11500000, guid: 31a8891aeadaf74499ce0414f5bc7980, type: 3}
 --- !u!1001 &557293908
 Prefab:
   m_ObjectHideFlags: 0
@@ -428,6 +432,12 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 729270655}
+--- !u!114 &1360223759 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114678802191126314, guid: 6161d4b6728abba4f944fea330f28e5a,
+    type: 2}
+  m_PrefabInternal: {fileID: 557293908}
+  m_Script: {fileID: 11500000, guid: 31a8891aeadaf74499ce0414f5bc7980, type: 3}
 --- !u!1 &1558666218
 GameObject:
   m_ObjectHideFlags: 0
@@ -757,8 +767,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114680040205839766, guid: 8405d5337660dfd43affa11168461781,
-          type: 2}
+      - m_Target: {fileID: 170677903}
         m_MethodName: turnStarboard
         m_Mode: 1
         m_Arguments:
@@ -769,8 +778,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 114678802191126314, guid: 6161d4b6728abba4f944fea330f28e5a,
-          type: 2}
+      - m_Target: {fileID: 1360223759}
         m_MethodName: turnStarboard
         m_Mode: 1
         m_Arguments:
@@ -890,7 +898,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1951606526}
   m_LocalRotation: {x: 0.268378, y: -0, z: -0, w: 0.9633137}
-  m_LocalPosition: {x: -0.18, y: 35.93, z: -44.79}
+  m_LocalPosition: {x: -0.18, y: 15.9, z: -28.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

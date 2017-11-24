@@ -46,23 +46,27 @@ public class Select : MonoBehaviour {
 				}
 				hit.transform.gameObject.GetComponent<Select>().selected = true;
 				//selected = true;
-				Debug.Log(selected);
+				if (selected) {
+					Debug.Log(selected);
+				}
+				
 				// create buttons upon selecting a ship
 				/*CreateButton(GetComponentInParent<Canvas>().transform, new Vector3(currentPosition.x+5, currentPosition.y,currentPosition.z), new Vector2(5f,5f), turnPort());			
 				CreateButton(GetComponentInParent<Canvas>().transform, new Vector3(currentPosition.x-5, currentPosition.y,currentPosition.z), new Vector2(5f,5f), turnStarboard());*/
 			}
 			// move to target if ship is selected
-			else if (selected == true && hit.transform.tag == "Map") {
+			else if (selected && hit.transform.tag == "Map") {
 				Debug.Log("move to " + hit.point.ToString());
 				newPosition = hit.point;
 				newPosition.y = 1;
 			}
 			// deselect ship
 			// not working atm, maybe set selected to false on all ships and then true onclicked ship
-			else {
+			/*else {
+				Debug.Log("?");
 				selected = false;
-				Debug.Log(selected);	
-			}
+				//Debug.Log(selected);	
+			}*/
 		}
 		// move ship to new location
 		if (currentPosition.x != newPosition.x && currentPosition.z != newPosition.z) {
@@ -72,19 +76,21 @@ public class Select : MonoBehaviour {
 		//Debug.Log(selected);
 	}
 
-	// fix the buttons so that they don't issue any movement orders
-	// buttons aren't working atm, the if statements aren't resolved as true even when selected == true for some reason
+	// fix the buttons so that they don't also issue any movement orders
+	// buttons aren't working atm
+	// selected is false somehow even when it should be true
 	public void turnPort () {
-		Debug.Log("turn port");
+		//Debug.Log("turn port");
+		Debug.Log(selected);
 		if (selected) {
 			transform.Rotate(0, -45f, 0, Space.World);
 		}
 	}
 
 	public void turnStarboard () {
-		Debug.Log("turn starboard");
+		//Debug.Log("turn starboard");
+		Debug.Log(selected);
 		if (selected) {
-			Debug.Log("wat");
 			transform.Rotate(0, 45f, 0, Space.World);
 		}
 	}
