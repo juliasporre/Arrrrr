@@ -29,9 +29,9 @@ public class Tile : MonoBehaviour {
     // Use this for initialization
     void Start () {
         gameObject.name = "Tile " + indexNumber.ToString();
-
+        //Set default material to idle
         GetComponent<Renderer>().material = materialIdle;
-
+        //Link 8 different neighbouring tiles by first checking
         if (InBounds(GridGenerator.tileArray, indexNumber + tilesPerRow)) { tileUpper = GridGenerator.tileArray[indexNumber + tilesPerRow]; }
         if (InBounds(GridGenerator.tileArray, indexNumber - tilesPerRow)) { tileLower = GridGenerator.tileArray[indexNumber - tilesPerRow]; }
         if (InBounds(GridGenerator.tileArray, indexNumber + 1) && (indexNumber + 1) % tilesPerRow != 0) { tileRight = GridGenerator.tileArray[indexNumber + 1]; }
@@ -41,7 +41,7 @@ public class Tile : MonoBehaviour {
         if (InBounds(GridGenerator.tileArray, indexNumber + tilesPerRow - 1) && indexNumber % tilesPerRow != 0) { tileUpperLeft = GridGenerator.tileArray[indexNumber + tilesPerRow - 1]; }
         if (InBounds(GridGenerator.tileArray, indexNumber - tilesPerRow + 1) && (indexNumber + 1) % tilesPerRow != 0) { tileLowerRight = GridGenerator.tileArray[indexNumber - tilesPerRow + 1]; }
         if (InBounds(GridGenerator.tileArray, indexNumber - tilesPerRow - 1) && indexNumber % tilesPerRow != 0) { tileLowerLeft = GridGenerator.tileArray[indexNumber - tilesPerRow - 1]; }
-
+        //then assigning
         if (tileUpper) { adjacentTiles.Add(tileUpper); }
         if (tileLower) { adjacentTiles.Add(tileLower); }
         if (tileLeft) { adjacentTiles.Add(tileLeft); }
@@ -53,7 +53,9 @@ public class Tile : MonoBehaviour {
         if (tileLowerRight) { adjacentTiles.Add(tileLowerRight); }
         
     }
-
+    /*
+     * Check if the tile is in bounds (no larger or smaller than index) 
+     */
     private bool InBounds(GameObject[] inputArray, int targetindexNumber)
     {
         if (targetindexNumber < 0 || targetindexNumber >= inputArray.Length)
@@ -66,17 +68,25 @@ public class Tile : MonoBehaviour {
         }
         
     }
-
+    /*
+     * If a mouse is hovering over the tile, set material to active
+     */
     void OnMouseOver()
     {
         GetComponent<Renderer>().material = materialActive;
     }
 
+    /*
+     * Update material
+     */
     void OnMouseExit()
     {
         setMaterial();
     }
 
+    /*
+     * Set materials according to states
+     */
     public void setMaterial()
     {
         if (state == 0)
@@ -85,6 +95,10 @@ public class Tile : MonoBehaviour {
             GetComponent<Renderer>().material = materialAvailable;
     }
 
+    /*
+     * Following setState... functions are recursive and do almost the same thing, except traverse in the direction from they came from.
+     * This makes the state setting spread in a tree-like pattern.
+     */
     public void setStateUp(int aP, int newState)
     {
         if (aP == 0 || state == newState)
@@ -152,6 +166,10 @@ public class Tile : MonoBehaviour {
         if (tileRight)
             tileRight.GetComponent<Tile>().setStateRight(newAP, newState);
     }
+
+    /*
+     * Initial setState function passed from GridGenerator
+     */ 
     public void setState(int aP, int newState)
     {
         if (aP == 0 || state == newState)
