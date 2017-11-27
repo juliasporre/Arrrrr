@@ -96,8 +96,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tile: {fileID: 0}
+  statsMesh: {fileID: 1983081425370532, guid: 0245b0e926af3f845b021c32951291e7, type: 2}
   indexNumber: 0
-  actionPoints: 5
+  iniActionPoints: 5
+  curActionPoints: 0
+  atkRange: 3
+  health: 15
+  damage: 3
 --- !u!136 &136201961059295040
 CapsuleCollider:
   m_ObjectHideFlags: 1

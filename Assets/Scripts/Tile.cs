@@ -8,21 +8,23 @@ public class Tile : MonoBehaviour {
     public Material materialIdle;
     public Material materialActive;
     public Material materialAvailable;
+    public Material materialAttack;
 
     public int indexNumber;
     public int tilesPerRow;
     public int state = 0; //0 = inactive, 1 = movement, 2 = active;
 
-    public GameObject tileUpper;
-    public GameObject tileLower;
-    public GameObject tileLeft;
-    public GameObject tileRight;
-    public GameObject tileUpperRight;
-    public GameObject tileUpperLeft;
-    public GameObject tileLowerRight;
-    public GameObject tileLowerLeft;
+    private GameObject tileUpper;
+    private GameObject tileLower;
+    private GameObject tileLeft;
+    private GameObject tileRight;
+    private GameObject tileUpperRight;
+    private GameObject tileUpperLeft;
+    private GameObject tileLowerRight;
+    private GameObject tileLowerLeft;
 
     public bool isOccupied = false;
+    public int remAP = 0;
 
     public List<GameObject> adjacentTiles = new List<GameObject>();
 
@@ -68,130 +70,89 @@ public class Tile : MonoBehaviour {
         }
         
     }
-    /*
-     * If a mouse is hovering over the tile, set material to active
-     */
-    void OnMouseOver()
-    {
-        GetComponent<Renderer>().material = materialActive;
-    }
-
-    /*
-     * Update material
-     */
-    void OnMouseExit()
-    {
-        setMaterial();
-    }
 
     /*
      * Set materials according to states
      */
-    public void setMaterial()
+    void SetMaterial()
     {
-        if (state == 0)
-            GetComponent<Renderer>().material = materialIdle;
-        else if (state == 1)
-            GetComponent<Renderer>().material = materialAvailable;
-    }
+        switch (state)
+        {
+            case 0:
+                GetComponent<Renderer>().material = materialIdle;
+                break;
+            case 1:
+                GetComponent<Renderer>().material = materialAvailable;
+                break;
+            case 2:
+                GetComponent<Renderer>().material = materialAttack;
+                break;
+        }
 
-    /*
-     * Following setState... functions are recursive and do almost the same thing, except traverse in the direction from they came from.
-     * This makes the state setting spread in a tree-like pattern.
-     */
-    public void setStateUp(int aP, int newState)
-    {
-        if (aP == 0 || state == newState)
-            return;
-        this.state = newState;
-        Debug.Log("SETTING " + indexNumber + " with AP " + aP);
-        setMaterial();
-
-        int newAP = aP - 1;
-        if (tileUpper)
-            tileUpper.GetComponent<Tile>().setStateUp(newAP, newState);
-        if (tileRight)
-            tileRight.GetComponent<Tile>().setStateUp(newAP, newState);
-        if (tileLeft)
-            tileLeft.GetComponent<Tile>().setStateUp(newAP, newState);
-    }
-
-    public void setStateLower(int aP, int newState)
-    {
-        if (aP == 0 || state == newState)
-            return;
-        this.state = newState;
-        Debug.Log("SETTING " + indexNumber + " with AP " + aP);
-        setMaterial();
-
-        int newAP = aP - 1;
-        if (tileLower)
-            tileLower.GetComponent<Tile>().setStateLower(newAP, newState);
-        if (tileRight)
-            tileRight.GetComponent<Tile>().setStateLower(newAP, newState);
-        if (tileLeft)
-            tileLeft.GetComponent<Tile>().setStateLower(newAP, newState);
-    }
-
-    public void setStateLeft(int aP, int newState)
-    {
-        if (aP == 0 || state == newState)
-            return;
-        this.state = newState;
-        Debug.Log("SETTING " + indexNumber + " with AP " + aP);
-        setMaterial();
-
-        int newAP = aP - 1;
-        if (tileUpper)
-            tileUpper.GetComponent<Tile>().setStateLeft(newAP, newState);
-        if (tileLower)
-            tileLower.GetComponent<Tile>().setStateLeft(newAP, newState);
-        if (tileLeft)
-            tileLeft.GetComponent<Tile>().setStateLeft(newAP, newState);
-    }
-
-    public void setStateRight(int aP, int newState)
-    {
-        if (aP == 0 || state == newState)
-            return;
-        this.state = newState;
-        Debug.Log("SETTING " + indexNumber + " with AP " + aP);
-        setMaterial();
-
-        int newAP = aP - 1;
-        if (tileUpper)
-            tileUpper.GetComponent<Tile>().setStateRight(newAP, newState);
-        if (tileLower)
-            tileLower.GetComponent<Tile>().setStateRight(newAP, newState);
-        if (tileRight)
-            tileRight.GetComponent<Tile>().setStateRight(newAP, newState);
     }
 
     /*
      * Initial setState function passed from GridGenerator
      */ 
-    public void setState(int aP, int newState)
+    public void SetState(int range, int newState, int caseSwitch)
     {
-        if (aP == 0 || state == newState)
+        if (range == 0 || state == newState)
             return;
         this.state = newState;
-        Debug.Log("SETTING " + indexNumber + " with AP " + aP);
-        setMaterial();
+        //Debug.Log("SETTING " + indexNumber + " with range " + range + " at state " + newState);
+        switch (newState)
+        {
+            case 0:
+                remAP = 0;
+                break;
+            case 1:
+                remAP = range - 1;
+                break;
+            case 2:
+                remAP = range - 1;
+                break;
+        }
 
-        int newAP = aP-1;
-        if (tileUpper)
-            tileUpper.GetComponent<Tile>().setStateUp(newAP, newState);
-        if (tileLower)
-            tileLower.GetComponent<Tile>().setStateLower(newAP, newState);
-        if (tileRight)
-            tileRight.GetComponent<Tile>().setStateRight(newAP, newState);
-        if (tileLeft)
-            tileLeft.GetComponent<Tile>().setStateLeft(newAP, newState);
+        if (tileLower && caseSwitch != 1)
+        {
+            if (caseSwitch == 0)
+                tileLower.GetComponent<Tile>().SetState(remAP, newState, 2);
+            else tileLower.GetComponent<Tile>().SetState(remAP, newState, caseSwitch);
+        }
+        if (tileUpper && caseSwitch != 2)
+        {
+            if (caseSwitch == 0)
+                tileUpper.GetComponent<Tile>().SetState(remAP, newState, 1);
+            else tileUpper.GetComponent<Tile>().SetState(remAP, newState, caseSwitch);
+
+        }
+        if (tileRight && caseSwitch != 3)
+        {
+            if (caseSwitch == 0)
+                tileRight.GetComponent<Tile>().SetState(remAP, newState, 4);
+            else tileRight.GetComponent<Tile>().SetState(remAP, newState, caseSwitch);
+        }
+        if (tileLeft && caseSwitch != 4)
+        {
+            if (caseSwitch == 0)
+                tileLeft.GetComponent<Tile>().SetState(remAP, newState, 3);
+            else tileLeft.GetComponent<Tile>().SetState(remAP, newState, caseSwitch);
+        }
+
+        if (isOccupied && newState == 1)
+            state = 0;
     }
-
 
     // Update is called once per frame
     void Update()
     {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        SetMaterial();
+
+        if (Physics.Raycast(ray, out hit) && hit.collider.tag == "Tile")
+        {
+            hit.collider.gameObject.GetComponent<Renderer>().material = materialActive;
+        }
     }
 }

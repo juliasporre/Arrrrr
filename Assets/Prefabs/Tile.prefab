@@ -112,16 +112,10 @@ MonoBehaviour:
   materialIdle: {fileID: 2100000, guid: 8c02f8ff6171b3e4386d7da22b9b559c, type: 2}
   materialActive: {fileID: 2100000, guid: 0ef3a099c67fc7f4b9a3d8efd47072f8, type: 2}
   materialAvailable: {fileID: 2100000, guid: 2bca539542c68fb479b713f875b2a64b, type: 2}
+  materialAttack: {fileID: 2100000, guid: 479259f389b3dd846bfacdbcbc704b0c, type: 2}
   indexNumber: 0
   tilesPerRow: 10
   state: 0
-  tileUpper: {fileID: 0}
-  tileLower: {fileID: 0}
-  tileLeft: {fileID: 0}
-  tileRight: {fileID: 0}
-  tileUpperRight: {fileID: 0}
-  tileUpperLeft: {fileID: 0}
-  tileLowerRight: {fileID: 0}
-  tileLowerLeft: {fileID: 0}
   isOccupied: 0
+  reqAP: 0
   adjacentTiles: []
