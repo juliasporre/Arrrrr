@@ -74,7 +74,7 @@ public class Tile : MonoBehaviour {
     /*
      * Set materials according to states
      */
-    void SetMaterial()
+    public void SetMaterial()
     {
         switch (state)
         {

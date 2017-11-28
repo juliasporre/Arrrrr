@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class GridGenerator : MonoBehaviour
 {
@@ -122,20 +123,62 @@ public class GridGenerator : MonoBehaviour
         state = 1;
     }
 
+    /*
+    * A recursive function that returns an array of indices of tiles were isOccupied is true within the specified range
+    */
+    private List<int> findTargets(int range, GameObject tile)
+    {
+        List<int> foundObjects = new List<int>();
+        if (tile.GetComponent<Tile>().isOccupied)
+        {
+            foundObjects.Add(tile.GetComponent<Tile>().indexNumber);
+        }
+        if (range == 0)
+        {
+            return foundObjects;
+        }
+        else
+        {
+            foreach (GameObject adjacent in tile.GetComponent<Tile>().adjacentTiles)
+            {
+                // make sure every index is unique
+                foundObjects = foundObjects.Union(findTargets(range-1, adjacent)).ToList();
+            }
+        }
+
+        return foundObjects;
+    }
+
+    /*
+    * A method that recieves a list of indices and accesses the corresponding tiles and sets the material to Attack
+    */
+    private void setTargets(List<int> indices)
+    {
+        foreach (int index in indices)
+        {
+            GameObject tile = tileArray[index];
+            tile.GetComponent<Tile>().state = 2;
+            tile.GetComponent<Tile>().SetMaterial();
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
         //Ray shoots from camera POV
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
+
         if (currentShip != null)
         {
             currentTile = currentShip.GetComponent<Ship>().tile;
             iniActionPoints = currentShip.GetComponent<Ship>().iniActionPoints;
         }
 
-        ClearTiles();
-
+        if (currentShip == null)
+        {
+            ClearTiles();
+        }
         if (state == 1)
         {
             if (currentShip != null)
@@ -187,6 +230,12 @@ public class GridGenerator : MonoBehaviour
                 currentShip.transform.position = Vector3.MoveTowards(currentShip.transform.position, newPosition, 5f * Time.deltaTime);
             else
             {
+                //List<int> targets = findTargets(currentShip.GetComponent<Ship>().atkRange, currentTile);
+                /*foreach (int target in targets)
+                {
+                    Debug.Log(target);
+                }*/
+                //setTargets(targets);
                 if (currentShip.GetComponent<Ship>().curActionPoints > 0)
                     state = 2;
                 else state = 1;
