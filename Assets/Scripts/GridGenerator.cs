@@ -77,7 +77,7 @@ public class GridGenerator : MonoBehaviour
             newShip.GetComponent<Ship>().tile = currentTile;
             //assign position to ship
             newShip.transform.position = new Vector3(currentTile.transform.position.x, currentTile.transform.position.y + yOffset, currentTile.transform.position.z);
-            currentShip = newShip;
+            //currentShip = newShip;
             newShip.GetComponent<Ship>().iniActionPoints = iniActionPoints;
             newShip.GetComponent<Ship>().indexNumber = shipsCreated;
             //insert into shipArray
@@ -128,16 +128,21 @@ public class GridGenerator : MonoBehaviour
         //Ray shoots from camera POV
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-
-        currentTile = currentShip.GetComponent<Ship>().tile;
-        iniActionPoints = currentShip.GetComponent<Ship>().iniActionPoints;
+        if (currentShip != null)
+        {
+            currentTile = currentShip.GetComponent<Ship>().tile;
+            iniActionPoints = currentShip.GetComponent<Ship>().iniActionPoints;
+        }
 
         ClearTiles();
 
         if (state == 1)
         {
-            currentShip.GetComponent<Ship>().curActionPoints = iniActionPoints;
-            UpdateTiles(iniActionPoints, 1);
+            if (currentShip != null)
+            {
+                currentShip.GetComponent<Ship>().curActionPoints = iniActionPoints;
+                UpdateTiles(iniActionPoints, 1);
+            }
             if (Input.GetButtonDown("Fire1")) //On Mouse Click
             {
                 if (Physics.Raycast(ray, out hit) && hit.collider.tag == "Tile") //if ray hits and tag is a "tile"
