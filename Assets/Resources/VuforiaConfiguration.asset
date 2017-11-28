@@ -44,10 +44,16 @@ MonoBehaviour:
       ContainsMagnet: 0
   databaseLoad:
     dataSetsToLoad:
+    - Arrrrr_test
+    - ArrrrrDB_OT
+    - ArrrrrDB
     - VuforiaMars_Images
     - VuforiaMars_Object_OT
     - VuforiaMars_VuMark
     dataSetsToActivate:
+    - Arrrrr_test
+    - ArrrrrDB_OT
+    - ArrrrrDB
     - VuforiaMars_Images
     - VuforiaMars_Object_OT
     - VuforiaMars_VuMark
