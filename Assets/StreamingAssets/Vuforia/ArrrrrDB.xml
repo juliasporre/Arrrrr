@@ -1,7 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<QCARConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="qcar_config.xsd">
-  <Tracking>
-    <ImageTarget name="DemoBaseMarker" size="1.000000 1.000000" />
-    <ImageTarget name="testTreasure" size="1.000000 1.000000" />
-  </Tracking>
+<QCARConfig>
+    <Tracking>
+        <ImageTarget name="DemoBaseMarker" size="1.000000 1.000000"/>
+        <ImageTarget name="testTreasure" size="1.000000 1.000000"/>
+        <ImageTarget name="testcube.Front" size="1.000000 1.000000"/>
+        <ImageTarget name="testcube.Top" size="1.000000 1.000000"/>
+        <ImageTarget name="testcube.Bottom" size="1.000000 1.000000"/>
+        <ImageTarget name="testcube.Left" size="1.000000 1.000000"/>
+        <ImageTarget name="testcube.Right" size="1.000000 1.000000"/>
+        <ImageTarget name="testcube.Back" size="1.000000 1.000000"/>
+        <MultiTarget name="testcube">
+            <Part name="testcube.Left" translation="-0.5 0 0" rotation="AD: 0 1 0 -90"/>
+            <Part name="testcube.Right" translation="0.5 0 0" rotation="AD: 0 1 0 90"/>
+            <Part name="testcube.Front" translation="0 0 0.5" rotation="AD: 1 0 0 0"/>
+            <Part name="testcube.Back" translation="0 0 -0.5" rotation="AD: 0 1 0 180"/>
+            <Part name="testcube.Top" translation="0 0.5 0" rotation="AD: 1 0 0 -90"/>
+            <Part name="testcube.Bottom" translation="0 -0.5 0" rotation="AD: 1 0 0 90"/>
+        </MultiTarget>
+    </Tracking>
 </QCARConfig>
