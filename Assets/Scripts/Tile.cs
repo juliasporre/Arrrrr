@@ -143,6 +143,20 @@ public class Tile : MonoBehaviour {
             state = 0;
     }
 
+    /*
+    * a function to access the upper, lower, right and left tiles of this tile
+    */
+    public List<GameObject> getNESWtiles()
+    {
+        List<GameObject> NESW = new List<GameObject>();
+        // make sure the tiles are instantiated
+        if (tileUpper != null) NESW.Add(tileUpper);
+        if (tileRight != null) NESW.Add(tileRight);
+        if (tileLower != null) NESW.Add(tileLower);
+        if (tileLeft != null) NESW.Add(tileLeft);
+        return NESW;
+    }
+
     // Update is called once per frame
     void Update()
     {

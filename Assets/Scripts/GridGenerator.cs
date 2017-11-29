@@ -125,6 +125,7 @@ public class GridGenerator : MonoBehaviour
 
     /*
     * A recursive function that returns an array of indices of tiles were isOccupied is true within the specified range
+    * will however mark every occupied square in range as a possible target
     */
     private List<int> findTargets(int range, GameObject tile)
     {
@@ -139,7 +140,7 @@ public class GridGenerator : MonoBehaviour
         }
         else
         {
-            foreach (GameObject adjacent in tile.GetComponent<Tile>().adjacentTiles)
+            foreach (GameObject adjacent in tile.GetComponent<Tile>().getNESWtiles())
             {
                 // make sure every index is unique
                 foundObjects = foundObjects.Union(findTargets(range-1, adjacent)).ToList();
@@ -173,12 +174,14 @@ public class GridGenerator : MonoBehaviour
         {
             currentTile = currentShip.GetComponent<Ship>().tile;
             iniActionPoints = currentShip.GetComponent<Ship>().iniActionPoints;
+            List<int> targets = findTargets(currentShip.GetComponent<Ship>().atkRange, currentTile);
+            setTargets(targets);
         }
 
-        if (currentShip == null)
+        /*if (currentShip == null)
         {
             ClearTiles();
-        }
+        }*/
         if (state == 1)
         {
             if (currentShip != null)
@@ -197,13 +200,19 @@ public class GridGenerator : MonoBehaviour
                         state = 999;
                     }
                 }
-                else if (Physics.Raycast(ray, out hit) && hit.collider.tag == "Ship")
+                else if (Physics.Raycast(ray, out hit) && hit.collider.tag == "Ship" && hit.collider.gameObject.GetComponent<Ship>().currentPlayerTurn == true)
                 {
                     ClearTiles();
                     currentShip = hit.collider.gameObject; //switch operating ship to new
                     currentTile = currentShip.GetComponent<Ship>().tile; //update current tile
                     iniActionPoints = currentShip.GetComponent<Ship>().iniActionPoints;
                     UpdateTiles(iniActionPoints, 1); //update tiles for new ship
+                    List<int> targets = findTargets(currentShip.GetComponent<Ship>().atkRange, currentTile);
+                    setTargets(targets);
+                }
+                else if (Physics.Raycast(ray, out hit) && hit.collider.tag == "Ship" && hit.collider.gameObject.GetComponent<Ship>().currentPlayerTurn == false && hit.collider.gameObject.GetComponent<Ship>().tile.GetComponent<Tile>().state == 2)
+                {
+                    hit.collider.gameObject.GetComponent<Ship>().GetDamaged(currentShip.GetComponent<Ship>().damage);
                 }
             }
         }
@@ -230,15 +239,12 @@ public class GridGenerator : MonoBehaviour
                 currentShip.transform.position = Vector3.MoveTowards(currentShip.transform.position, newPosition, 5f * Time.deltaTime);
             else
             {
-                //List<int> targets = findTargets(currentShip.GetComponent<Ship>().atkRange, currentTile);
-                /*foreach (int target in targets)
-                {
-                    Debug.Log(target);
-                }*/
-                //setTargets(targets);
-                if (currentShip.GetComponent<Ship>().curActionPoints > 0)
+                List<int> targets = findTargets(currentShip.GetComponent<Ship>().atkRange, currentTile);
+                setTargets(targets);
+                /*if (currentShip.GetComponent<Ship>().curActionPoints > 0)
                     state = 2;
-                else state = 1;
+                else state = 1;*/
+                state = 1;
             }
         }
     }
