@@ -84,6 +84,8 @@ public class GridGenerator : MonoBehaviour
             //insert into shipArray
             shipArray[shipsCreated] = newShip;
         }
+        // set currentPlayerTurn to true for 1 of the ships, otherwise this must be set in the inspector
+        shipArray[0].GetComponent<Ship>().currentPlayerTurn = true;
     }
     /*
      * Function for updating Tile states. 0 = inactive, 1 = Selection Available.
@@ -163,6 +165,26 @@ public class GridGenerator : MonoBehaviour
         }
     }
 
+    /*
+    * To be called we the users press the end turn button
+    * iterates through the ship array and flips the value of currentPlayerTurn
+    */
+    public void endTurn()
+    {
+        ClearTiles();
+        foreach (GameObject ship in shipArray)
+        {
+            if (ship.GetComponent<Ship>().currentPlayerTurn)
+            {
+                ship.GetComponent<Ship>().currentPlayerTurn = false;
+            }
+            else
+            {
+                ship.GetComponent<Ship>().currentPlayerTurn = true;
+            }
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -210,12 +232,14 @@ public class GridGenerator : MonoBehaviour
                     List<int> targets = findTargets(currentShip.GetComponent<Ship>().atkRange, currentTile);
                     setTargets(targets);
                 }
+                // conly shoot at target if it's a ship not controlled by player and the targets tile's state is 2
                 else if (Physics.Raycast(ray, out hit) && hit.collider.tag == "Ship" && hit.collider.gameObject.GetComponent<Ship>().currentPlayerTurn == false && hit.collider.gameObject.GetComponent<Ship>().tile.GetComponent<Tile>().state == 2)
                 {
                     hit.collider.gameObject.GetComponent<Ship>().GetDamaged(currentShip.GetComponent<Ship>().damage);
                 }
             }
         }
+        // not used
         if (state == 2)
         {
             UpdateTiles(currentShip.GetComponent<Ship>().atkRange, 2);
