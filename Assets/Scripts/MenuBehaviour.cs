@@ -9,11 +9,15 @@ public class MenuBehaviour : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		IPField.text = Network.player.ipAddress;
+		IPField.text = "Your IP address: " + Network.player.ipAddress;
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		
 	}
+
+
+
 }
