@@ -198,12 +198,8 @@ public class GridGenerator : MonoBehaviour
             iniActionPoints = currentShip.GetComponent<Ship>().iniActionPoints;
             List<int> targets = findTargets(currentShip.GetComponent<Ship>().atkRange, currentTile);
             setTargets(targets);
+            currentShip.GetComponent<Ship>().stats.GetComponent<Renderer>().enabled = true;
         }
-
-        /*if (currentShip == null)
-        {
-            ClearTiles();
-        }*/
         if (state == 1)
         {
             if (currentShip != null)
