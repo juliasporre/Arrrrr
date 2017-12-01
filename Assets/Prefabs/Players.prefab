@@ -9,30 +9,30 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1001304873108296}
+  m_RootGameObject: {fileID: 1054456475952818}
   m_IsPrefabParent: 1
---- !u!1 &1001304873108296
+--- !u!1 &1054456475952818
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4463139793275648}
-  - component: {fileID: 114074195412476006}
+  - component: {fileID: 4912442956008306}
+  - component: {fileID: 114355169622907726}
   m_Layer: 0
-  m_Name: Grid
+  m_Name: Players
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4463139793275648
+--- !u!4 &4912442956008306
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1001304873108296}
+  m_GameObject: {fileID: 1054456475952818}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -40,29 +40,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114074195412476006
+--- !u!114 &114355169622907726
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1001304873108296}
+  m_GameObject: {fileID: 1054456475952818}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c72e6495227d29f4fabc159b503bc21b, type: 3}
+  m_Script: {fileID: 11500000, guid: 1615c51495ee3254b833e447c2e54982, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tilePrefab: {fileID: 1119325896828406, guid: 93153002aa6320145b41b38d56399299, type: 2}
   shipPrefab: {fileID: 1016347892755348, guid: 9252a7970ff6d0d47bb3b5b969564942, type: 2}
-  playerPrefab: {fileID: 1054456475952818, guid: 39408eb38cbbd344abc718615b4be0d7,
-    type: 2}
-  playerText: {fileID: 0}
-  numberOfTiles: 100
-  tilesPerRow: 10
-  distanceBetweenTiles: 1
-  numberOfPlayers: 2
-  numberOfShips: 1
-  iniActionPoints: 5
-  state: 1
-  shipArray: []
+  tileArray: []
+  numberOfShips: 0
+  iniActionPoints: 0
   currentShip: {fileID: 0}
   currentTile: {fileID: 0}
+  playerNumber: 0
