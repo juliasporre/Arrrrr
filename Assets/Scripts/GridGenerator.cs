@@ -1,33 +1,40 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System.Linq;
 
 public class GridGenerator : MonoBehaviour
 {
     public GameObject tilePrefab;
     public GameObject shipPrefab;
+    public GameObject playerPrefab;
+    public Text playerText;
 
     public int numberOfTiles = 100;
     public int tilesPerRow = 10;
     public float distanceBetweenTiles = 1.2f;
 
-    public int numberOfShips = 1;
+    public int numberOfPlayers = 2;
+    public int numberOfShips = 2;
+    public int iniActionPoints = 5;
 
     public int state = 1; // 0 = inactive, 1 = movement, 2 = attack;
 
     public static GameObject[] tileArray;
-    public static GameObject[] shipArray;
+    public List<GameObject> shipArray;
+    public static GameObject[] playerArray;
 
     public GameObject currentShip;
     public GameObject currentTile;
-    public int iniActionPoints = 5;
+    public int currentPlayer = 0;
 
     // Use this for initialization
     void Start()
     {
         CreateTiles();
-        CreateShips();
+        //CreateShips();
+        CreatePlayers();
     }
 
     void CreateTiles()
@@ -62,30 +69,19 @@ public class GridGenerator : MonoBehaviour
         }
     }
 
-    void CreateShips()
+    void CreatePlayers()
     {
-        //create ship array for potential multiple ships
-        shipArray = new GameObject[numberOfShips];
-        float yOffset = 0.35f;
-        for (int shipsCreated = 0; shipsCreated < numberOfShips; shipsCreated++)
+
+        playerArray = new GameObject[numberOfPlayers];
+        for (int playerNumber = 0; playerNumber < numberOfPlayers; playerNumber++)
         {
-            int randTileIndex = Random.Range(0, tileArray.Length);
-            //instantiate new ship
-            var newShip = Instantiate(shipPrefab, transform);
-            //assign variables to new ship
-            currentTile = tileArray[randTileIndex];
-            currentTile.GetComponent<Tile>().isOccupied = true;
-            newShip.GetComponent<Ship>().tile = currentTile;
-            //assign position to ship
-            newShip.transform.position = new Vector3(currentTile.transform.position.x, currentTile.transform.position.y + yOffset, currentTile.transform.position.z);
-            //currentShip = newShip;
-            newShip.GetComponent<Ship>().iniActionPoints = iniActionPoints;
-            newShip.GetComponent<Ship>().indexNumber = shipsCreated;
-            //insert into shipArray
-            shipArray[shipsCreated] = newShip;
+            var newPlayer = Instantiate(playerPrefab, transform);
+            newPlayer.GetComponent<Players>().tileArray = tileArray;
+            newPlayer.GetComponent<Players>().numberOfShips = numberOfShips;
+            newPlayer.GetComponent<Players>().iniActionPoints = iniActionPoints;
+            newPlayer.GetComponent<Players>().playerNumber = playerNumber;
+            playerArray[playerNumber] = newPlayer;
         }
-        // set currentPlayerTurn to true for 1 of the ships, otherwise this must be set in the inspector
-        shipArray[0].GetComponent<Ship>().currentPlayerTurn = true;
     }
     /*
      * Function for updating Tile states. 0 = inactive, 1 = Selection Available.
@@ -172,16 +168,14 @@ public class GridGenerator : MonoBehaviour
     public void endTurn()
     {
         ClearTiles();
-        foreach (GameObject ship in shipArray)
+        currentPlayer++;
+        if (currentPlayer > numberOfPlayers-1)
         {
-            if (ship.GetComponent<Ship>().currentPlayerTurn)
-            {
-                ship.GetComponent<Ship>().currentPlayerTurn = false;
-            }
-            else
-            {
-                ship.GetComponent<Ship>().currentPlayerTurn = true;
-            }
+            currentPlayer = 0;
+        }
+        foreach (GameObject player in playerArray)
+        {
+            player.GetComponent<Players>().setTurn(currentPlayer);
         }
     }
 
