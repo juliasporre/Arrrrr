@@ -56,13 +56,13 @@ MonoBehaviour:
   playerPrefab: {fileID: 1054456475952818, guid: 39408eb38cbbd344abc718615b4be0d7,
     type: 2}
   playerText: {fileID: 0}
-  numberOfTiles: 100
-  tilesPerRow: 10
+  numberOfTiles: 144
+  tilesPerRow: 12
   distanceBetweenTiles: 1
   numberOfPlayers: 2
-  numberOfShips: 1
+  numberOfShips: 2
   iniActionPoints: 5
   state: 1
-  shipArray: []
   currentShip: {fileID: 0}
   currentTile: {fileID: 0}
+  currentPlayer: -1

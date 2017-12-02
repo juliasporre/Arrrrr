@@ -97,12 +97,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tile: {fileID: 0}
   statsMesh: {fileID: 1983081425370532, guid: 0245b0e926af3f845b021c32951291e7, type: 2}
+  popMesh: {fileID: 1409175222479670, guid: be19c21ab9c6f6741a567d7119ea702a, type: 2}
   indexNumber: 0
   iniActionPoints: 5
   curActionPoints: 0
   atkRange: 3
   health: 15
   damage: 3
+  currentPlayerTurn: 0
+  stats: {fileID: 0}
+  popText: {fileID: 0}
 --- !u!136 &136201961059295040
 CapsuleCollider:
   m_ObjectHideFlags: 1
