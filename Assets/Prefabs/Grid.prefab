@@ -53,9 +53,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tilePrefab: {fileID: 1119325896828406, guid: 93153002aa6320145b41b38d56399299, type: 2}
   shipPrefab: {fileID: 1016347892755348, guid: 9252a7970ff6d0d47bb3b5b969564942, type: 2}
-  playerPrefab: {fileID: 1054456475952818, guid: 39408eb38cbbd344abc718615b4be0d7,
+  playerPrefab: {fileID: 1054456475952818, guid: bab4348b8e25b0245835f6aff0a184d5,
     type: 2}
-  playerText: {fileID: 0}
+  uiText: {fileID: 0}
+  buttonText: {fileID: 0}
   numberOfTiles: 144
   tilesPerRow: 12
   distanceBetweenTiles: 1

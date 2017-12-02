@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4912442956008306}
-  - component: {fileID: 114355169622907726}
+  - component: {fileID: 114330863293239422}
   m_Layer: 0
   m_Name: Players
   m_TagString: Untagged
@@ -40,7 +40,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114355169622907726
+--- !u!114 &114330863293239422
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -48,13 +48,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1054456475952818}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1615c51495ee3254b833e447c2e54982, type: 3}
+  m_Script: {fileID: 11500000, guid: ec7e2e24b835fbc4fb3f42e7d27aac75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   shipPrefab: {fileID: 1016347892755348, guid: 9252a7970ff6d0d47bb3b5b969564942, type: 2}
+  shipArray: []
   tileArray: []
   numberOfShips: 0
   iniActionPoints: 0
-  currentShip: {fileID: 0}
+  firstShip: {fileID: 0}
   currentTile: {fileID: 0}
   playerNumber: 0
