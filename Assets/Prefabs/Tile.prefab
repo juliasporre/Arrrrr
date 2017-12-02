@@ -113,9 +113,11 @@ MonoBehaviour:
   materialActive: {fileID: 2100000, guid: 0ef3a099c67fc7f4b9a3d8efd47072f8, type: 2}
   materialAvailable: {fileID: 2100000, guid: 2bca539542c68fb479b713f875b2a64b, type: 2}
   materialAttack: {fileID: 2100000, guid: 479259f389b3dd846bfacdbcbc704b0c, type: 2}
+  materialUnavailable: {fileID: 2100000, guid: a0e2680543f588643a19de8577e924bf, type: 2}
   indexNumber: 0
   tilesPerRow: 10
   state: 0
   isOccupied: 0
-  reqAP: 0
+  occuObject: {fileID: 0}
+  remAP: 0
   adjacentTiles: []

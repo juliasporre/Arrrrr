@@ -9,6 +9,7 @@ public class GridGenerator : MonoBehaviour
     public GameObject tilePrefab;
     public GameObject shipPrefab;
     public GameObject playerPrefab;
+    public GameObject islandPrefab;
     public Text uiText;
     public Text buttonText;
 
@@ -45,6 +46,7 @@ public class GridGenerator : MonoBehaviour
         //initialize offsets
         float xOffset = 0.0f;
         float zOffset = 0.0f;
+        int islandSpawnPos = (numberOfTiles - 2*tilesPerRow)/2  + (tilesPerRow / 2) - 1;
         //create array of tiles
         for (int tilesCreated = 0; tilesCreated < numberOfTiles; tilesCreated++)
         {
@@ -65,6 +67,17 @@ public class GridGenerator : MonoBehaviour
             //assign variables to tile
             script.indexNumber = tilesCreated;
             script.tilesPerRow = tilesPerRow;
+            //create Island at center of map
+            if (tilesCreated == islandSpawnPos)
+            {
+                var newIsland = Instantiate(islandPrefab, transform);
+                newIsland.transform.position = new Vector3(newTile.transform.position.x + .5f, newTile.transform.position.y + 0.5f, newTile.transform.position.z + 1f);
+                script.isOccupied = true;
+                script.occuObject = newIsland;
+                script.islandTile = true;
+                newIsland.name = "floatIsland";
+            }
+
             //insert into tileArray
             tileArray[tilesCreated] = newTile;
         }
@@ -104,7 +117,7 @@ public class GridGenerator : MonoBehaviour
      */
     void UpdateTiles(int range, int newState)
     {
-        currentTile.GetComponent<Tile>().SetState(range, newState, 0);
+        currentTile.GetComponent<Tile>().SetState(range+1, newState, 0);
     }
 
     /*
@@ -138,10 +151,10 @@ public class GridGenerator : MonoBehaviour
     * A recursive function that returns an array of indices of tiles were isOccupied is true within the specified range
     * will however mark every occupied square in range as a possible target
     */
-    private List<int> findTargets(int range, GameObject tile)
+    private List<int> FindTargets(int range, GameObject tile)
     {
         List<int> foundObjects = new List<int>();
-        if (tile.GetComponent<Tile>().isOccupied)
+        if (tile.GetComponent<Tile>().isOccupied && tile.GetComponent<Tile>().occuObject.tag == "Ship")
         {
             foundObjects.Add(tile.GetComponent<Tile>().indexNumber);
         }
@@ -154,7 +167,7 @@ public class GridGenerator : MonoBehaviour
             foreach (GameObject adjacent in tile.GetComponent<Tile>().getNESWtiles())
             {
                 // make sure every index is unique
-                foundObjects = foundObjects.Union(findTargets(range-1, adjacent)).ToList();
+                foundObjects = foundObjects.Union(FindTargets(range - 1, adjacent)).ToList();
             }
         }
 
@@ -164,7 +177,7 @@ public class GridGenerator : MonoBehaviour
     /*
     * A method that recieves a list of indices and accesses the corresponding tiles and sets the material to Attack
     */
-    private void setTargets(List<int> indices)
+    private void SetTargets(List<int> indices)
     {
         foreach (int index in indices)
         {
@@ -219,24 +232,23 @@ public class GridGenerator : MonoBehaviour
         //Ray shoots from camera POV
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-
         if (Input.GetButtonDown("Fire1") && Physics.Raycast(ray, out hit))
         {
-            GameObject hitGO = hit.collider.gameObject; 
+            GameObject hitGO = hit.collider.gameObject;
             if (hit.collider.tag == "Ship" && hitGO.GetComponent<Ship>().currentPlayerTurn == true)
             {
                 ClearTiles();
-                currentShip = hit.collider.gameObject; //switch operating ship to new
+                currentShip = hitGO; //switch operating ship to new
                 currentTile = currentShip.GetComponent<Ship>().tile; //update current tile
                 iniActionPoints = currentShip.GetComponent<Ship>().iniActionPoints;
                 UpdateTiles(iniActionPoints, 1); //update tiles for new ship
-                //List<int> targets = findTargets(currentShip.GetComponent<Ship>().atkRange, currentTile); //redundant here
-                //setTargets(targets); //redundant here
+                //List<int> targets = FindTargets(currentShip.GetComponent<Ship>().atkRange, currentTile); //redundant here
+                //SetTargets(targets); //redundant here
             }
             else if (hit.collider.tag == "Tile" && hitGO.GetComponent<Tile>().isOccupied && hitGO.GetComponent<Tile>().occuObject.GetComponent<Ship>().currentPlayerTurn == true)
             {
                 ClearTiles();
-                currentShip = hit.collider.gameObject.GetComponent<Tile>().occuObject; //switch operating ship to new
+                currentShip = hitGO.GetComponent<Tile>().occuObject; //switch operating ship to new
                 currentTile = currentShip.GetComponent<Ship>().tile; //update current tile
                 iniActionPoints = currentShip.GetComponent<Ship>().iniActionPoints;
                 UpdateTiles(iniActionPoints, 1); //update tiles for new ship
@@ -248,8 +260,8 @@ public class GridGenerator : MonoBehaviour
         {
             currentTile = currentShip.GetComponent<Ship>().tile;
             iniActionPoints = currentShip.GetComponent<Ship>().iniActionPoints;
-            List<int> targets = findTargets(currentShip.GetComponent<Ship>().atkRange, currentTile);
-            setTargets(targets);
+            List<int> targets = FindTargets(currentShip.GetComponent<Ship>().atkRange, currentTile);
+            SetTargets(targets);
             currentShip.GetComponent<Ship>().stats.GetComponent<Renderer>().enabled = true;
         }
         if (state == 1)
@@ -263,25 +275,31 @@ public class GridGenerator : MonoBehaviour
             {
                 if (Physics.Raycast(ray, out hit) && hit.collider.tag == "Tile") //if ray hits and tag is a "tile"
                 {
+                    GameObject hitGO = hit.collider.gameObject;
                     //hit.collider.gameObject now refers to the tile under the mouse cursor
-                    if (hit.collider.gameObject.GetComponent<Tile>().state == 1)
+                    if (hitGO.GetComponent<Tile>().state == 1)
                     {
-                        MoveShip(hit.collider.gameObject); //move the ship if tile state is 1
+                        MoveShip(hitGO); //move the ship if tile state is 1
                         state = 999;
                     }
                 }
             }
         }
-
         // conly shoot at target if it's a ship not controlled by player and the targets tile's state is 2
         if (state == 2 && currentShip != null)
         {
             UpdateTiles(currentShip.GetComponent<Ship>().atkRange, 2);
-            if (Input.GetButtonDown("Fire1")) //On Mouse Click
+            if (Input.GetButtonDown("Fire1") && Physics.Raycast(ray, out hit)) //On Mouse Click
             {
-                if (Physics.Raycast(ray, out hit) && hit.collider.tag == "Ship" && hit.collider.gameObject.GetComponent<Ship>().currentPlayerTurn == false && hit.collider.gameObject.GetComponent<Ship>().tile.GetComponent<Tile>().state == 2)
+                GameObject hitGO = hit.collider.gameObject;
+                if (hitGO.tag == "Ship" && hitGO.GetComponent<Ship>().currentPlayerTurn == false && hitGO.GetComponent<Ship>().tile.GetComponent<Tile>().state == 2)
                 {
-                    hit.collider.gameObject.GetComponent<Ship>().GetDamaged(currentShip.GetComponent<Ship>().damage);
+                    hitGO.GetComponent<Ship>().GetDamaged(currentShip.GetComponent<Ship>().damage);
+                    state = 1;
+                }
+                if (hitGO.tag == "Tile" && hitGO.GetComponent<Tile>().isOccupied == true && hitGO.GetComponent<Tile>().state == 2)
+                {
+                    hitGO.GetComponent<Tile>().occuObject.GetComponent<Ship>().GetDamaged(currentShip.GetComponent<Ship>().damage);
                     state = 1;
                 }
 
@@ -298,8 +316,8 @@ public class GridGenerator : MonoBehaviour
                 currentShip.transform.position = Vector3.MoveTowards(currentShip.transform.position, newPosition, 5f * Time.deltaTime);
             else
             {
-                List<int> targets = findTargets(currentShip.GetComponent<Ship>().atkRange, currentTile);
-                setTargets(targets);
+                List<int> targets = FindTargets(currentShip.GetComponent<Ship>().atkRange, currentTile);
+                SetTargets(targets);
                 state = 1;
             }
         }

@@ -55,10 +55,12 @@ MonoBehaviour:
   shipPrefab: {fileID: 1016347892755348, guid: 9252a7970ff6d0d47bb3b5b969564942, type: 2}
   playerPrefab: {fileID: 1054456475952818, guid: bab4348b8e25b0245835f6aff0a184d5,
     type: 2}
+  islandPrefab: {fileID: 1617477337203286, guid: d3b3313de656b1741ab8cfdb302921ea,
+    type: 2}
   uiText: {fileID: 0}
   buttonText: {fileID: 0}
-  numberOfTiles: 144
-  tilesPerRow: 12
+  numberOfTiles: 196
+  tilesPerRow: 14
   distanceBetweenTiles: 1
   numberOfPlayers: 2
   numberOfShips: 2

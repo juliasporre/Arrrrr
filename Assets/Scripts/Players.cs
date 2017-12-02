@@ -25,16 +25,20 @@ public class Players : MonoBehaviour {
 
     void CreateShips()
     {
+        int spawnInd = 1;
+        if (playerNumber == 1)
+        {
+            spawnInd = tileArray.Length-3;
+        }
         gameObject.name = "Player " + playerNumber.ToString();
         //create ship array for potential multiple ships
         float yOffset = 0.35f;
         for (int shipsCreated = 0; shipsCreated < numberOfShips; shipsCreated++)
         {
-            int randTileIndex = Random.Range(0, tileArray.Length);
             //instantiate new ship
             var newShip = Instantiate(shipPrefab, transform);
             //assign variables to new ship
-            currentTile = tileArray[randTileIndex];
+            currentTile = tileArray[spawnInd++];
             currentTile.GetComponent<Tile>().isOccupied = true;
             currentTile.GetComponent<Tile>().occuObject = newShip;
             newShip.GetComponent<Ship>().tile = currentTile;
@@ -73,6 +77,13 @@ public class Players : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-		
-	}
+        foreach (GameObject thisShip in shipArray)
+        {
+            var shipscript = thisShip.GetComponent<Ship>();
+            if (shipscript.CheckHealth() == false)
+            {
+                shipArray.Remove(thisShip);
+            }
+        }
+    }
 }

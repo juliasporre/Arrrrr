@@ -84,18 +84,25 @@ public class Ship : MonoBehaviour {
         }
     }
 
-	// Update is called once per frame
-	void Update()
+    public bool CheckHealth()
     {
         if (health <= 0)
         {
-            GetComponent<Renderer>().enabled = false;
-            this.stats.GetComponent<Renderer>().enabled = false;
-            this.tile.GetComponent<Tile>().isOccupied = false;
-            tile.GetComponent<Tile>().state = 0;
+            var tilescript = tile.GetComponent<Tile>();
             stats.GetComponent<Renderer>().enabled = false;
+            tilescript.isOccupied = false;
+            tilescript.occuObject = null;
+            tilescript.state = 0;
+            GetComponent<Renderer>().enabled = false;
             Destroy(this);
+            return false;
         }
+        return true;
+    }
+
+	// Update is called once per frame
+	void Update()
+    {
         UpdateText();
     }
 }

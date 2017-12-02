@@ -9,10 +9,11 @@ public class Tile : MonoBehaviour {
     public Material materialActive;
     public Material materialAvailable;
     public Material materialAttack;
+    public Material materialUnavailable;
 
     public int indexNumber;
     public int tilesPerRow;
-    public int state = 0; //0 = inactive, 1 = movement, 2 = active;
+    public int state = 0; //0 = inactive, 1 = movement, 2 = active; 3 = unavailable;
 
     private GameObject tileUpper;
     private GameObject tileLower;
@@ -24,6 +25,7 @@ public class Tile : MonoBehaviour {
     private GameObject tileLowerLeft;
 
     public bool isOccupied = false;
+    public bool islandTile = false;
     public GameObject occuObject;
     public int remAP = 0;
 
@@ -55,6 +57,22 @@ public class Tile : MonoBehaviour {
         if (tileLowerLeft) { adjacentTiles.Add(tileLowerLeft); }
         if (tileLowerRight) { adjacentTiles.Add(tileLowerRight); }
         
+        if (islandTile)
+        {
+            tileUpper.GetComponent<Tile>().isOccupied = true;
+            tileUpper.GetComponent<Tile>().occuObject = occuObject;
+            tileUpper.GetComponent<Tile>().state = 3;
+
+            tileRight.GetComponent<Tile>().isOccupied = true;
+            tileRight.GetComponent<Tile>().occuObject = occuObject;
+            tileRight.GetComponent<Tile>().state = 3;
+
+            tileUpperRight.GetComponent<Tile>().isOccupied = true;
+            tileUpperRight.GetComponent<Tile>().occuObject = occuObject;
+            tileUpperRight.GetComponent<Tile>().state = 3;
+
+            state = 3;
+        }
     }
     /*
      * Check if the tile is in bounds (no larger or smaller than index) 
@@ -77,16 +95,20 @@ public class Tile : MonoBehaviour {
      */
     public void SetMaterial()
     {
+        Renderer rend = GetComponent<Renderer>();
         switch (state)
         {
             case 0:
-                GetComponent<Renderer>().material = materialIdle;
+                rend.material = materialIdle;
                 break;
             case 1:
-                GetComponent<Renderer>().material = materialAvailable;
+                rend.material = materialAvailable;
                 break;
             case 2:
-                GetComponent<Renderer>().material = materialAttack;
+                rend.material = materialAttack;
+                break;
+            case 3:
+                rend.material = materialUnavailable;
                 break;
         }
 
