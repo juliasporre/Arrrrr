@@ -6,12 +6,13 @@ public class Players : MonoBehaviour {
 
     public GameObject shipPrefab;
 
-    public static GameObject[] shipArray;
+    //public static GameObject[] shipArray;
+    public List<GameObject> shipArray;
     public GameObject[] tileArray;
     public int numberOfShips;
     public int iniActionPoints;
 
-    public GameObject currentShip;
+    public GameObject firstShip;
     public GameObject currentTile;
 
     public int playerNumber;
@@ -24,8 +25,8 @@ public class Players : MonoBehaviour {
 
     void CreateShips()
     {
+        gameObject.name = "Player " + playerNumber.ToString();
         //create ship array for potential multiple ships
-        shipArray = new GameObject[numberOfShips];
         float yOffset = 0.35f;
         for (int shipsCreated = 0; shipsCreated < numberOfShips; shipsCreated++)
         {
@@ -35,32 +36,39 @@ public class Players : MonoBehaviour {
             //assign variables to new ship
             currentTile = tileArray[randTileIndex];
             currentTile.GetComponent<Tile>().isOccupied = true;
+            currentTile.GetComponent<Tile>().occuObject = newShip;
             newShip.GetComponent<Ship>().tile = currentTile;
             //assign position to ship
             newShip.transform.position = new Vector3(currentTile.transform.position.x, currentTile.transform.position.y + yOffset, currentTile.transform.position.z);
-            //currentShip = newShip;
             newShip.GetComponent<Ship>().iniActionPoints = iniActionPoints;
             newShip.GetComponent<Ship>().indexNumber = shipsCreated;
             //insert into shipArray
-            shipArray[shipsCreated] = newShip;
+            shipArray.Add(newShip);
         }
-        // set currentPlayerTurn to true for 1 of the ships, otherwise this must be set in the inspector
-        shipArray[0].GetComponent<Ship>().currentPlayerTurn = true;
+        firstShip = shipArray[0];
+        currentTile = shipArray[0].GetComponent<Ship>().tile;
     }
 
-    public void setTurn(int nextPlayer)
+    public void SetTurn(int next)
     {
-        foreach (GameObject ship in shipArray)
-        {   
-            if (ship.GetComponent<Ship>().currentPlayerTurn && (nextPlayer != playerNumber))
+        if (next == playerNumber)
+        {
+            foreach (GameObject thisShip in shipArray)
             {
-                ship.GetComponent<Ship>().currentPlayerTurn = false;
+                //Debug.Log("Setting turn for ship " + thisShip + "For player" + playerNumber);
+                thisShip.GetComponent<Ship>().UpdateState(true);
+                thisShip.GetComponent<Ship>().curActionPoints = iniActionPoints;
             }
-            else if (nextPlayer == playerNumber)
+        }
+        else
+        {
+            foreach (GameObject thisShip in shipArray)
             {
-                ship.GetComponent<Ship>().currentPlayerTurn = true;
+                //Debug.Log("Setting turn for ship " + thisShip + "For player" + playerNumber);
+                thisShip.GetComponent<Ship>().UpdateState(false);
             }
-}
+        }
+
     }
 
     // Update is called once per frame

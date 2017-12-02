@@ -9,7 +9,8 @@ public class GridGenerator : MonoBehaviour
     public GameObject tilePrefab;
     public GameObject shipPrefab;
     public GameObject playerPrefab;
-    public Text playerText;
+    public Text uiText;
+    public Text buttonText;
 
     public int numberOfTiles = 100;
     public int tilesPerRow = 10;
@@ -22,19 +23,19 @@ public class GridGenerator : MonoBehaviour
     public int state = 1; // 0 = inactive, 1 = movement, 2 = attack;
 
     public static GameObject[] tileArray;
-    public List<GameObject> shipArray;
     public static GameObject[] playerArray;
 
     public GameObject currentShip;
     public GameObject currentTile;
-    public int currentPlayer = 0;
+    public int currentPlayer = -1;
+    private int turnCount = 0;
 
     // Use this for initialization
     void Start()
     {
         CreateTiles();
-        //CreateShips();
         CreatePlayers();
+        buttonText.text = "Start Game";
     }
 
     void CreateTiles()
@@ -71,18 +72,33 @@ public class GridGenerator : MonoBehaviour
 
     void CreatePlayers()
     {
-
         playerArray = new GameObject[numberOfPlayers];
-        for (int playerNumber = 0; playerNumber < numberOfPlayers; playerNumber++)
+        for (int pN = 0; pN < numberOfPlayers; pN++)
         {
             var newPlayer = Instantiate(playerPrefab, transform);
             newPlayer.GetComponent<Players>().tileArray = tileArray;
             newPlayer.GetComponent<Players>().numberOfShips = numberOfShips;
             newPlayer.GetComponent<Players>().iniActionPoints = iniActionPoints;
-            newPlayer.GetComponent<Players>().playerNumber = playerNumber;
-            playerArray[playerNumber] = newPlayer;
+            newPlayer.GetComponent<Players>().playerNumber = pN;
+            playerArray[pN] = newPlayer;
         }
+            currentShip = playerArray[currentPlayer+1].GetComponent<Players>().firstShip;
     }
+
+    void UpdateText()
+    {
+        int nowP = currentPlayer + 1;
+        if (turnCount == 0)
+        {
+            uiText.text = "Game Starting";
+        }
+        else
+        { 
+            uiText.text = "Player: " + nowP.ToString() + "\nTurn #" + turnCount.ToString() + "\nPhase " + state.ToString();
+        }
+
+    }
+
     /*
      * Function for updating Tile states. 0 = inactive, 1 = Selection Available.
      */
@@ -93,7 +109,7 @@ public class GridGenerator : MonoBehaviour
 
     /*
      * A brute force method to resetting tiles to 0 state.
-     */ 
+     */
     void ClearTiles()
     {
         foreach (GameObject tiles in tileArray)
@@ -108,17 +124,14 @@ public class GridGenerator : MonoBehaviour
     void MoveShip(GameObject newTile)
     {
         currentShip.GetComponent<Ship>().tile.GetComponent<Tile>().isOccupied = false;
+        currentShip.GetComponent<Ship>().tile.GetComponent<Tile>().occuObject = null;
         ClearTiles(); //set state=1 tiles to 0.
         currentShip.GetComponent<Ship>().tile = newTile; //updates currentShip tile to newTile
         currentShip.GetComponent<Ship>().curActionPoints = newTile.GetComponent<Tile>().remAP;
         currentTile = newTile; //updates currentTile to newTile
-        newTile.GetComponent<Tile>().isOccupied = true; //indicate new tile is occupied
+        newTile.GetComponent<Tile>().isOccupied = true;
+        newTile.GetComponent<Tile>().occuObject = currentShip; //indicate new tile is occupied
 
-    }
-
-    public void PassTurn()
-    {
-        state = 1;
     }
 
     /*
@@ -165,18 +178,39 @@ public class GridGenerator : MonoBehaviour
     * To be called we the users press the end turn button
     * iterates through the ship array and flips the value of currentPlayerTurn
     */
-    public void endTurn()
+    public void AttackButton()
     {
-        ClearTiles();
+        if (currentShip.GetComponent<Ship>().curActionPoints > 0)
+        {
+            if (state == 1)
+            {
+                state = 2;
+            }
+            else
+            {
+                state = 1;
+            }
+        }
+        UpdateText();
+    }
+
+    public void EndTurn()
+    {
+        buttonText.text = "Pass Turn";
         currentPlayer++;
-        if (currentPlayer > numberOfPlayers-1)
+        if (currentPlayer+1 > numberOfPlayers)
         {
             currentPlayer = 0;
         }
+        UpdateText();
         foreach (GameObject player in playerArray)
         {
-            player.GetComponent<Players>().setTurn(currentPlayer);
+            //Debug.Log("Setting " + player + " with currentPlayer " + currentPlayer); 
+            player.GetComponent<Players>().SetTurn(currentPlayer);
         }
+        currentShip = null;
+        turnCount++;
+        ClearTiles();
     }
 
     // Update is called once per frame
@@ -185,6 +219,30 @@ public class GridGenerator : MonoBehaviour
         //Ray shoots from camera POV
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
+
+        if (Input.GetButtonDown("Fire1") && Physics.Raycast(ray, out hit))
+        {
+            GameObject hitGO = hit.collider.gameObject; 
+            if (hit.collider.tag == "Ship" && hitGO.GetComponent<Ship>().currentPlayerTurn == true)
+            {
+                ClearTiles();
+                currentShip = hit.collider.gameObject; //switch operating ship to new
+                currentTile = currentShip.GetComponent<Ship>().tile; //update current tile
+                iniActionPoints = currentShip.GetComponent<Ship>().iniActionPoints;
+                UpdateTiles(iniActionPoints, 1); //update tiles for new ship
+                //List<int> targets = findTargets(currentShip.GetComponent<Ship>().atkRange, currentTile); //redundant here
+                //setTargets(targets); //redundant here
+            }
+            else if (hit.collider.tag == "Tile" && hitGO.GetComponent<Tile>().isOccupied && hitGO.GetComponent<Tile>().occuObject.GetComponent<Ship>().currentPlayerTurn == true)
+            {
+                ClearTiles();
+                currentShip = hit.collider.gameObject.GetComponent<Tile>().occuObject; //switch operating ship to new
+                currentTile = currentShip.GetComponent<Ship>().tile; //update current tile
+                iniActionPoints = currentShip.GetComponent<Ship>().iniActionPoints;
+                UpdateTiles(iniActionPoints, 1); //update tiles for new ship
+            }
+
+        }
 
         if (currentShip != null)
         {
@@ -198,8 +256,8 @@ public class GridGenerator : MonoBehaviour
         {
             if (currentShip != null)
             {
-                currentShip.GetComponent<Ship>().curActionPoints = iniActionPoints;
-                UpdateTiles(iniActionPoints, 1);
+                //currentShip.GetComponent<Ship>().curActionPoints = iniActionPoints;
+                UpdateTiles(currentShip.GetComponent<Ship>().curActionPoints, 1);
             }
             if (Input.GetButtonDown("Fire1")) //On Mouse Click
             {
@@ -212,32 +270,17 @@ public class GridGenerator : MonoBehaviour
                         state = 999;
                     }
                 }
-                else if (Physics.Raycast(ray, out hit) && hit.collider.tag == "Ship" && hit.collider.gameObject.GetComponent<Ship>().currentPlayerTurn == true)
-                {
-                    ClearTiles();
-                    currentShip = hit.collider.gameObject; //switch operating ship to new
-                    currentTile = currentShip.GetComponent<Ship>().tile; //update current tile
-                    iniActionPoints = currentShip.GetComponent<Ship>().iniActionPoints;
-                    UpdateTiles(iniActionPoints, 1); //update tiles for new ship
-                    List<int> targets = findTargets(currentShip.GetComponent<Ship>().atkRange, currentTile);
-                    setTargets(targets);
-                }
-                // conly shoot at target if it's a ship not controlled by player and the targets tile's state is 2
-                else if (Physics.Raycast(ray, out hit) && hit.collider.tag == "Ship" && hit.collider.gameObject.GetComponent<Ship>().currentPlayerTurn == false && hit.collider.gameObject.GetComponent<Ship>().tile.GetComponent<Tile>().state == 2)
-                {
-                    hit.collider.gameObject.GetComponent<Ship>().GetDamaged(currentShip.GetComponent<Ship>().damage);
-                }
             }
         }
-        // not used
-        if (state == 2)
+
+        // conly shoot at target if it's a ship not controlled by player and the targets tile's state is 2
+        if (state == 2 && currentShip != null)
         {
             UpdateTiles(currentShip.GetComponent<Ship>().atkRange, 2);
             if (Input.GetButtonDown("Fire1")) //On Mouse Click
             {
-                if (Physics.Raycast(ray, out hit) && hit.collider.tag == "Ship") //if ray hits and tag is a "ship"
+                if (Physics.Raycast(ray, out hit) && hit.collider.tag == "Ship" && hit.collider.gameObject.GetComponent<Ship>().currentPlayerTurn == false && hit.collider.gameObject.GetComponent<Ship>().tile.GetComponent<Tile>().state == 2)
                 {
-                    //hit.collider.gameObject now refers to the tile under the mouse cursor
                     hit.collider.gameObject.GetComponent<Ship>().GetDamaged(currentShip.GetComponent<Ship>().damage);
                     state = 1;
                 }
@@ -245,9 +288,11 @@ public class GridGenerator : MonoBehaviour
             }
         }
 
+        /*
+         * Update during movement
+         */
         if (state == 999)
         {
-
             Vector3 newPosition = new Vector3(currentTile.transform.position.x, currentTile.transform.position.y + 0.35f, currentTile.transform.position.z);
             if (currentShip.transform.position != newPosition)
                 currentShip.transform.position = Vector3.MoveTowards(currentShip.transform.position, newPosition, 5f * Time.deltaTime);
@@ -255,11 +300,9 @@ public class GridGenerator : MonoBehaviour
             {
                 List<int> targets = findTargets(currentShip.GetComponent<Ship>().atkRange, currentTile);
                 setTargets(targets);
-                /*if (currentShip.GetComponent<Ship>().curActionPoints > 0)
-                    state = 2;
-                else state = 1;*/
                 state = 1;
             }
         }
+        UpdateText();
     }
 }

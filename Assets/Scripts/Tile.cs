@@ -24,6 +24,7 @@ public class Tile : MonoBehaviour {
     private GameObject tileLowerLeft;
 
     public bool isOccupied = false;
+    public GameObject occuObject;
     public int remAP = 0;
 
     public List<GameObject> adjacentTiles = new List<GameObject>();
