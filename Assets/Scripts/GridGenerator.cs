@@ -30,7 +30,7 @@ public class GridGenerator : MonoBehaviour
     public GameObject currentTile;
     public int currentPlayer = -1;
     private int turnCount = 0;
-
+    
     // Use this for initialization
     void Start()
     {
@@ -89,10 +89,11 @@ public class GridGenerator : MonoBehaviour
         for (int pN = 0; pN < numberOfPlayers; pN++)
         {
             var newPlayer = Instantiate(playerPrefab, transform);
-            newPlayer.GetComponent<Players>().tileArray = tileArray;
-            newPlayer.GetComponent<Players>().numberOfShips = numberOfShips;
-            newPlayer.GetComponent<Players>().iniActionPoints = iniActionPoints;
-            newPlayer.GetComponent<Players>().playerNumber = pN;
+            var playerScript = newPlayer.GetComponent<Players>();
+            playerScript.tileArray = tileArray;
+            playerScript.numberOfShips = numberOfShips;
+            playerScript.iniActionPoints = iniActionPoints;
+            playerScript.playerNumber = pN;
             playerArray[pN] = newPlayer;
         }
             currentShip = playerArray[currentPlayer+1].GetComponent<Players>().firstShip;
@@ -127,7 +128,9 @@ public class GridGenerator : MonoBehaviour
     {
         foreach (GameObject tiles in tileArray)
         {
-            tiles.GetComponent<Tile>().state = 0;
+            var tileScript = tiles.GetComponent<Tile>();
+            if (tileScript.state != 3)
+                tiles.GetComponent<Tile>().state = 0;
         }
     }
 
@@ -235,7 +238,7 @@ public class GridGenerator : MonoBehaviour
         if (Input.GetButtonDown("Fire1") && Physics.Raycast(ray, out hit))
         {
             GameObject hitGO = hit.collider.gameObject;
-            if (hit.collider.tag == "Ship" && hitGO.GetComponent<Ship>().currentPlayerTurn == true)
+            if (hit.collider.tag == "Ship" && hitGO.GetComponent<Ship>().currentPlayerTurn == true && hitGO != currentShip && hitGO.GetComponent<Ship>().state != 3)
             {
                 ClearTiles();
                 currentShip = hitGO; //switch operating ship to new
@@ -245,7 +248,9 @@ public class GridGenerator : MonoBehaviour
                 //List<int> targets = FindTargets(currentShip.GetComponent<Ship>().atkRange, currentTile); //redundant here
                 //SetTargets(targets); //redundant here
             }
-            else if (hit.collider.tag == "Tile" && hitGO.GetComponent<Tile>().isOccupied && hitGO.GetComponent<Tile>().occuObject.GetComponent<Ship>().currentPlayerTurn == true)
+            else if (hit.collider.tag == "Tile" && hitGO.GetComponent<Tile>().isOccupied && hitGO.GetComponent<Tile>().occuObject.tag == "Ship" &&
+                     hitGO.GetComponent<Tile>().occuObject.GetComponent<Ship>().currentPlayerTurn == true && hitGO.GetComponent<Tile>().occuObject.GetComponent<Ship>().state != 3 &&
+                     hitGO.GetComponent<Tile>().occuObject != currentShip)
             {
                 ClearTiles();
                 currentShip = hitGO.GetComponent<Tile>().occuObject; //switch operating ship to new
@@ -256,7 +261,7 @@ public class GridGenerator : MonoBehaviour
 
         }
 
-        if (currentShip != null)
+        if (currentShip != null && currentShip.GetComponent<Ship>().state != 3)
         {
             currentTile = currentShip.GetComponent<Ship>().tile;
             iniActionPoints = currentShip.GetComponent<Ship>().iniActionPoints;
@@ -271,22 +276,30 @@ public class GridGenerator : MonoBehaviour
                 //currentShip.GetComponent<Ship>().curActionPoints = iniActionPoints;
                 UpdateTiles(currentShip.GetComponent<Ship>().curActionPoints, 1);
             }
-            if (Input.GetButtonDown("Fire1")) //On Mouse Click
+            if (Input.GetButtonDown("Fire1") && Physics.Raycast(ray, out hit)) //On Mouse Click
             {
-                if (Physics.Raycast(ray, out hit) && hit.collider.tag == "Tile") //if ray hits and tag is a "tile"
+                GameObject hitGO = hit.collider.gameObject;
+                if (currentShip != null)
+                    currentTile = currentShip.GetComponent<Ship>().tile;
+                if (hit.collider.tag == "Tile") //if ray hits and tag is a "tile"
                 {
-                    GameObject hitGO = hit.collider.gameObject;
                     //hit.collider.gameObject now refers to the tile under the mouse cursor
                     if (hitGO.GetComponent<Tile>().state == 1)
                     {
                         MoveShip(hitGO); //move the ship if tile state is 1
                         state = 999;
                     }
+                    else if (hitGO.GetComponent<Tile>().state == 3 && hitGO.GetComponent<Tile>().IsAdjacent(currentTile))
+                    {
+                        currentShip.GetComponent<Ship>().SetState(3);
+                        ClearTiles();
+                        currentShip = null;
+                    }
                 }
             }
         }
         // conly shoot at target if it's a ship not controlled by player and the targets tile's state is 2
-        if (state == 2 && currentShip != null)
+        if (state == 2 && currentShip != null && !currentShip.GetComponent<Ship>().hasAttacked)
         {
             UpdateTiles(currentShip.GetComponent<Ship>().atkRange, 2);
             if (Input.GetButtonDown("Fire1") && Physics.Raycast(ray, out hit)) //On Mouse Click
@@ -302,6 +315,7 @@ public class GridGenerator : MonoBehaviour
                     hitGO.GetComponent<Tile>().occuObject.GetComponent<Ship>().GetDamaged(currentShip.GetComponent<Ship>().damage);
                     state = 1;
                 }
+                currentShip.GetComponent<Ship>().hasAttacked = true;
 
             }
         }

@@ -763,7 +763,7 @@ Prefab:
     - target: {fileID: 114074195412476006, guid: f38643dd3b338b2498f2bdccc137e458,
         type: 2}
       propertyPath: iniActionPoints
-      value: 8
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f38643dd3b338b2498f2bdccc137e458, type: 2}

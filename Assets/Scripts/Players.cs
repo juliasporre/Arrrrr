@@ -59,16 +59,17 @@ public class Players : MonoBehaviour {
         {
             foreach (GameObject thisShip in shipArray)
             {
-                //Debug.Log("Setting turn for ship " + thisShip + "For player" + playerNumber);
-                thisShip.GetComponent<Ship>().UpdateState(true);
-                thisShip.GetComponent<Ship>().curActionPoints = iniActionPoints;
+                var shipScript = thisShip.GetComponent<Ship>();
+                shipScript.UpdateState(true);
+                shipScript.curActionPoints = iniActionPoints;
+                shipScript.UpdateTimer();
+                shipScript.hasAttacked = false;
             }
         }
         else
         {
             foreach (GameObject thisShip in shipArray)
             {
-                //Debug.Log("Setting turn for ship " + thisShip + "For player" + playerNumber);
                 thisShip.GetComponent<Ship>().UpdateState(false);
             }
         }

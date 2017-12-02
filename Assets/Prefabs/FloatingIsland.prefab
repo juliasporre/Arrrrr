@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 95422563086568014}
   m_Layer: 0
   m_Name: FImodel
-  m_TagString: Untagged
+  m_TagString: Island
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -238,7 +238,7 @@ GameObject:
   - component: {fileID: 4903165097852784}
   m_Layer: 0
   m_Name: FloatingIsland
-  m_TagString: Untagged
+  m_TagString: Island
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

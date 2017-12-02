@@ -13,7 +13,7 @@ public class Tile : MonoBehaviour {
 
     public int indexNumber;
     public int tilesPerRow;
-    public int state = 0; //0 = inactive, 1 = movement, 2 = active; 3 = unavailable;
+    public int state = 0; //0 = inactive, 1 = movement, 2 = active; 3 = island;
 
     private GameObject tileUpper;
     private GameObject tileLower;
@@ -119,9 +119,16 @@ public class Tile : MonoBehaviour {
      */ 
     public void SetState(int range, int newState, int caseSwitch)
     {
-        if (range == 0 || state == newState)
+        if (range == 0 || state == 3)
             return;
-        this.state = newState;
+        else if (state == newState)
+        {
+            if (remAP < range)
+                remAP = range;
+            else return;
+        }
+        if (state != 3)
+            this.state = newState;
         //Debug.Log("SETTING " + indexNumber + " with range " + range + " at state " + newState);
         switch (newState)
         {
@@ -164,6 +171,13 @@ public class Tile : MonoBehaviour {
 
         if (isOccupied && newState == 1)
             state = 0;
+    }
+
+    public bool IsAdjacent(GameObject checkTile)
+    {
+        if (adjacentTiles.Contains(checkTile))
+            return true;
+        return false;
     }
 
     /*

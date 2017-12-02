@@ -18,6 +18,10 @@ public class Ship : MonoBehaviour {
     public int damage = 3;
 
     public bool currentPlayerTurn = false;
+    public bool hasAttacked = false;
+    public int state = 0;
+
+    private int searchTimer = 0;
 
     public TextMesh stats;
     public TextMesh popText;
@@ -68,6 +72,10 @@ public class Ship : MonoBehaviour {
             stats.GetComponent<Renderer>().enabled = false;
         }
         stats.text = "HP: " + health.ToString() + "\nAP: " + curActionPoints.ToString();
+        if (state == 3)
+        {
+            stats.text = "Searching Island\n" + searchTimer + " Turns Left";
+        }
     }
 
     public void UpdateState(bool state)
@@ -81,6 +89,27 @@ public class Ship : MonoBehaviour {
         else
         {
             this.GetComponent<Renderer>().material.color = Color.red;
+        }
+    }
+
+    public void UpdateTimer()
+    {
+        if (searchTimer > 0)
+        {
+            searchTimer--;
+        }
+        if (state != 0 && searchTimer == 0)
+        {
+            SetState(0);
+        }
+    }
+
+    public void SetState(int newState)
+    {
+        state = newState;
+        if (newState == 3)
+        {
+            searchTimer = 3;
         }
     }
 
