@@ -19,6 +19,7 @@ public class Ship : MonoBehaviour {
 
     public bool currentPlayerTurn = false;
     public bool hasAttacked = false;
+    public bool hasTreasure = false;
     public int state = 0;
 
     private int searchTimer = 0;
@@ -109,6 +110,7 @@ public class Ship : MonoBehaviour {
         state = newState;
         if (newState == 3)
         {
+            hasTreasure = true;
             searchTimer = 3;
         }
     }

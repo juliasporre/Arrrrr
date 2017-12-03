@@ -13,7 +13,7 @@ public class Tile : MonoBehaviour {
 
     public int indexNumber;
     public int tilesPerRow;
-    public int state = 0; //0 = inactive, 1 = movement, 2 = active; 3 = island;
+    public int state = 0; //0 = inactive, 1 = movement, 2 = active; 3 = island; 4 = homeBase;
 
     private GameObject tileUpper;
     private GameObject tileLower;
@@ -110,26 +110,30 @@ public class Tile : MonoBehaviour {
             case 3:
                 rend.material = materialUnavailable;
                 break;
+            case 4:
+                rend.material = materialUnavailable;
+                break;
         }
 
     }
 
     /*
      * Initial setState function passed from GridGenerator
-     */ 
+     */
     public void SetState(int range, int newState, int caseSwitch)
     {
         if (range == 0 || state == 3)
             return;
-        else if (state == newState)
+        else if (state == newState || state == 4)
         {
             if (remAP < range)
                 remAP = range;
             else return;
         }
-        if (state != 3)
-            this.state = newState;
-        //Debug.Log("SETTING " + indexNumber + " with range " + range + " at state " + newState);
+        if (state != 3 && state != 4)
+        { 
+             state = newState;
+        }
         switch (newState)
         {
             case 0:
@@ -168,8 +172,8 @@ public class Tile : MonoBehaviour {
                 tileLeft.GetComponent<Tile>().SetState(remAP, newState, 3);
             else tileLeft.GetComponent<Tile>().SetState(remAP, newState, caseSwitch);
         }
-
-        if (isOccupied && newState == 1)
+        
+        if (isOccupied && newState == 1 && state != 4)
             state = 0;
     }
 

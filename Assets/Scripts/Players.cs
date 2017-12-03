@@ -76,6 +76,26 @@ public class Players : MonoBehaviour {
 
     }
 
+    public bool CheckShips()
+    {
+        if (shipArray.Count > 0)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    public bool CheckTreasure()
+    {
+        foreach (GameObject ship in shipArray)
+        {
+            var ships = ship.GetComponent<Ship>();
+            if (ships.tile.GetComponent<Tile>().state == 4)
+                return true;
+        }
+        return false;
+    }
+
     // Update is called once per frame
     void Update () {
         foreach (GameObject thisShip in shipArray)
