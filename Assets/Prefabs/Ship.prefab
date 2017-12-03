@@ -96,17 +96,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tile: {fileID: 0}
+  weaponPrefab: {fileID: 1340538310194264, guid: 69aedce4ce6dfdc4185abc4b74474ab4,
+    type: 2}
   statsMesh: {fileID: 1983081425370532, guid: 0245b0e926af3f845b021c32951291e7, type: 2}
   popMesh: {fileID: 1409175222479670, guid: aa484ad151c870749bda521a461b32eb, type: 2}
+  option1: {fileID: 1533717504976106, guid: 7da54a5e8dc57ae4a9498c857fe02c97, type: 2}
+  option2: {fileID: 1424603662579080, guid: 7da54a5e8dc57ae4a9498c857fe02c97, type: 2}
   indexNumber: 0
   iniActionPoints: 5
   curActionPoints: 0
-  atkRange: 3
+  atkRange: 0
   health: 15
-  damage: 3
+  damage: 0
   currentPlayerTurn: 0
+  hasAttacked: 0
+  hasTreasure: 0
+  state: 0
   stats: {fileID: 0}
   popText: {fileID: 0}
+  weaponsList: []
+  weaponNumbers: 2
 --- !u!136 &136201961059295040
 CapsuleCollider:
   m_ObjectHideFlags: 1

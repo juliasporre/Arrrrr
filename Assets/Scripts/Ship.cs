@@ -5,17 +5,21 @@ using UnityEngine.UI;
 
 public class Ship : MonoBehaviour {
     public GameObject tile;
+    public GameObject weaponPrefab;
     public GameObject statsMesh;
     public GameObject popMesh;
+
+    public GameObject option1;
+    public GameObject option2;
 
     public int indexNumber;
 
     public int iniActionPoints;
     public int curActionPoints;
 
-    public int atkRange = 3;
+    public int atkRange = 0;
     public int health = 15;
-    public int damage = 3;
+    public int damage = 0;
 
     public bool currentPlayerTurn = false;
     public bool hasAttacked = false;
@@ -27,8 +31,8 @@ public class Ship : MonoBehaviour {
     public TextMesh stats;
     public TextMesh popText;
 
-    //private float yOffset = 0.35f;
-
+    public List<GameObject> weaponsList = new List<GameObject>();
+    public int weaponNumbers = 2;
     // Use this for initialization
     void Start ()
     {
@@ -43,6 +47,36 @@ public class Ship : MonoBehaviour {
         var popClone = Instantiate(popMesh, transform);
         popText = popClone.GetComponent<TextMesh>();
         popText.GetComponent<Renderer>().enabled = false;
+
+        CreateWeapons();
+    }
+
+    void CreateWeapons()
+    {
+        for (int weaponsCreated = 0; weaponsCreated < weaponNumbers; weaponsCreated++)
+        {
+            var weaponsClone = Instantiate(weaponPrefab, transform);
+            weaponsClone.name = "Weapon " + weaponsCreated.ToString();
+            weaponsClone.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+            if (weaponsCreated == 0)
+            { 
+                weaponsClone.GetComponent<Weapon>().damage = 5;
+                weaponsClone.GetComponent<Weapon>().range = 1;
+            }
+            else
+            {
+                weaponsClone.GetComponent<Weapon>().damage = 1;
+                weaponsClone.GetComponent<Weapon>().range = 4;
+            }
+            weaponsList.Add(weaponsClone);
+        }
+        return;
+    }
+
+    public void ChangeWeapons(int option)
+    {
+        damage = weaponsList[option].GetComponent<Weapon>().damage;
+        atkRange = weaponsList[option].GetComponent<Weapon>().range;
     }
 
     /*

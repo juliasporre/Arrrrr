@@ -12,6 +12,8 @@ public class GridGenerator : MonoBehaviour
     public GameObject islandPrefab;
     public Text uiText;
     public Text buttonText;
+    public GameObject option1;
+    public GameObject option2;
 
     public int numberOfTiles = 100;
     public int tilesPerRow = 10;
@@ -38,6 +40,8 @@ public class GridGenerator : MonoBehaviour
         CreateTiles();
         CreatePlayers();
         buttonText.text = "Start Game";
+        option1.SetActive(false);
+        option2.SetActive(false);
     }
 
     void CreateTiles()
@@ -167,23 +171,26 @@ public class GridGenerator : MonoBehaviour
     private List<int> FindTargets(int range, GameObject tile)
     {
         List<int> foundObjects = new List<int>();
-        if (tile.GetComponent<Tile>().isOccupied && tile.GetComponent<Tile>().occuObject.tag == "Ship" && !tile.GetComponent<Tile>().occuObject.GetComponent<Ship>().currentPlayerTurn)
+
+        if (currentTile != null)
         {
-            foundObjects.Add(tile.GetComponent<Tile>().indexNumber);
-        }
-        if (range == 0)
-        {
-            return foundObjects;
-        }
-        else
-        {
-            foreach (GameObject adjacent in tile.GetComponent<Tile>().getNESWtiles())
+            if (tile.GetComponent<Tile>().isOccupied && tile.GetComponent<Tile>().occuObject.tag == "Ship" && !tile.GetComponent<Tile>().occuObject.GetComponent<Ship>().currentPlayerTurn)
             {
-                // make sure every index is unique
-                foundObjects = foundObjects.Union(FindTargets(range - 1, adjacent)).ToList();
+                foundObjects.Add(tile.GetComponent<Tile>().indexNumber);
+            }
+            if (range == 0)
+            {
+                return foundObjects;
+            }
+            else
+            {
+                foreach (GameObject adjacent in tile.GetComponent<Tile>().getNESWtiles())
+                {
+                    // make sure every index is unique
+                    foundObjects = foundObjects.Union(FindTargets(range - 1, adjacent)).ToList();
+                }
             }
         }
-
         return foundObjects;
     }
 
@@ -205,7 +212,7 @@ public class GridGenerator : MonoBehaviour
     private void UpdateFOW()
     {
 
-        if (currentTile == null)
+        if (currentTile == null && currentPlayer != -1)
             currentTile = playerArray[currentPlayer].GetComponent<Players>().shipArray[0].GetComponent<Ship>().tile;
         foreach (GameObject player in playerArray)
         {
@@ -267,13 +274,23 @@ public class GridGenerator : MonoBehaviour
             if (state == 1)
             {
                 state = 2;
+                option1.SetActive(true);
+                option2.SetActive(true);
             }
             else
             {
                 state = 1;
+                option1.SetActive(false);
+                option2.SetActive(false);
             }
         }
         UpdateText();
+    }
+
+    public void ChangeWeapons(int number)
+    {
+        currentShip.GetComponent<Ship>().ChangeWeapons(number);
+        ClearTiles();
     }
 
     /*

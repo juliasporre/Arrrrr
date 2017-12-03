@@ -65,7 +65,7 @@ public class Players : MonoBehaviour {
                 var shipScript = thisShip.GetComponent<Ship>();
                 shipScript.UpdateState(true);
                 shipScript.curActionPoints = iniActionPoints;
-                shipScript.UpdateTimer();
+                shipScript.UpdateTimer(); 
                 shipScript.hasAttacked = false;
             }
         }

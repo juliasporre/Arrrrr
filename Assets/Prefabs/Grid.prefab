@@ -57,14 +57,17 @@ MonoBehaviour:
     type: 2}
   islandPrefab: {fileID: 1617477337203286, guid: d3b3313de656b1741ab8cfdb302921ea,
     type: 2}
-  uiText: {fileID: 0}
+  uiText: {fileID: 114483178908432342, guid: 7da54a5e8dc57ae4a9498c857fe02c97, type: 2}
   buttonText: {fileID: 0}
+  option1: {fileID: 1533717504976106, guid: 7da54a5e8dc57ae4a9498c857fe02c97, type: 2}
+  option2: {fileID: 1424603662579080, guid: 7da54a5e8dc57ae4a9498c857fe02c97, type: 2}
   numberOfTiles: 196
   tilesPerRow: 14
   distanceBetweenTiles: 1
   numberOfPlayers: 2
   numberOfShips: 2
   iniActionPoints: 5
+  fogOfWarRange: 7
   state: 1
   currentShip: {fileID: 0}
   currentTile: {fileID: 0}
