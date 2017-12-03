@@ -20,6 +20,7 @@ public class GridGenerator : MonoBehaviour
     public int numberOfPlayers = 2;
     public int numberOfShips = 2;
     public int iniActionPoints = 5;
+    public int fogOfWarRange = 7;
 
     public int state = 1; // 0 = inactive, 1 = movement, 2 = attack;
 
@@ -134,7 +135,10 @@ public class GridGenerator : MonoBehaviour
         {
             var tileScript = tiles.GetComponent<Tile>();
             if (tileScript.state != 3 && tileScript.state != 4)
-                tiles.GetComponent<Tile>().state = 0;
+            { 
+                tileScript.state = 0;
+                tileScript.remAP = -1;
+            }
         }
     }
 
@@ -145,12 +149,14 @@ public class GridGenerator : MonoBehaviour
     {
         currentShip.GetComponent<Ship>().tile.GetComponent<Tile>().isOccupied = false;
         currentShip.GetComponent<Ship>().tile.GetComponent<Tile>().occuObject = null;
-        ClearTiles(); //set state=1 tiles to 0.
+        
         currentShip.GetComponent<Ship>().tile = newTile; //updates currentShip tile to newTile
         currentShip.GetComponent<Ship>().curActionPoints = newTile.GetComponent<Tile>().remAP;
         currentTile = newTile; //updates currentTile to newTile
         newTile.GetComponent<Tile>().isOccupied = true;
         newTile.GetComponent<Tile>().occuObject = currentShip; //indicate new tile is occupied
+
+        ClearTiles(); //set state=1 tiles to 0.
 
     }
 
@@ -193,6 +199,28 @@ public class GridGenerator : MonoBehaviour
             tile.GetComponent<Tile>().SetMaterial();
         }
     }
+    /*
+     * Method that updates Fog of War between Update calls. 
+     */
+    private void UpdateFOW()
+    {
+
+        if (currentTile == null)
+            currentTile = playerArray[currentPlayer].GetComponent<Players>().shipArray[0].GetComponent<Ship>().tile;
+        foreach (GameObject player in playerArray)
+        {
+            var players = player.GetComponent<Players>();
+            if (players.playerNumber == currentPlayer)
+            {
+                players.EnableShips();
+            }
+            if (players.playerNumber != currentPlayer)
+            {
+                players.FogOfWar(FindTargets(fogOfWarRange, currentTile)); //Call FogOfWar method if player is not CurrentPlayer.
+            }
+        }
+    }
+
 
     private bool CheckVictory()
     {
@@ -248,12 +276,15 @@ public class GridGenerator : MonoBehaviour
         UpdateText();
     }
 
+    /*
+     * Button for Passing turn / starting game.
+     */
     public void EndTurn()
     {
         buttonText.text = "Pass Turn";
         currentPlayer++;
-        if (CheckVictory())
-            return;
+        if (CheckVictory()) //if victory conditions are met
+            return; //finish game immediately
         if (currentPlayer+1 > numberOfPlayers)
         {
             currentPlayer = 0;
@@ -264,6 +295,7 @@ public class GridGenerator : MonoBehaviour
             player.GetComponent<Players>().SetTurn(currentPlayer);
         }
         currentShip = null;
+        currentTile = null;
         turnCount++;
         ClearTiles();
         state = 1;
@@ -351,7 +383,6 @@ public class GridGenerator : MonoBehaviour
                     state = 1;
                 }
                 currentShip.GetComponent<Ship>().hasAttacked = true;
-
             }
         }
 
@@ -373,7 +404,9 @@ public class GridGenerator : MonoBehaviour
                 SetTargets(targets);
                 state = 1;
             }
+            return;
         }
         UpdateText();
+        UpdateFOW();
     }
 }

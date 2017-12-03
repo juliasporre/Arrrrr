@@ -53,6 +53,9 @@ public class Players : MonoBehaviour {
         currentTile = shipArray[0].GetComponent<Ship>().tile;
     }
 
+    /*
+     *  Method that sets turn for ships under player's command. Resets if next player, deactivates if not.
+     */
     public void SetTurn(int next)
     {
         if (next == playerNumber)
@@ -76,6 +79,9 @@ public class Players : MonoBehaviour {
 
     }
 
+    /*
+     * Check if there are still ships in player's control. 
+     */
     public bool CheckShips()
     {
         if (shipArray.Count > 0)
@@ -85,6 +91,9 @@ public class Players : MonoBehaviour {
         return true;
     }
 
+    /*
+     * Check if a ship with treasure has returned to the base tile.
+     */
     public bool CheckTreasure()
     {
         foreach (GameObject ship in shipArray)
@@ -94,6 +103,33 @@ public class Players : MonoBehaviour {
                 return true;
         }
         return false;
+    }
+    
+    /*
+     * Fog of war method. Gets a list of tile in range of FOW, turns renderer on if the ship is on tile, turns off if not on list. 
+     */
+    public void FogOfWar(List<int> foundObjects)
+    {
+        foreach (GameObject thisShip in shipArray)
+        {
+            var ships = thisShip.GetComponent<Ship>();
+            if (foundObjects.Contains(ships.tile.GetComponent<Tile>().indexNumber))
+            {
+                thisShip.GetComponent<Renderer>().enabled = true;
+            }
+            else thisShip.GetComponent<Renderer>().enabled = false;
+        }
+        return;
+    }
+    /*
+     * Enables Renderer for ships under control 
+     */
+    public void EnableShips()
+    {
+        foreach (GameObject ships in shipArray)
+        {
+            ships.GetComponent<Renderer>().enabled = true;
+        }
     }
 
     // Update is called once per frame

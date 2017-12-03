@@ -27,7 +27,7 @@ public class Tile : MonoBehaviour {
     public bool isOccupied = false;
     public bool islandTile = false;
     public GameObject occuObject;
-    public int remAP = 0;
+    public int remAP = -1;
 
     public List<GameObject> adjacentTiles = new List<GameObject>();
 
@@ -137,7 +137,7 @@ public class Tile : MonoBehaviour {
         switch (newState)
         {
             case 0:
-                remAP = 0;
+                remAP = -1;
                 break;
             case 1:
                 remAP = range - 1;
@@ -177,6 +177,9 @@ public class Tile : MonoBehaviour {
             state = 0;
     }
 
+    /*
+     * If a checkTile is adjacent to this tile return true
+     */ 
     public bool IsAdjacent(GameObject checkTile)
     {
         if (adjacentTiles.Contains(checkTile))

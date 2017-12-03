@@ -62,6 +62,9 @@ public class Ship : MonoBehaviour {
         StartCoroutine(ShowMessage("-" + damage, 3));
     }
 
+    /*
+     * Update the HP and AP indicators next to ships. This also acts as Island Search indicator
+     */
     private void UpdateText()
     {
         if (currentPlayerTurn)
@@ -79,6 +82,9 @@ public class Ship : MonoBehaviour {
         }
     }
 
+    /*
+     * Update Materials. If enemy it's red, if ally it's blue
+     */
     public void UpdateState(bool state)
     {
         currentPlayerTurn = state;
@@ -93,6 +99,9 @@ public class Ship : MonoBehaviour {
         }
     }
 
+    /*
+     * Decrease timer. Called in SetTurn
+     */
     public void UpdateTimer()
     {
         if (searchTimer > 0)
@@ -104,7 +113,9 @@ public class Ship : MonoBehaviour {
             SetState(0);
         }
     }
-
+    /*
+     * Set state for ship (currently only 3). If newState is 3, activate a timer
+     */
     public void SetState(int newState)
     {
         state = newState;
@@ -115,6 +126,9 @@ public class Ship : MonoBehaviour {
         }
     }
 
+    /*
+     * Check health of ship. This is called in the Player Update().
+     */
     public bool CheckHealth()
     {
         if (health <= 0)
