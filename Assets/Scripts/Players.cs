@@ -108,16 +108,23 @@ public class Players : MonoBehaviour {
     /*
      * Fog of war method. Gets a list of tile in range of FOW, turns renderer on if the ship is on tile, turns off if not on list. 
      */
-    public void FogOfWar(List<int> foundObjects)
+    public void FogOfWar(List<int> foundObjects, int currentPlayer)
     {
+        foreach (int i in foundObjects)
+        {
+            Debug.Log("TILE " + i);
+        }
         foreach (GameObject thisShip in shipArray)
         {
             var ships = thisShip.GetComponent<Ship>();
             if (foundObjects.Contains(ships.tile.GetComponent<Tile>().indexNumber))
             {
-                thisShip.GetComponent<Renderer>().enabled = true;
+                thisShip.GetComponent<Ship>().inFOW = true;
+                //thisShip.GetComponent<Renderer>().enabled = true;
             }
-            else thisShip.GetComponent<Renderer>().enabled = false;
+            else
+                thisShip.GetComponent<Ship>().inFOW = false;
+                //thisShip.GetComponent<Renderer>().enabled = false;
         }
         return;
     }
@@ -128,7 +135,8 @@ public class Players : MonoBehaviour {
     {
         foreach (GameObject ships in shipArray)
         {
-            ships.GetComponent<Renderer>().enabled = true;
+            ships.GetComponent<Ship>().inFOW = false;
+            //ships.GetComponent<Renderer>().enabled = true;
         }
     }
 
