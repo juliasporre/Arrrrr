@@ -404,7 +404,7 @@ public class GridGenerator : NetworkBehaviour
             if (Input.GetButtonDown("Fire1") && Physics.Raycast(ray, out hit)) //On Mouse Click
             {
                 GameObject hitGO = hit.collider.gameObject;
-                Debug.Log("damage has happened");
+                //Debug.Log("damage has happened");
 
                 if (hit.collider.tag == "Button")
                 {
@@ -413,20 +413,22 @@ public class GridGenerator : NetworkBehaviour
 
                 if (hitGO.tag == "Ship" && hitGO.GetComponent<Ship>().currentPlayerTurn == false && hitGO.GetComponent<Ship>().tile.GetComponent<Tile>().state == 2)
                 {
-                    Debug.Log("11dmg " + currentShip.GetComponent<Ship>().damage);
+                    //Debug.Log("11dmg " + currentShip.GetComponent<Ship>().damage);
                     hitGO.GetComponent<Ship>().GetDamaged(currentShip.GetComponent<Ship>().damage);
-                    Debug.Log("dmg " + currentShip.GetComponent<Ship>().damage);
+                    //Debug.Log("dmg " + currentShip.GetComponent<Ship>().damage);
                     state = 1;
                     currentShip.GetComponent<Ship>().hasAttacked = true;
+                    currentShip.GetComponent<Ship>().curActionPoints--;
                     return;
                 }
                 if (hitGO.tag == "Tile" && hitGO.GetComponent<Tile>().isOccupied == true && hitGO.GetComponent<Tile>().state == 2)
                 {
-                    Debug.Log("11dmg " + currentShip.GetComponent<Ship>().damage);
+                    //Debug.Log("11dmg " + currentShip.GetComponent<Ship>().damage);
                     hitGO.GetComponent<Tile>().occuObject.GetComponent<Ship>().GetDamaged(currentShip.GetComponent<Ship>().damage);
-                    Debug.Log("dmg " + currentShip.GetComponent<Ship>().damage);
+                    //Debug.Log("dmg " + currentShip.GetComponent<Ship>().damage);
                     state = 1;
                     currentShip.GetComponent<Ship>().hasAttacked = true;
+                    currentShip.GetComponent<Ship>().curActionPoints--;
                     return;
                 }
             }
