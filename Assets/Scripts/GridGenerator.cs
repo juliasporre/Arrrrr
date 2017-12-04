@@ -214,16 +214,23 @@ public class GridGenerator : MonoBehaviour
 
         if (currentTile == null && currentPlayer != -1)
             currentTile = playerArray[currentPlayer].GetComponent<Players>().shipArray[0].GetComponent<Ship>().tile;
+        List<int> cTL = new List<int>();
+        foreach (GameObject ship in playerArray[currentPlayer].GetComponent<Players>().shipArray)
+        {
+            var shipT = ship.GetComponent<Ship>().tile;
+            cTL.AddRange(FindTargets(fogOfWarRange, shipT));
+        }
         foreach (GameObject player in playerArray)
         {
             var players = player.GetComponent<Players>();
-            if (players.playerNumber == currentPlayer)
+            /*if (players.playerNumber == currentPlayer)
             {
                 players.EnableShips();
-            }
+            }*/
+
             if (players.playerNumber != currentPlayer)
             {
-                players.FogOfWar(FindTargets(fogOfWarRange, currentTile)); //Call FogOfWar method if player is not CurrentPlayer.
+                players.FogOfWar(cTL, currentPlayer); //Call FogOfWar method if player is not CurrentPlayer.
             }
         }
     }
@@ -267,7 +274,7 @@ public class GridGenerator : MonoBehaviour
     * To be called we the users press the end turn button
     * iterates through the ship array and flips the value of currentPlayerTurn
     */
-    public void AttackButton()
+            public void AttackButton()
     {
         if (currentShip && currentShip.GetComponent<Ship>().curActionPoints > 0)
         {
@@ -315,6 +322,7 @@ public class GridGenerator : MonoBehaviour
         currentTile = null;
         turnCount++;
         ClearTiles();
+        UpdateFOW();
         state = 1;
     }
 
@@ -417,13 +425,15 @@ public class GridGenerator : MonoBehaviour
                 currentShip.transform.position = Vector3.MoveTowards(currentShip.transform.position, newPosition, 5f * Time.deltaTime);
             else
             {
+
+                UpdateFOW();
                 List<int> targets = FindTargets(currentShip.GetComponent<Ship>().atkRange, currentTile);
                 SetTargets(targets);
+
                 state = 1;
             }
             return;
         }
         UpdateText();
-        UpdateFOW();
     }
 }
