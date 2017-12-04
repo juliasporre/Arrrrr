@@ -24,6 +24,7 @@ public class Ship : MonoBehaviour {
     public bool currentPlayerTurn = false;
     public bool hasAttacked = false;
     public bool hasTreasure = false;
+    public bool inFOW = false;
     public int state = 0;
 
     private int searchTimer = 0;
@@ -147,6 +148,16 @@ public class Ship : MonoBehaviour {
             SetState(0);
         }
     }
+
+    private void UpdateFOW()
+    {
+        if (inFOW || currentPlayerTurn)
+            GetComponent<Renderer>().enabled = true;
+        else if (!currentPlayerTurn && !inFOW)
+        {
+            GetComponent<Renderer>().enabled = false;
+        }
+    }
     /*
      * Set state for ship (currently only 3). If newState is 3, activate a timer
      */
@@ -183,5 +194,6 @@ public class Ship : MonoBehaviour {
 	void Update()
     {
         UpdateText();
+        UpdateFOW();
     }
 }
