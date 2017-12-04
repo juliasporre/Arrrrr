@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4912442956008306}
   - component: {fileID: 114330863293239422}
+  - component: {fileID: 114945240967166216}
   m_Layer: 0
   m_Name: Players
   m_TagString: Untagged
@@ -59,3 +60,35 @@ MonoBehaviour:
   firstShip: {fileID: 0}
   currentTile: {fileID: 0}
   playerNumber: 0
+--- !u!114 &114945240967166216
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1054456475952818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 186
+    i1: 180
+    i2: 52
+    i3: 139
+    i4: 142
+    i5: 37
+    i6: 176
+    i7: 36
+    i8: 88
+    i9: 53
+    i10: 246
+    i11: 175
+    i12: 240
+    i13: 161
+    i14: 132
+    i15: 213
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 1
