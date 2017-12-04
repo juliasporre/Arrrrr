@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
+using UnityEngine.EventSystems;
+using UnityEngine.Networking;
 
-public class GridGenerator : MonoBehaviour
+public class GridGenerator : NetworkBehaviour
 {
     public GameObject tilePrefab;
     public GameObject shipPrefab;
@@ -353,6 +355,11 @@ public class GridGenerator : MonoBehaviour
                 GameObject hitGO = hit.collider.gameObject;
                 if (currentShip != null)
                     currentTile = currentShip.GetComponent<Ship>().tile;
+                if (EventSystem.current.IsPointerOverGameObject())
+                {
+                    //Debug.Log("Button has press");
+                    return;
+                }
                 if (hit.collider.tag == "Ship" && hitGO.GetComponent<Ship>().currentPlayerTurn == true && hitGO != currentShip && hitGO.GetComponent<Ship>().state != 3)
                 {
                     ClearTiles();
@@ -398,12 +405,20 @@ public class GridGenerator : MonoBehaviour
             {
                 GameObject hitGO = hit.collider.gameObject;
                 Debug.Log("damage has happened");
+
+                if (hit.collider.tag == "Button")
+                {
+                    return;
+                }
+
                 if (hitGO.tag == "Ship" && hitGO.GetComponent<Ship>().currentPlayerTurn == false && hitGO.GetComponent<Ship>().tile.GetComponent<Tile>().state == 2)
                 {
                     Debug.Log("11dmg " + currentShip.GetComponent<Ship>().damage);
                     hitGO.GetComponent<Ship>().GetDamaged(currentShip.GetComponent<Ship>().damage);
                     Debug.Log("dmg " + currentShip.GetComponent<Ship>().damage);
                     state = 1;
+                    currentShip.GetComponent<Ship>().hasAttacked = true;
+                    return;
                 }
                 if (hitGO.tag == "Tile" && hitGO.GetComponent<Tile>().isOccupied == true && hitGO.GetComponent<Tile>().state == 2)
                 {
@@ -411,8 +426,9 @@ public class GridGenerator : MonoBehaviour
                     hitGO.GetComponent<Tile>().occuObject.GetComponent<Ship>().GetDamaged(currentShip.GetComponent<Ship>().damage);
                     Debug.Log("dmg " + currentShip.GetComponent<Ship>().damage);
                     state = 1;
+                    currentShip.GetComponent<Ship>().hasAttacked = true;
+                    return;
                 }
-                currentShip.GetComponent<Ship>().hasAttacked = true;
             }
         }
 
@@ -425,7 +441,7 @@ public class GridGenerator : MonoBehaviour
         }
         if (state == 999)
         {
-            Vector3 newPosition = new Vector3(currentTile.transform.position.x, currentTile.transform.position.y + 0.35f, currentTile.transform.position.z);
+            Vector3 newPosition = new Vector3(currentTile.transform.position.x, currentTile.transform.position.y + 0.1f, currentTile.transform.position.z);
             if (currentShip.transform.position != newPosition)
                 currentShip.transform.position = Vector3.MoveTowards(currentShip.transform.position, newPosition, 5f * Time.deltaTime);
             else

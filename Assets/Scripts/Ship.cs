@@ -48,8 +48,7 @@ public class Ship : MonoBehaviour {
         var popClone = Instantiate(popMesh, transform);
         popText = popClone.GetComponent<TextMesh>();
         popText.GetComponent<Renderer>().enabled = false;
-
-
+        
         CreateWeapons();
     }
 

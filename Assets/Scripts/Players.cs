@@ -32,7 +32,7 @@ public class Players : MonoBehaviour {
         }
         gameObject.name = "Player " + playerNumber.ToString();
         //create ship array for potential multiple ships
-        float yOffset = 0.35f;
+        float yOffset = 0.1f;
         for (int shipsCreated = 0; shipsCreated < numberOfShips; shipsCreated++)
         {
             //instantiate new ship
