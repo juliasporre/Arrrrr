@@ -84,7 +84,7 @@ public class GridGenerator : NetworkBehaviour
                 if (tilesCreated == islandSpawnPos)
             {
                 var newIsland = Instantiate(islandPrefab, transform);
-                newIsland.transform.position = new Vector3(newTile.transform.position.x + .5f, newTile.transform.position.y + 0.5f, newTile.transform.position.z + 1f);
+                newIsland.transform.position = new Vector3(newTile.transform.position.x + .5f*transform.localScale.x, newTile.transform.position.y + 0.5f, newTile.transform.position.z + 1f*transform.localScale.z);
                 script.isOccupied = true;
                 script.occuObject = newIsland;
                 script.islandTile = true;
