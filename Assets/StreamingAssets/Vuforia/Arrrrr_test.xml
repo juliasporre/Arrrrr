@@ -1,29 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <QCARConfig>
     <Tracking>
+        <ImageTarget name="test.Back" size="1.000000 1.000000"/>
+        <ImageTarget name="test.Front" size="1.000000 1.000000"/>
+        <ImageTarget name="test2.Top" size="1.000000 1.428571"/>
+        <ImageTarget name="test.Bottom" size="1.000000 1.432500"/>
+        <ImageTarget name="test.Left" size="1.430000 1.001000"/>
+        <ImageTarget name="test2.Right" size="1.430000 1.001000"/>
+        <ImageTarget name="ship1.Back" size="1.000000 1.000000"/>
         <ImageTarget name="ship1.Front" size="1.000000 1.000000"/>
         <ImageTarget name="ship1.Top" size="1.000000 1.600000"/>
         <ImageTarget name="ship1.Left" size="1.600000 1.000000"/>
         <ImageTarget name="ship1.Right" size="1.600000 1.000000"/>
-        <ImageTarget name="ship1.Back" size="1.000000 1.000000"/>
-        <ImageTarget name="test.Front" size="1.000000 1.000000"/>
-        <ImageTarget name="test2.Top" size="1.000000 1.428571"/>
-        <ImageTarget name="test.Left" size="1.430000 1.001000"/>
-        <ImageTarget name="test2.Right" size="1.430000 1.001000"/>
-        <ImageTarget name="test.Back" size="1.000000 1.000000"/>
-        <MultiTarget name="ship1">
-            <Part name="ship1.Left" translation="-0.5 0 0" rotation="AD: 0 1 0 -90"/>
-            <Part name="ship1.Right" translation="0.5 0 0" rotation="AD: 0 1 0 90"/>
-            <Part name="ship1.Front" translation="0 0 0.800000011920929" rotation="AD: 1 0 0 0"/>
-            <Part name="ship1.Back" translation="0 0 -0.800000011920929" rotation="AD: 0 1 0 180"/>
-            <Part name="ship1.Top" translation="0 0.5 0" rotation="AD: 1 0 0 -90"/>
-        </MultiTarget>
         <MultiTarget name="test">
             <Part name="test.Left" translation="-0.5 0 0" rotation="AD: 0 1 0 -90"/>
             <Part name="test2.Right" translation="0.5 0 0" rotation="AD: 0 1 0 90"/>
             <Part name="test.Front" translation="0 0 0.7149999737739563" rotation="AD: 1 0 0 0"/>
             <Part name="test.Back" translation="0 0 -0.7149999737739563" rotation="AD: 0 1 0 180"/>
             <Part name="test2.Top" translation="0 0.5 0" rotation="AD: 1 0 0 -90"/>
+            <Part name="test.Bottom" translation="0 -0.5 0" rotation="AD: 1 0 0 90"/>
+        </MultiTarget>
+        <MultiTarget name="ship1">
+            <Part name="ship1.Left" translation="-0.5 0 0" rotation="AD: 0 1 0 -90"/>
+            <Part name="ship1.Right" translation="0.5 0 0" rotation="AD: 0 1 0 90"/>
+            <Part name="ship1.Front" translation="0 0 0.800000011920929" rotation="AD: 1 0 0 0"/>
+            <Part name="ship1.Back" translation="0 0 -0.800000011920929" rotation="AD: 0 1 0 180"/>
+            <Part name="ship1.Top" translation="0 0.5 0" rotation="AD: 1 0 0 -90"/>
         </MultiTarget>
     </Tracking>
 </QCARConfig>

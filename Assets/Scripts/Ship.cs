@@ -49,6 +49,7 @@ public class Ship : MonoBehaviour {
         popText = popClone.GetComponent<TextMesh>();
         popText.GetComponent<Renderer>().enabled = false;
 
+
         CreateWeapons();
     }
 
@@ -108,6 +109,7 @@ public class Ship : MonoBehaviour {
         }
         else
         {
+            //popText.GetComponent<Renderer>().enabled = false;
             stats.GetComponent<Renderer>().enabled = false;
         }
         stats.text = "HP: " + health.ToString() + "\nAP: " + curActionPoints.ToString();
@@ -195,5 +197,9 @@ public class Ship : MonoBehaviour {
     {
         UpdateText();
         UpdateFOW();
+        foreach (GameObject wea in weaponsList)
+        {
+            wea.GetComponent<Renderer>().enabled = false;
+        }
     }
 }

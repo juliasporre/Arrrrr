@@ -42,6 +42,7 @@ public class GridGenerator : MonoBehaviour
         buttonText.text = "Start Game";
         option1.SetActive(false);
         option2.SetActive(false);
+        transform.position *= transform.localScale.x; 
     }
 
     void CreateTiles()
@@ -53,13 +54,14 @@ public class GridGenerator : MonoBehaviour
         float zOffset = 0.0f;
         int islandSpawnPos = (numberOfTiles - 2*tilesPerRow)/2  + (tilesPerRow / 2) - 1;
         //create array of tiles
+
         for (int tilesCreated = 0; tilesCreated < numberOfTiles; tilesCreated++)
         {
-            xOffset += distanceBetweenTiles;
+            xOffset += distanceBetweenTiles * gameObject.transform.localScale.x;
             //last tile on row will have xOffset reset, zOffset increased
             if (tilesCreated % tilesPerRow == 0)
             {
-                zOffset += distanceBetweenTiles;
+                zOffset += distanceBetweenTiles * gameObject.transform.localScale.z;
                 xOffset = 0;
                 //special case for first tile
                 if (tilesCreated == 0)
@@ -223,10 +225,6 @@ public class GridGenerator : MonoBehaviour
         foreach (GameObject player in playerArray)
         {
             var players = player.GetComponent<Players>();
-            /*if (players.playerNumber == currentPlayer)
-            {
-                players.EnableShips();
-            }*/
 
             if (players.playerNumber != currentPlayer)
             {
@@ -289,6 +287,7 @@ public class GridGenerator : MonoBehaviour
                 state = 1;
                 option1.SetActive(false);
                 option2.SetActive(false);
+                ClearTiles();
             }
         }
         UpdateText();
@@ -331,6 +330,7 @@ public class GridGenerator : MonoBehaviour
     {
         //Ray shoots from camera POV
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Debug.DrawRay(ray.origin, ray.direction);
         RaycastHit hit;
 
         if (currentShip != null && currentShip.GetComponent<Ship>().state != 3)
@@ -397,14 +397,19 @@ public class GridGenerator : MonoBehaviour
             if (Input.GetButtonDown("Fire1") && Physics.Raycast(ray, out hit)) //On Mouse Click
             {
                 GameObject hitGO = hit.collider.gameObject;
+                Debug.Log("damage has happened");
                 if (hitGO.tag == "Ship" && hitGO.GetComponent<Ship>().currentPlayerTurn == false && hitGO.GetComponent<Ship>().tile.GetComponent<Tile>().state == 2)
                 {
+                    Debug.Log("11dmg " + currentShip.GetComponent<Ship>().damage);
                     hitGO.GetComponent<Ship>().GetDamaged(currentShip.GetComponent<Ship>().damage);
+                    Debug.Log("dmg " + currentShip.GetComponent<Ship>().damage);
                     state = 1;
                 }
                 if (hitGO.tag == "Tile" && hitGO.GetComponent<Tile>().isOccupied == true && hitGO.GetComponent<Tile>().state == 2)
                 {
+                    Debug.Log("11dmg " + currentShip.GetComponent<Ship>().damage);
                     hitGO.GetComponent<Tile>().occuObject.GetComponent<Ship>().GetDamaged(currentShip.GetComponent<Ship>().damage);
+                    Debug.Log("dmg " + currentShip.GetComponent<Ship>().damage);
                     state = 1;
                 }
                 currentShip.GetComponent<Ship>().hasAttacked = true;
