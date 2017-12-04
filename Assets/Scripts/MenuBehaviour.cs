@@ -5,11 +5,11 @@ using UnityEngine.UI;
 
 public class MenuBehaviour : MonoBehaviour {
 
-	public Text IPField;
+	//public Text IPField;
 
 	// Use this for initialization
 	void Start () {
-		IPField.text = "Your IP address: " + Network.player.ipAddress;
+		//IPField.text = "Your IP address: " + Network.player.ipAddress;
 
 	}
 	
