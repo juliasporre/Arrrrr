@@ -10,6 +10,8 @@ public class GridGenerator : NetworkBehaviour
 {
     
     public PlayerToLog shortcut;
+	public LogWriter lw;
+	int messageCounter = 0;
 
     public GameObject tilePrefab;
     public GameObject shipPrefab;
@@ -48,7 +50,7 @@ public class GridGenerator : NetworkBehaviour
 
     void startGame()
     {
-        //shortcut = playLog.GetComponent<PlayerToLog>();
+		lw = GameObject.Find("LogCanvas").GetComponent<LogWriter>();
 
         if (shortcut.nameStr == "user_Server")
             myPlayerNumber = 0;
@@ -326,13 +328,15 @@ public class GridGenerator : NetworkBehaviour
         //buttonText.text = "Pass Turn";
         currentPlayer++;
         shortcut.SendMsg("Current Player: " + currentPlayer.ToString());
+
         if (CheckVictory()) //if victory conditions are met
             return; //finish game immediately
         if (currentPlayer+1 > numberOfPlayers)
         {
             currentPlayer = 0;
         }
-        shortcut.UpdatePlayer(currentPlayer);
+		shortcut.SendMsg(messageCounter + "You are next spansk");
+		messageCounter++;
         UpdateText();
         foreach (GameObject player in playerArray)
         {
@@ -357,6 +361,16 @@ public class GridGenerator : NetworkBehaviour
 
     }
 
+	void readLastMessage(){
+		string newMessage = lw.lastMessage;
+
+		if ((int)newMessage.Split (" ") [0] > messageCounter) {
+			Debug.Log (newMessage);
+			messageCounter++;
+		}
+
+	}
+
     // Update is called once per frame
     void Update()
     {
@@ -366,12 +380,12 @@ public class GridGenerator : NetworkBehaviour
             return;
         }
 
-        foreach (Players go in GameObject.FindObjectsOfType<Players>(){
-            if (go.GetComponent<PlayerToLog>().userName == "user_Client" && myPlayerNumber == 1)
-                shortcut.UpdatePlayer(go.GetComponent<PlayerToLog>().currentPlayer);
+		foreach (PlayerToLog go in GameObject.FindObjectsOfType<PlayerToLog>()){
+            if (go.userName == "user_Client" && myPlayerNumber == 0)
+                shortcut.UpdatePlayer(go.currentPlayer);
             
-            if (go.GetComponent<PlayerToLog>().userName == "user_Server" && myPlayerNumber == 0)
-                shortcut.UpdatePlayer(go.GetComponent<PlayerToLog>().currentPlayer);
+            if (go.userName == "user_Server" && myPlayerNumber == 1)
+                shortcut.UpdatePlayer(go.currentPlayer);
         }
         /*if (!isServer)
 		{

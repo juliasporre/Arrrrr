@@ -7,6 +7,7 @@ using UnityEngine.Networking;
 public class LogWriter : NetworkBehaviour {
 	
 	public List<string> messages = new List<string>();
+	public string lastMessage;
 
 	[SerializeField]
 	private string inputMsg;
@@ -46,6 +47,7 @@ public class LogWriter : NetworkBehaviour {
 		//Adds message to list
 		messages.Add (str);
 		string newMessageString = "";
+		lastMessage = str;
 
 		//Writes the list to string
 		for (int i = 9; i > 0 ; i--) {
