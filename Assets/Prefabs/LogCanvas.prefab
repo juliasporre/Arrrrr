@@ -39,7 +39,8 @@ GameObject:
   - component: {fileID: 222882014410322972}
   - component: {fileID: 114622801945100514}
   - component: {fileID: 114696063463803190}
-  - component: {fileID: 114804026900966148}
+  - component: {fileID: 114769940066256344}
+  - component: {fileID: 114528267948516796}
   m_Layer: 5
   m_Name: Log
   m_TagString: Untagged
@@ -59,6 +60,7 @@ GameObject:
   - component: {fileID: 114778142782742092}
   - component: {fileID: 114262507011502894}
   - component: {fileID: 114150328201549138}
+  - component: {fileID: 114598331130384922}
   m_Layer: 5
   m_Name: LogCanvas
   m_TagString: Untagged
@@ -120,6 +122,51 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &114528267948516796
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1598638218072662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4001ca7119ef4402e9a0f03e0b10d4d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncedString: A monkey walked into a park
+  blabla: hej
+--- !u!114 &114598331130384922
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1657479248413114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 5
+    i1: 39
+    i2: 113
+    i3: 11
+    i4: 4
+    i5: 2
+    i6: 196
+    i7: 65
+    i8: 216
+    i9: 215
+    i10: 97
+    i11: 249
+    i12: 248
+    i13: 35
+    i14: 56
+    i15: 6
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 1
 --- !u!114 &114622801945100514
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -175,6 +222,38 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 
+--- !u!114 &114769940066256344
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1598638218072662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 5
+    i1: 39
+    i2: 113
+    i3: 11
+    i4: 4
+    i5: 2
+    i6: 196
+    i7: 65
+    i8: 216
+    i9: 215
+    i10: 97
+    i11: 249
+    i12: 248
+    i13: 35
+    i14: 56
+    i15: 6
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114778142782742092
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -196,17 +275,6 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
---- !u!114 &114804026900966148
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1598638218072662}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4001ca7119ef4402e9a0f03e0b10d4d0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!222 &222876237779128416
 CanvasRenderer:
   m_ObjectHideFlags: 1
