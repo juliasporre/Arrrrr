@@ -366,7 +366,13 @@ public class GridGenerator : NetworkBehaviour
             return;
         }
 
-        //GameObject.FindObjectsOfType
+        foreach (Players go in GameObject.FindObjectsOfType<Players>(){
+            if (go.GetComponent<PlayerToLog>().userName == "user_Client" && myPlayerNumber == 1)
+                shortcut.UpdatePlayer(go.GetComponent<PlayerToLog>().currentPlayer);
+            
+            if (go.GetComponent<PlayerToLog>().userName == "user_Server" && myPlayerNumber == 0)
+                shortcut.UpdatePlayer(go.GetComponent<PlayerToLog>().currentPlayer);
+        }
         /*if (!isServer)
 		{
 			return;
