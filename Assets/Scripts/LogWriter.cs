@@ -7,7 +7,7 @@ using UnityEngine.Networking;
 public class LogWriter : NetworkBehaviour {
 
 
-    //[SyncVar]
+    [SyncVar]
     public string syncedString = "A monkey walked into a BARK";
 
     public bool apa = true;

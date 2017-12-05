@@ -2059,7 +2059,7 @@ Prefab:
         type: 2}
       propertyPath: m_PlayerPrefab
       value: 
-      objectReference: {fileID: 1598638218072662, guid: 0527710b0402c441d8d761f9f8233806,
+      objectReference: {fileID: 1657479248413114, guid: 0527710b0402c441d8d761f9f8233806,
         type: 2}
     - target: {fileID: 114665163561835864, guid: dbd2b1d91408e364eac9e30eb8fb337e,
         type: 2}
