@@ -53,7 +53,7 @@ public class LogWriter : NetworkBehaviour {
 		}
 
 		//Adds text to gameObject
-		gameObject.GetComponent<Text>().text = newMessageString;
+		gameObject.GetComponentInChildren<Text>().text = newMessageString;
 	}
 
 	void OnGUI()
