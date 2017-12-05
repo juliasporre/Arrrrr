@@ -5,9 +5,11 @@ using UnityEngine.Networking;
 
 public class PlayerToLog : NetworkBehaviour {
 
+    public GameObject gridGenPrefab;
+    public GameObject gridGenerated;
 	[SyncVar]
 	public string userName = "user";
-    public string nameStr;
+    public string nameStr = "";
 
 	private LogWriter mainUI;
 
@@ -29,6 +31,11 @@ public class PlayerToLog : NetworkBehaviour {
 	{
 		Debug.Log("OnStartLocalPlayer");
 		nameStr = isServer ? "user_Server" : "user_Client";
+
+        gridGenerated = Instantiate(gridGenPrefab, transform);
+        gridGenerated.GetComponent<GridGenerator>().shortcut = this;
+        gridGenerated.transform.parent = GameObject.Find("MultiTarget").transform;
+
 
 		mainUI.SetChatPlayer(this, nameStr);
 
