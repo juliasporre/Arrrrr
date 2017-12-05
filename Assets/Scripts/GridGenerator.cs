@@ -334,10 +334,10 @@ public class GridGenerator : NetworkBehaviour
     void Update()
     {
 
-		if (!isServer)
+		/*if (!isServer)
 		{
 			return;
-		}
+		}*/
 
 
         if (Input.GetKey(KeyCode.S))

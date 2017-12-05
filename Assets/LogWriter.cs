@@ -2,10 +2,15 @@
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Networking;
 
-public class LogWriter : MonoBehaviour {
+public class LogWriter : NetworkBehaviour {
 
-	List<string> messages = new List<string>();
+
+    [SyncVar]
+    public string syncedString = "A monkey walked into a park";
+
+    List<string> messages = new List<string>();
 
 	void Start () {
 
@@ -17,6 +22,14 @@ public class LogWriter : MonoBehaviour {
 		//First message
 		writeToLog("Game started");
 	}
+
+    void Update()
+    {
+        if (Input.GetKey(KeyCode.Space))
+            syncedString = "A MONKEY!!!!!";
+
+        writeToLog(syncedString);
+    }
 
 	void writeToLog(string message){
 
