@@ -9,7 +9,7 @@ using UnityEngine.Networking;
 public class GridGenerator : NetworkBehaviour
 {
     [SyncVar]
-    private bool testvAR = false;
+    public bool testvAR = false;
 
     public GameObject tilePrefab;
     public GameObject shipPrefab;
@@ -44,7 +44,7 @@ public class GridGenerator : NetworkBehaviour
     {
         CreateTiles();
         CreatePlayers();
-        buttonText.text = "Start Game";
+        //buttonText.text = "Start Game";
         option1.SetActive(false);
         option2.SetActive(false);
         transform.position *= transform.localScale.x; 
@@ -333,12 +333,19 @@ public class GridGenerator : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
+
+		if (!isServer)
+		{
+			return;
+		}
+
+
         if (Input.GetKey(KeyCode.S))
             testvAR = true;
 
 
         if (testvAR)
-            Debug.Log("NU SYNKAS VÅR VARIABEL");
+            Debug.Log("NU SYNKAS VÅR VARIABEL DETTA ÄR JULIA");
 
         //Ray shoots from camera POV
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
