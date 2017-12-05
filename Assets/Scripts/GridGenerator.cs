@@ -8,9 +8,8 @@ using UnityEngine.Networking;
 
 public class GridGenerator : NetworkBehaviour
 {
-
-    public GameObject playLog;
-    PlayerToLog shortcut;
+    
+    public PlayerToLog shortcut;
 
     public GameObject tilePrefab;
     public GameObject shipPrefab;
@@ -44,19 +43,25 @@ public class GridGenerator : NetworkBehaviour
     // Use this for initialization
     void Start()
     {
-        
-        shortcut = playLog.GetComponent<PlayerToLog>();
+        startGame();
+    }
+
+    void startGame()
+    {
+        //shortcut = playLog.GetComponent<PlayerToLog>();
+
         if (shortcut.nameStr == "user_Server")
             myPlayerNumber = 0;
         else
             myPlayerNumber = 1;
+        Debug.Log("Server says I'm: " + shortcut.nameStr);
         Debug.Log("My player number is: " + myPlayerNumber.ToString());
         CreateTiles();
         CreatePlayers();
         //buttonText.text = "Start Game";
         option1.SetActive(false);
         option2.SetActive(false);
-        transform.position *= transform.localScale.x; 
+        transform.position *= transform.localScale.x;
     }
 
     void CreateTiles()

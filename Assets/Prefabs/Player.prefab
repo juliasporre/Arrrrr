@@ -84,4 +84,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 922aa419f0fc44a34932f35fa9ee1cf0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gridGenPrefab: {fileID: 1001304873108296, guid: f38643dd3b338b2498f2bdccc137e458,
+    type: 2}
+  gridGenerated: {fileID: 0}
   userName: user
+  nameStr: 
