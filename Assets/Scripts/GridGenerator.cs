@@ -16,7 +16,7 @@ public class GridGenerator : NetworkBehaviour
     public GameObject playerPrefab;
     public GameObject islandPrefab;
     public Text uiText;
-    public Text buttonText;
+    //public Text buttonText;
     public GameObject option1;
     public GameObject option2;
 
@@ -323,7 +323,7 @@ public class GridGenerator : NetworkBehaviour
      */
     public void EndTurn()
     {
-        buttonText.text = "Pass Turn";
+        //buttonText.text = "Pass Turn";
         currentPlayer++;
         shortcut.SendMsg("Current Player: " + currentPlayer.ToString());
         if (CheckVictory()) //if victory conditions are met
@@ -332,6 +332,7 @@ public class GridGenerator : NetworkBehaviour
         {
             currentPlayer = 0;
         }
+        shortcut.UpdatePlayer(currentPlayer);
         UpdateText();
         foreach (GameObject player in playerArray)
         {
@@ -345,19 +346,34 @@ public class GridGenerator : NetworkBehaviour
         state = 1; //movement phase
     }
 
+    void OnGUI() {
+        if (GUI.Button(new Rect(300, 150, 50, 50), "pass")) {
+            EndTurn();
+        }
+        if (GUI.Button(new Rect(300, 350, 50, 50), "attack"))
+        {
+            AttackButton();
+        }
+
+    }
+
     // Update is called once per frame
     void Update()
     {
-
+        if (shortcut.currentPlayer != currentPlayer)
+        {
+            Debug.Log("Not my turn");
+            return;
+        }
         /*if (!isServer)
 		{
 			return;
 		}*/
-        
+        /*
         if (GameObject.Find("Log").GetComponent<Text>().text == "")
             Debug.Log("Player: 1 shoots at Player 2: with damage: 3");
         else
-            Debug.Log("NOT EMPTY");
+            Debug.Log("NOT EMPTY");*/
         
         //Ray shoots from camera POV
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -378,16 +394,18 @@ public class GridGenerator : NetworkBehaviour
             {
                 //currentShip.GetComponent<Ship>().curActionPoints = iniActionPoints;
                 UpdateTiles(currentShip.GetComponent<Ship>().curActionPoints, 1);
+                Debug.Log("NOT EMPTY");
             }
             if (Input.GetButtonDown("Fire1") && Physics.Raycast(ray, out hit)) //On Mouse Click
             {
+                Debug.Log("HIT");
                 GameObject hitGO = hit.collider.gameObject;
                 if (currentShip != null)
                     currentTile = currentShip.GetComponent<Ship>().tile;
                 if (EventSystem.current.IsPointerOverGameObject())
                 {
-                    //Debug.Log("Button has press");
-                    return;
+                    Debug.Log("Button has press");
+                    //return;
                 }
                 if (hit.collider.tag == "Ship" && hitGO.GetComponent<Ship>().currentPlayerTurn == true && hitGO != currentShip && hitGO.GetComponent<Ship>().state != 3)
                 {

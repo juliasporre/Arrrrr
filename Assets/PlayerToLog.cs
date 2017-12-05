@@ -11,6 +11,9 @@ public class PlayerToLog : NetworkBehaviour {
 	public string userName = "user";
     public string nameStr = "";
 
+    [SyncVar]
+    public int currentPlayer;
+
 	private LogWriter mainUI;
 
 	// Use this for initialization
@@ -95,4 +98,15 @@ public class PlayerToLog : NetworkBehaviour {
 	{
 		userName = name;
 	}
+
+    public void UpdatePlayer (int nextP)
+    {
+        CmdUpdatePlayer(nextP);
+    }
+
+    [Command]
+     void CmdUpdatePlayer(int nextP)
+    {
+        currentPlayer = nextP;
+    }
 }
