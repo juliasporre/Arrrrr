@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3322356}
   - component: {fileID: 13603748}
   - component: {fileID: 2349906}
-  - component: {fileID: 11488160}
+  - component: {fileID: 114129927005667938}
   m_Layer: 0
   m_Name: ClientPrefab
   m_TagString: Untagged
@@ -73,17 +73,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 185930}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &11488160
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 185930}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a01f1126619d5a746b65ce821d10e493, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!136 &13603748
 CapsuleCollider:
   m_ObjectHideFlags: 1
@@ -108,3 +97,15 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 185930}
   m_IsPrefabParent: 1
+--- !u!114 &114129927005667938
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 185930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f6081d37551f0c4bb64f1babe57becf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DestinationPos: {x: 0, y: 0, z: 0}

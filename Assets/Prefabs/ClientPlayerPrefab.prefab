@@ -30,7 +30,7 @@ GameObject:
   - component: {fileID: 3343174}
   - component: {fileID: 13618594}
   - component: {fileID: 2388790}
-  - component: {fileID: 11431998}
+  - component: {fileID: 114531672185588530}
   m_Layer: 0
   m_Name: ClientPlayerPrefab
   m_TagString: Untagged
@@ -155,17 +155,6 @@ Behaviour:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 134558}
   m_Enabled: 1
---- !u!114 &11431998
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 178570}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a01f1126619d5a746b65ce821d10e493, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!124 &12477538
 Behaviour:
   m_ObjectHideFlags: 1
@@ -197,3 +186,15 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 178570}
   m_IsPrefabParent: 1
+--- !u!114 &114531672185588530
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 178570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f6081d37551f0c4bb64f1babe57becf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DestinationPos: {x: 0, y: 0, z: 0}
