@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 3c49b721319b59f4fb0d71c6e0210c4b
-timeCreated: 1512341174
+guid: 7c0e7a1bc2755da47911d00c25a474f0
+timeCreated: 1512340152
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
@@ -992,17 +992,17 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Material
-    second: {fileID: 2100000, guid: 8df4b6a35b6114d5bbf6a3a2def42156, type: 2}
+    second: {fileID: 2100000, guid: 7d4fe15ce8084864ba9bf02c2b132d72, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: No Name
-    second: {fileID: 2100000, guid: 88d592da8bf0e0244995893eeff8b5b9, type: 2}
+    second: {fileID: 2100000, guid: c950af8024d90f448bffc5f4193d3407, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
     materialSearch: 1
-    materialLocation: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
