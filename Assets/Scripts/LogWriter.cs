@@ -7,8 +7,11 @@ using UnityEngine.Networking;
 public class LogWriter : NetworkBehaviour {
 
 
-    [SyncVar(hook = "whoAreYou")]
-    public string syncedString = "A monkey walked into a park";
+    //[SyncVar]
+    public string syncedString = "A monkey walked into a BARK";
+
+    public bool apa = true;
+    public bool sopa = false;
 
     List<string> messages = new List<string>();
 
@@ -25,10 +28,11 @@ public class LogWriter : NetworkBehaviour {
 
     void Update()
     {
+        //Debug.Log("UPDAAAATE");
+
         if (Input.GetKey(KeyCode.Space))
         {
-            Debug.Log("Space pressed");
-            syncedString = "A MONKEY!!!!!";
+            whoAreYou();
         }
             
 
@@ -38,9 +42,15 @@ public class LogWriter : NetworkBehaviour {
     void whoAreYou()
     {
         if (isServer)
+        {
+            Debug.Log("I am server");
             syncedString = "The server made this A DONKEKY";
+        }
         else
+        {
+            Debug.Log("I am client");
             CmdChangeSyncedString();
+        }
     }
 
     [Command]
@@ -50,8 +60,8 @@ public class LogWriter : NetworkBehaviour {
     }
 
 
-    [Command]
-    void CmdwriteToLogDefault()
+    //[Command]
+    /*void CmdwriteToLogDefault()
     {
         if (isServer)
         {
@@ -63,7 +73,7 @@ public class LogWriter : NetworkBehaviour {
 
         //Adds text to gameObject
         gameObject.GetComponent<Text>().text = newMessageString;
-    }
+    }*/
 
     void writeToLog(string message){
 
@@ -77,6 +87,7 @@ public class LogWriter : NetworkBehaviour {
 		}
 
 		//Adds text to gameObject
-		gameObject.GetComponent<Text>().text = newMessageString;
+		//gameObject.GetComponent<Text>().text = newMessageString;
+        gameObject.GetComponentInChildren<Text>().text = newMessageString;
 	}
 }

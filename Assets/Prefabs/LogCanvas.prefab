@@ -39,7 +39,6 @@ GameObject:
   - component: {fileID: 222882014410322972}
   - component: {fileID: 114622801945100514}
   - component: {fileID: 114696063463803190}
-  - component: {fileID: 114804026900966148}
   m_Layer: 5
   m_Name: Log
   m_TagString: Untagged
@@ -59,7 +58,8 @@ GameObject:
   - component: {fileID: 114778142782742092}
   - component: {fileID: 114262507011502894}
   - component: {fileID: 114150328201549138}
-  - component: {fileID: 114598331130384922}
+  - component: {fileID: 114533744033449704}
+  - component: {fileID: 114770580041358320}
   m_Layer: 5
   m_Name: LogCanvas
   m_TagString: Untagged
@@ -121,7 +121,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &114598331130384922
+--- !u!114 &114533744033449704
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -152,7 +152,7 @@ MonoBehaviour:
     i14: 56
     i15: 6
   m_ServerOnly: 0
-  m_LocalPlayerAuthority: 1
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114622801945100514
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -208,6 +208,19 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 
+--- !u!114 &114770580041358320
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1657479248413114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4001ca7119ef4402e9a0f03e0b10d4d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  apa: 1
+  sopa: 0
 --- !u!114 &114778142782742092
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -229,17 +242,6 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
---- !u!114 &114804026900966148
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1598638218072662}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4001ca7119ef4402e9a0f03e0b10d4d0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!222 &222876237779128416
 CanvasRenderer:
   m_ObjectHideFlags: 1
