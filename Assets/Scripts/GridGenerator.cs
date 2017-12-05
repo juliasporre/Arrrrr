@@ -360,11 +360,13 @@ public class GridGenerator : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (shortcut.currentPlayer != currentPlayer)
+        if (shortcut.currentPlayer != myPlayerNumber)
         {
-            Debug.Log("Not my turn");
+            Debug.Log("Not my turn" + shortcut.currentPlayer);
             return;
         }
+
+        //GameObject.FindObjectsOfType
         /*if (!isServer)
 		{
 			return;

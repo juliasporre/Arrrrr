@@ -99,9 +99,21 @@ public class PlayerToLog : NetworkBehaviour {
 		userName = name;
 	}
 
+    void UpCurPla(int currentPlayer)
+    {
+        gridGenerated.GetComponent<GridGenerator>().currentPlayer = currentPlayer;
+    }
+
+    [ClientRpc]
+    void RpcUpCurPla(int a)
+    {
+        currentPlayer = a;
+    }
+
     public void UpdatePlayer (int nextP)
     {
         CmdUpdatePlayer(nextP);
+        RpcUpCurPla(nextP);
     }
 
     [Command]
