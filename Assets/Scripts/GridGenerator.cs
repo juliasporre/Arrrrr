@@ -8,6 +8,9 @@ using UnityEngine.Networking;
 
 public class GridGenerator : NetworkBehaviour
 {
+    [SyncVar]
+    private bool testvAR = false;
+
     public GameObject tilePrefab;
     public GameObject shipPrefab;
     public GameObject playerPrefab;
@@ -330,6 +333,13 @@ public class GridGenerator : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKey(KeyCode.S))
+            testvAR = true;
+
+
+        if (testvAR)
+            Debug.Log("NU SYNKAS VÅR VARIABEL");
+
         //Ray shoots from camera POV
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         Debug.DrawRay(ray.origin, ray.direction);
