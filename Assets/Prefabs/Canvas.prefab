@@ -245,7 +245,11 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Game Starting
+  m_Text: 'Player: 1
+
+    Turn #1
+
+    Phase 1'
 --- !u!114 &114518156156699664
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -418,7 +422,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 114074195412476006, guid: f38643dd3b338b2498f2bdccc137e458,
+          type: 2}
         m_MethodName: AttackButton
         m_Mode: 1
         m_Arguments:
@@ -497,7 +502,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 114074195412476006, guid: f38643dd3b338b2498f2bdccc137e458,
+          type: 2}
         m_MethodName: EndTurn
         m_Mode: 1
         m_Arguments:
