@@ -8,8 +8,9 @@ using UnityEngine.Networking;
 
 public class GridGenerator : NetworkBehaviour
 {
-    [SyncVar]
-    public bool testvAR = false;
+
+    public GameObject playLog;
+    PlayerToLog shortcut;
 
     public GameObject tilePrefab;
     public GameObject shipPrefab;
@@ -38,10 +39,18 @@ public class GridGenerator : NetworkBehaviour
     public GameObject currentTile;
     public int currentPlayer = -1;
     private int turnCount = 0;
+    private int myPlayerNumber;
     
     // Use this for initialization
     void Start()
     {
+        
+        shortcut = playLog.GetComponent<PlayerToLog>();
+        if (shortcut.nameStr == "user_Server")
+            myPlayerNumber = 0;
+        else
+            myPlayerNumber = 1;
+        Debug.Log("My player number is: " + myPlayerNumber.ToString());
         CreateTiles();
         CreatePlayers();
         //buttonText.text = "Start Game";
@@ -311,6 +320,7 @@ public class GridGenerator : NetworkBehaviour
     {
         buttonText.text = "Pass Turn";
         currentPlayer++;
+        shortcut.SendMsg("Current Player: " + currentPlayer.ToString());
         if (CheckVictory()) //if victory conditions are met
             return; //finish game immediately
         if (currentPlayer+1 > numberOfPlayers)
@@ -327,26 +337,23 @@ public class GridGenerator : NetworkBehaviour
         turnCount++;
         ClearTiles();
         UpdateFOW();
-        state = 1;
+        state = 1; //movement phase
     }
 
     // Update is called once per frame
     void Update()
     {
 
-		/*if (!isServer)
+        /*if (!isServer)
 		{
 			return;
 		}*/
-
-
-        if (Input.GetKey(KeyCode.S))
-            testvAR = true;
-
-
-        if (testvAR)
-            Debug.Log("NU SYNKAS VÅR VARIABEL DETTA ÄR JULIA");
-
+        
+        if (GameObject.Find("Log").GetComponent<Text>().text == "")
+            Debug.Log("Player: 1 shoots at Player 2: with damage: 3");
+        else
+            Debug.Log("NOT EMPTY");
+        
         //Ray shoots from camera POV
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         Debug.DrawRay(ray.origin, ray.direction);

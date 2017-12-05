@@ -7,6 +7,7 @@ public class PlayerToLog : NetworkBehaviour {
 
 	[SyncVar]
 	public string userName = "user";
+    public string nameStr;
 
 	private LogWriter mainUI;
 
@@ -27,7 +28,7 @@ public class PlayerToLog : NetworkBehaviour {
 	public override void OnStartLocalPlayer()
 	{
 		Debug.Log("OnStartLocalPlayer");
-		string nameStr = isServer ? "user_Server" : "user_Client";
+		nameStr = isServer ? "user_Server" : "user_Client";
 
 		mainUI.SetChatPlayer(this, nameStr);
 
