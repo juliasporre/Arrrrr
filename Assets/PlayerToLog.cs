@@ -43,7 +43,7 @@ public class PlayerToLog : NetworkBehaviour {
 		mainUI.SetChatPlayer(this, nameStr);
 
 		SendName(nameStr);
-		CmdSendToServer("0" + nameStr + " is connected.");
+		CmdSendToServer("0 is connected.");
 	}
 
 	public bool CheckSameName(string name)

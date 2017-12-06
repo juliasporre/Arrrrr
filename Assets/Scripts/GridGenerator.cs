@@ -354,7 +354,8 @@ public class GridGenerator : NetworkBehaviour
 
 		if (currentPlayer != shortcut.currentPlayer) {
 
-			messageCounter++;
+			Debug.Log ("I AM HERE");
+			messageCounter ++;
 			shortcut.SendMsg (messageCounter + " nextturn");
 
 
@@ -398,11 +399,13 @@ public class GridGenerator : NetworkBehaviour
 	void readLastMessage(){
 		string newMessage = lw.lastMessage;
 		string[] array = newMessage.Split(' ');
+
+		//if (messageCounter < array 
 		try{ 
 
 			if (array.Length > 1 && array[0] != shortcut.userName && Int32.Parse(array[1]) > messageCounter) {
 				Debug.Log (newMessage);
-				messageCounter++;
+				messageCounter ++;
 				decryptMessage(array);
 			}
 		} catch (FormatException e){
@@ -432,6 +435,7 @@ public class GridGenerator : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
+		Debug.Log (messageCounter);
 
 		readLastMessage ();
 
