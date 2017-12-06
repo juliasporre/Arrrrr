@@ -101,7 +101,7 @@ public class Ship : MonoBehaviour {
         StartCoroutine(ShowMessage("-" + damage, 3));
 
         this.transform.Find("Ef_Explosion_01").GetComponent<ParticleSystem>().Play(true);
-        this.transform.Find("Ef_Explosion_01").GetComponent<ParticleSystem>().Pause(true);
+        //this.transform.Find("Ef_Explosion_01").GetComponent<ParticleSystem>().Pause(true);
     }
 
     /*

@@ -601,7 +601,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1077185455328686}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 7.62, y: 0, z: 13.93}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_Children:
   - {fileID: 4047335959553840}
@@ -1968,7 +1968,7 @@ MonoBehaviour:
   ownerNumber: -1
   stats: {fileID: 0}
   popText: {fileID: 0}
-  bgPrefab: {fileID: 0}
+  bgPrefab: {fileID: 1609588901969278, guid: 29bb8d3f9a35f0241a9c0a745fa7560f, type: 2}
   statsBG: {fileID: 0}
   weaponsList: []
   weaponNumbers: 2
@@ -2032,7 +2032,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -1856100475
+  randomSeed: 1457637851
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -5334,7 +5334,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 1162524114
+  randomSeed: 178322778
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -8636,7 +8636,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 46346837
+  randomSeed: -1625134039
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -11944,7 +11944,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 1704015861
+  randomSeed: -1268716881
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -15435,7 +15435,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 1969617584
+  randomSeed: -1188586668
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -18779,7 +18779,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 686548830
+  randomSeed: -557902950
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -25383,7 +25383,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -1288450875
+  randomSeed: 1299181239
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -28766,7 +28766,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 1223266249
+  randomSeed: -2042055033
   InitialModule:
     serializedVersion: 3
     enabled: 1
