@@ -172,37 +172,7 @@ public class GridGenerator : NetworkBehaviour
         }
     }
 
-    /*
-     * Function for moving ship to selected newTile.
-     */
-	void MoveShip(GameObject cShip, GameObject newTile)
-    {
-		if (cShip == currentShip) {
-			cShip.GetComponent<Ship> ().tile.GetComponent<Tile> ().isOccupied = false;
-			cShip.GetComponent<Ship> ().tile.GetComponent<Tile> ().occuObject = null;
 
-			cShip.GetComponent<Ship> ().tile = newTile; //updates currentShip tile to newTile
-			cShip.GetComponent<Ship> ().curActionPoints = newTile.GetComponent<Tile> ().remAP;
-			currentTile = newTile; //updates currentTile to newTile
-			newTile.GetComponent<Tile> ().isOccupied = true;
-			newTile.GetComponent<Tile> ().occuObject = cShip; //indicate new tile is occupied
-			ClearTiles();
-			return;
-		} else {
-			cShip.GetComponent<Ship> ().tile.GetComponent<Tile> ().isOccupied = false;
-			cShip.GetComponent<Ship> ().tile.GetComponent<Tile> ().occuObject = null;
-
-			cShip.GetComponent<Ship>().tile = newTile; //updates currentShip tile to newTile
-			cShip.GetComponent<Ship>().curActionPoints = newTile.GetComponent<Tile>().remAP;
-			currentTile = newTile; //updates currentTile to newTile
-			newTile.GetComponent<Tile>().isOccupied = true;
-			newTile.GetComponent<Tile>().occuObject = cShip; //indicate new tile is occupied
-		}
-
-        ClearTiles(); //set state=1 tiles to 0.
-
-
-    }
 
     /*
     * A recursive function that returns an array of indices of tiles were isOccupied is true within the specified range
@@ -427,6 +397,59 @@ public class GridGenerator : NetworkBehaviour
 
 	}
 
+	/*
+     * Function for moving ship to selected newTile.
+     */
+	void MoveShip(GameObject cShip, GameObject newTile)
+	{
+		if (cShip == currentShip) {
+			cShip.GetComponent<Ship> ().tile.GetComponent<Tile> ().isOccupied = false;
+			cShip.GetComponent<Ship> ().tile.GetComponent<Tile> ().occuObject = null;
+
+			cShip.GetComponent<Ship> ().tile = newTile; //updates currentShip tile to newTile
+			cShip.GetComponent<Ship> ().curActionPoints = newTile.GetComponent<Tile> ().remAP;
+			currentTile = newTile; //updates currentTile to newTile
+			newTile.GetComponent<Tile> ().isOccupied = true;
+			newTile.GetComponent<Tile> ().occuObject = cShip; //indicate new tile is occupied
+
+			Debug.Log("MoveOrigin");
+			Vector3 newPosition = new Vector3 (currentTile.transform.position.x, currentTile.transform.position.y + 0.1f, currentTile.transform.position.z);
+			while (currentShip.transform.position != newPosition)
+				currentShip.transform.position = Vector3.MoveTowards (currentShip.transform.position, newPosition, 5f * Time.deltaTime);
+
+			UpdateFOW ();
+			List<int> targets = FindTargets (currentShip.GetComponent<Ship> ().atkRange, currentTile);
+			SetTargets (targets);
+
+			state = 1;
+			ClearTiles ();
+			return;
+		} else {
+			cShip.GetComponent<Ship> ().tile.GetComponent<Tile> ().isOccupied = false;
+			cShip.GetComponent<Ship> ().tile.GetComponent<Tile> ().occuObject = null;
+
+			cShip.GetComponent<Ship> ().tile = newTile; //updates currentShip tile to newTile
+			cShip.GetComponent<Ship> ().curActionPoints = newTile.GetComponent<Tile> ().remAP;
+			currentTile = newTile; //updates currentTile to newTile
+			newTile.GetComponent<Tile> ().isOccupied = true;
+			newTile.GetComponent<Tile> ().occuObject = cShip; //indicate new tile is occupied
+
+			Debug.Log("MoveClient");
+			Vector3 newPosition = new Vector3 (currentTile.transform.position.x, currentTile.transform.position.y + 0.1f, currentTile.transform.position.z);
+			while (currentShip.transform.position != newPosition)
+				currentShip.transform.position = Vector3.MoveTowards (currentShip.transform.position, newPosition, 5f * Time.deltaTime);
+
+			UpdateFOW ();
+			List<int> targets = FindTargets (currentShip.GetComponent<Ship> ().atkRange, currentTile);
+			SetTargets (targets);
+
+			state = 1;
+		}
+		ClearTiles(); //set state=1 tiles to 0.
+
+
+	}
+
 	void HitShip(string opponentShip, string attackingShip, string damage){
 		
 		
@@ -435,7 +458,6 @@ public class GridGenerator : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-		Debug.Log (messageCounter);
 
 		readLastMessage ();
 
@@ -456,7 +478,7 @@ public class GridGenerator : NetworkBehaviour
         
         //Ray shoots from camera POV
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        Debug.DrawRay(ray.origin, ray.direction);
+        //Debug.DrawRay(ray.origin, ray.direction);
         RaycastHit hit;
 
         if (currentShip != null && currentShip.GetComponent<Ship>().state != 3)
@@ -473,19 +495,20 @@ public class GridGenerator : NetworkBehaviour
             {
                 //currentShip.GetComponent<Ship>().curActionPoints = iniActionPoints;
                 UpdateTiles(currentShip.GetComponent<Ship>().curActionPoints, 1);
-                Debug.Log("NOT EMPTY");
+                //Debug.Log("NOT EMPTY");
             }
             if (Input.GetButtonDown("Fire1") && Physics.Raycast(ray, out hit)) //On Mouse Click
             {
                 Debug.Log("HIT");
                 GameObject hitGO = hit.collider.gameObject;
-                if (currentShip != null)
-                    currentTile = currentShip.GetComponent<Ship>().tile;
+				if (currentShip != null)
+					currentTile = currentShip.GetComponent<Ship> ().tile;
+				/*
                 if (EventSystem.current.IsPointerOverGameObject())
                 {
                     Debug.Log("Button has press");
                     //return;
-                }
+                }*/
                 if (hit.collider.tag == "Ship" && hitGO.GetComponent<Ship>().currentPlayerTurn == true && hitGO != currentShip && hitGO.GetComponent<Ship>().state != 3)
                 {
                     ClearTiles();
@@ -513,6 +536,7 @@ public class GridGenerator : NetworkBehaviour
                         //MoveShip(currentShip, hitGO); //move the ship if tile state is 1
 						shortcut.SendMsg (messageCounter + " move " + currentShip.name + " " + hitGO.name);
 						messageCounter++;
+						currentTile = hitGO;
 						state = 999;
 
 
@@ -571,23 +595,9 @@ public class GridGenerator : NetworkBehaviour
         {
             return;
         }
-        if (state == 999)
-        {
-            Vector3 newPosition = new Vector3(currentTile.transform.position.x, currentTile.transform.position.y + 0.1f, currentTile.transform.position.z);
-            if (currentShip.transform.position != newPosition)
-                currentShip.transform.position = Vector3.MoveTowards(currentShip.transform.position, newPosition, 5f * Time.deltaTime);
-			
-			else
-            {
-
-                UpdateFOW();
-                List<int> targets = FindTargets(currentShip.GetComponent<Ship>().atkRange, currentTile);
-                SetTargets(targets);
-
-                state = 1;
-            }
-            return;
-        }
+		if (state == 999) {
+			return;
+		}
         UpdateText();
     }
 }

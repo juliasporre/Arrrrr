@@ -33,7 +33,7 @@ public class Tile : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        gameObject.name = "Tile " + indexNumber.ToString();
+        gameObject.name = "Tile" + indexNumber.ToString();
         //Set default material to idle
         GetComponent<Renderer>().material = materialIdle;
         //Link 8 different neighbouring tiles by first checking

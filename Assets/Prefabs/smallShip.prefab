@@ -210,7 +210,7 @@ GameObject:
   - component: {fileID: 23168103252798396}
   m_Layer: 0
   m_Name: smallShip
-  m_TagString: Untagged
+  m_TagString: Ship
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
