@@ -288,14 +288,10 @@ public class GridGenerator : NetworkBehaviour
             if (state == 1)
             {
                 state = 2;
-                option1.SetActive(true);
-                option2.SetActive(true);
             }
             else
             {
                 state = 1;
-                option1.SetActive(false);
-                option2.SetActive(false);
                 ClearTiles();
             }
         }
@@ -353,15 +349,35 @@ public class GridGenerator : NetworkBehaviour
     }
 
     void OnGUI() {
-        if (GUI.Button(new Rect(20, 120, 50, 50), "pass")) {
+        var sW = Screen.width;
+        var sH = Screen.height;
+        if (currentPlayer == -1)
+        {
+            if (GUI.Button(new Rect(sW - 150, sH - 30, 50, 50), "pass"))
+            {
+                SendEndTurnMessage();
+            }
+        }
+        if (currentPlayer == myPlayerNumber)
+        { 
+        if (GUI.Button(new Rect(sW-150, sH-30, 50, 50), "pass")) {
 			SendEndTurnMessage();
         }
-        if (GUI.Button(new Rect(90, 120, 50, 50), "attack"))
+        if (GUI.Button(new Rect(sW-150, sH-80, 50, 50), "attack"))
         {
 			AttackButton();
         }
-
-
+        if (GUI.Button(new Rect(sW - 150, sH - 130, 50, 50), "Close Range"))
+        {
+            currentShip.GetComponent<Ship>().ChangeWeapons(0);
+            ClearTiles();
+        }
+        if (GUI.Button(new Rect(sW - 150, sH - 180, 50, 50), "Long Range"))
+        {
+            currentShip.GetComponent<Ship>().ChangeWeapons(1);
+            ClearTiles();
+        }
+        }
     }
 
 	public void SendEndTurnMessage() {
@@ -487,6 +503,7 @@ public class GridGenerator : NetworkBehaviour
         if (currentPlayer != myPlayerNumber)
         {
             Debug.Log("Not my turn" + shortcut.currentPlayer);
+            return;
         }
         /* if (!isServer)
 		{
