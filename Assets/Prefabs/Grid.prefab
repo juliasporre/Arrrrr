@@ -75,6 +75,7 @@ MonoBehaviour:
   currentShip: {fileID: 0}
   currentTile: {fileID: 0}
   currentPlayer: -1
+  myPlayerNumber: 0
 --- !u!114 &114372748609715434
 MonoBehaviour:
   m_ObjectHideFlags: 1

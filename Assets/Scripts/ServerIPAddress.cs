@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class ServerIPAddress : MonoBehaviour {
 
 
-	static string serverAddress = "";
+	static public string serverAddress = "";
 	static bool isServer = false;
 	string YourIP;
 
