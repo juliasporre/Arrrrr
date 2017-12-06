@@ -362,7 +362,7 @@ public class GridGenerator : NetworkBehaviour
 
     }
 
-	void SendEndTurnMessage(){
+	public void SendEndTurnMessage() {
 		Debug.Log ("I'm sending a end trun message");
 		int messageNumber = messageCounter + 1;
 		shortcut.SendMsg (messageNumber + " nextturn");
