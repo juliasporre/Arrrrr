@@ -41,7 +41,7 @@ public class GridGenerator : NetworkBehaviour
     public GameObject currentTile;
     public int currentPlayer = -1;
     private int turnCount = 0;
-    private int myPlayerNumber;
+    public int myPlayerNumber;
     
     // Use this for initialization
     void Start()
@@ -51,6 +51,7 @@ public class GridGenerator : NetworkBehaviour
 
     void startGame()
     {
+        this.name = "Grid";
 		lw = GameObject.Find("LogCanvas").GetComponent<LogWriter>();
 
 		if (shortcut.nameStr == "user_Server")
@@ -223,20 +224,21 @@ public class GridGenerator : NetworkBehaviour
     {
 
         if (currentTile == null && currentPlayer != -1)
-            currentTile = playerArray[currentPlayer].GetComponent<Players>().shipArray[0].GetComponent<Ship>().tile;
+            currentTile = playerArray[myPlayerNumber].GetComponent<Players>().shipArray[0].GetComponent<Ship>().tile;
         List<int> cTL = new List<int>();
-        foreach (GameObject ship in playerArray[currentPlayer].GetComponent<Players>().shipArray)
+        foreach (GameObject ship in playerArray[myPlayerNumber].GetComponent<Players>().shipArray)
         {
             var shipT = ship.GetComponent<Ship>().tile;
             cTL.AddRange(FindTargets(fogOfWarRange, shipT));
         }
+
         foreach (GameObject player in playerArray)
         {
             var players = player.GetComponent<Players>();
 
-            if (players.playerNumber != currentPlayer)
+            if (players.playerNumber != myPlayerNumber)
             {
-                players.FogOfWar(cTL, currentPlayer); //Call FogOfWar method if player is not CurrentPlayer.
+                players.FogOfWar(cTL); //Call FogOfWar method if player is not CurrentPlayer.
             }
         }
     }
@@ -637,7 +639,7 @@ public class GridGenerator : NetworkBehaviour
 			return;
 		}
         UpdateText();
-        if (currentShip.GetComponent<Ship>().ownerNumber != myPlayerNumber)
+        if (currentShip != null && currentShip.GetComponent<Ship>().ownerNumber != myPlayerNumber)
         {
             currentShip = null;
         }

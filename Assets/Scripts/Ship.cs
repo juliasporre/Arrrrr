@@ -150,16 +150,31 @@ public class Ship : MonoBehaviour {
             SetState(0);
         }
     }
-
+    
     private void UpdateFOW()
     {
-        if (inFOW || currentPlayerTurn)
-            GetComponent<Renderer>().enabled = true;
-        else if (!currentPlayerTurn && !inFOW)
+        var ggen = GameObject.Find("Grid").GetComponent<GridGenerator>();
+        Renderer[] rs = GetComponentsInChildren<Renderer>();
+        if (ggen.myPlayerNumber != ownerNumber && !inFOW)
         {
-            GetComponent<Renderer>().enabled = false;
+            Debug.Log("Enemy ship not in fow, turning of meshRenderer");
+            this.GetComponent<Renderer>().enabled = false;
+            foreach (Renderer r in rs)
+            {
+                r.enabled = false;
+            }
         }
+        else
+        {
+            this.GetComponent<Renderer>().enabled = true;
+            foreach (Renderer r in rs)
+            {
+                r.enabled = true;
+            }
+        }
+        return;
     }
+
     /*
      * Set state for ship (currently only 3). If newState is 3, activate a timer
      */

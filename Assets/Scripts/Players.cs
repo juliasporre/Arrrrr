@@ -110,12 +110,8 @@ public class Players : MonoBehaviour {
     /*
      * Fog of war method. Gets a list of tile in range of FOW, turns renderer on if the ship is on tile, turns off if not on list. 
      */
-    public void FogOfWar(List<int> foundObjects, int currentPlayer)
+    public void FogOfWar(List<int> foundObjects)
     {
-        foreach (int i in foundObjects)
-        {
-            Debug.Log("TILE " + i);
-        }
         foreach (GameObject thisShip in shipArray)
         {
             var ships = thisShip.GetComponent<Ship>();
