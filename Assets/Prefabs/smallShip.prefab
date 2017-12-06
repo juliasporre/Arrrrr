@@ -206,6 +206,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4145394401074546}
+  - component: {fileID: 114066150996598282}
   m_Layer: 0
   m_Name: smallShip
   m_TagString: Untagged
@@ -432,9 +433,9 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1567262752366674}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 9.461052, y: 1.98, z: -4.38}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.15, y: 0.15, z: 0.15}
   m_Children:
   - {fileID: 4421542833176704}
   - {fileID: 4165681064942838}
@@ -460,7 +461,7 @@ Transform:
   - {fileID: 4615123402476384}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!4 &4164528194582914
 Transform:
   m_ObjectHideFlags: 1
@@ -1623,3 +1624,36 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1681995832309432}
   m_Mesh: {fileID: 4300000, guid: e11ca7057d377fa4aa27e1354dfa666a, type: 3}
+--- !u!114 &114066150996598282
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1567262752366674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65c3da451ac8efc44b796a049a75774a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tile: {fileID: 0}
+  weaponPrefab: {fileID: 1340538310194264, guid: 69aedce4ce6dfdc4185abc4b74474ab4,
+    type: 2}
+  statsMesh: {fileID: 1983081425370532, guid: 0245b0e926af3f845b021c32951291e7, type: 2}
+  popMesh: {fileID: 1409175222479670, guid: aa484ad151c870749bda521a461b32eb, type: 2}
+  option1: {fileID: 1533717504976106, guid: 7da54a5e8dc57ae4a9498c857fe02c97, type: 2}
+  option2: {fileID: 1424603662579080, guid: 7da54a5e8dc57ae4a9498c857fe02c97, type: 2}
+  indexNumber: 0
+  iniActionPoints: 0
+  curActionPoints: 0
+  atkRange: 0
+  health: 15
+  damage: 0
+  currentPlayerTurn: 0
+  hasAttacked: 0
+  hasTreasure: 0
+  inFOW: 0
+  state: 0
+  stats: {fileID: 0}
+  popText: {fileID: 0}
+  weaponsList: []
+  weaponNumbers: 2

@@ -342,7 +342,6 @@ public class GridGenerator : NetworkBehaviour
      */
 	public void EndTurn()
     {
-
 		//buttonText.text = "Pass Turn";
 		currentPlayer++;
 
@@ -354,9 +353,18 @@ public class GridGenerator : NetworkBehaviour
 		}
 
 		if (currentPlayer != shortcut.currentPlayer) {
-			shortcut.SendMsg (messageCounter + " nextturn");
+
 			messageCounter++;
-			shortcut.currentPlayer = currentPlayer;
+			shortcut.SendMsg (messageCounter + " nextturn");
+
+
+			foreach (PlayerToLog go in GameObject.FindObjectsOfType<PlayerToLog>()){
+				//if (go.userName == "user_Client" && myPlayerNumber == 0)
+				//   shortcut.UpdatePlayer(go.currentPlayer);
+
+				//if (go.userName == "user_Server" && myPlayerNumber == 1)
+				shortcut.UpdatePlayer(go.currentPlayer);
+			}
 		}
 
 		Debug.Log ("In pass turn, i'm player " + myPlayerNumber + " And shortcut.currentplayer is " + shortcut.currentPlayer);
@@ -431,15 +439,6 @@ public class GridGenerator : NetworkBehaviour
         if (shortcut.currentPlayer != myPlayerNumber)
         {
             Debug.Log("Not my turn" + shortcut.currentPlayer);
-            return;
-        }
-
-		foreach (PlayerToLog go in GameObject.FindObjectsOfType<PlayerToLog>()){
-            if (go.userName == "user_Client" && myPlayerNumber == 0)
-                shortcut.UpdatePlayer(go.currentPlayer);
-            
-            if (go.userName == "user_Server" && myPlayerNumber == 1)
-                shortcut.UpdatePlayer(go.currentPlayer);
         }
         /*if (!isServer)
 		{
