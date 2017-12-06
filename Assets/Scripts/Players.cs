@@ -46,6 +46,8 @@ public class Players : MonoBehaviour {
             newShip.transform.position = new Vector3(currentTile.transform.position.x, currentTile.transform.position.y + yOffset, currentTile.transform.position.z);
             newShip.GetComponent<Ship>().iniActionPoints = iniActionPoints;
             newShip.GetComponent<Ship>().indexNumber = shipsCreated;
+            newShip.GetComponent<Ship>().ownerNumber = playerNumber;
+            newShip.name = "Ship" + playerNumber.ToString () + shipsCreated.ToString ();
             //insert into shipArray
             shipArray.Add(newShip);
         }
@@ -100,7 +102,10 @@ public class Players : MonoBehaviour {
         {
             var ships = ship.GetComponent<Ship>();
             if (ships.tile.GetComponent<Tile>().state == 4)
+            {
+                Debug.Log("ship at base with treasure");
                 return true;
+            }
         }
         return false;
     }
@@ -108,12 +113,8 @@ public class Players : MonoBehaviour {
     /*
      * Fog of war method. Gets a list of tile in range of FOW, turns renderer on if the ship is on tile, turns off if not on list. 
      */
-    public void FogOfWar(List<int> foundObjects, int currentPlayer)
+    public void FogOfWar(List<int> foundObjects)
     {
-        foreach (int i in foundObjects)
-        {
-            Debug.Log("TILE " + i);
-        }
         foreach (GameObject thisShip in shipArray)
         {
             var ships = thisShip.GetComponent<Ship>();
@@ -128,17 +129,6 @@ public class Players : MonoBehaviour {
         }
         return;
     }
-    /*
-     * Enables Renderer for ships under control 
-     */
-    public void EnableShips()
-    {
-        foreach (GameObject ships in shipArray)
-        {
-            ships.GetComponent<Ship>().inFOW = false;
-            //ships.GetComponent<Renderer>().enabled = true;
-        }
-    }
 
     // Update is called once per frame
     void Update () {
@@ -148,6 +138,7 @@ public class Players : MonoBehaviour {
             if (shipscript.CheckHealth() == false)
             {
                 shipArray.Remove(thisShip);
+                Destroy(thisShip);
             }
         }
     }

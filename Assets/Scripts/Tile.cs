@@ -33,7 +33,7 @@ public class Tile : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        gameObject.name = "Tile " + indexNumber.ToString();
+        gameObject.name = "Tile" + indexNumber.ToString();
         //Set default material to idle
         GetComponent<Renderer>().material = materialIdle;
         //Link 8 different neighbouring tiles by first checking
@@ -211,6 +211,11 @@ public class Tile : MonoBehaviour {
         if (Physics.Raycast(ray, out hit) && hit.collider.tag == "Tile")
         {
             hit.collider.gameObject.GetComponent<Renderer>().material = materialActive;
+        }
+
+        if (indexNumber == 0 || indexNumber == 195)
+        {
+            state = 4;
         }
     }
 }

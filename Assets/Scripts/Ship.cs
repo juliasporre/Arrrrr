@@ -26,6 +26,7 @@ public class Ship : MonoBehaviour {
     public bool hasTreasure = false;
     public bool inFOW = false;
     public int state = 0;
+    public int ownerNumber = -1;
 
     private int searchTimer = 0;
 
@@ -37,7 +38,7 @@ public class Ship : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
-        gameObject.name = "Ship " + indexNumber.ToString();
+        //gameObject.name = "Ship " + indexNumber.ToString();
         curActionPoints = iniActionPoints;
 
         var statsClone = Instantiate(statsMesh, transform);
@@ -149,16 +150,31 @@ public class Ship : MonoBehaviour {
             SetState(0);
         }
     }
-
+    
     private void UpdateFOW()
     {
-        if (inFOW || currentPlayerTurn)
-            GetComponent<Renderer>().enabled = true;
-        else if (!currentPlayerTurn && !inFOW)
+        var ggen = GameObject.Find("Grid").GetComponent<GridGenerator>();
+        Renderer[] rs = GetComponentsInChildren<Renderer>();
+        if (ggen.myPlayerNumber != ownerNumber && !inFOW)
         {
-            GetComponent<Renderer>().enabled = false;
+            Debug.Log("Enemy ship not in fow, turning of meshRenderer");
+            this.GetComponent<Renderer>().enabled = false;
+            foreach (Renderer r in rs)
+            {
+                r.enabled = false;
+            }
         }
+        else
+        {
+            this.GetComponent<Renderer>().enabled = true;
+            foreach (Renderer r in rs)
+            {
+                r.enabled = true;
+            }
+        }
+        return;
     }
+
     /*
      * Set state for ship (currently only 3). If newState is 3, activate a timer
      */
@@ -185,7 +201,6 @@ public class Ship : MonoBehaviour {
             tilescript.occuObject = null;
             tilescript.state = 0;
             GetComponent<Renderer>().enabled = false;
-            Destroy(this);
             return false;
         }
         return true;
