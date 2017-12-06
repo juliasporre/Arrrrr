@@ -342,6 +342,8 @@ public class GridGenerator : NetworkBehaviour
     void OnGUI() {
         var sW = Screen.width;
         var sH = Screen.height;
+        GUIStyle gS = GUI.skin.GetStyle("Button");
+        gS.fontSize = 34;
         if (currentPlayer == -1)
         {
             if (GUI.Button(new Rect(sW - sW/6, sH - sH / 6, sW/6, sH / 6), "Start Game"))
