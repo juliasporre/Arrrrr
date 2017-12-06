@@ -33,8 +33,3 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
-Assets/Models/Materials/Material.mat.meta
-Assets/Scenes/Menu.unity
-Assets/Scripts/ServerIPAddress.cs
-Assets/Scripts/MenuBehaviour.cs
-QCAR/somedata16

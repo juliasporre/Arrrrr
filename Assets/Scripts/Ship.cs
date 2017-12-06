@@ -9,9 +9,6 @@ public class Ship : MonoBehaviour {
     public GameObject statsMesh;
     public GameObject popMesh;
 
-    public GameObject option1;
-    public GameObject option2;
-
     public int indexNumber;
 
     public int iniActionPoints;
@@ -32,6 +29,8 @@ public class Ship : MonoBehaviour {
 
     public TextMesh stats;
     public TextMesh popText;
+    public GameObject bgPrefab;
+    public GameObject statsBG;
 
     public List<GameObject> weaponsList = new List<GameObject>();
     public int weaponNumbers = 2;
@@ -45,6 +44,10 @@ public class Ship : MonoBehaviour {
         stats = statsClone.GetComponent<TextMesh>();
         stats.text = "HP: " + health.ToString() + "\nAP: " + curActionPoints.ToString();
         stats.GetComponent<Renderer>().enabled = false;
+
+        var statsBGC = Instantiate(bgPrefab, transform);
+        statsBG = statsBGC;
+        statsBG.GetComponent<Renderer>().enabled = true;
 
         var popClone = Instantiate(popMesh, transform);
         popText = popClone.GetComponent<TextMesh>();

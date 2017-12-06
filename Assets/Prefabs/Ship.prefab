@@ -100,8 +100,6 @@ MonoBehaviour:
     type: 2}
   statsMesh: {fileID: 1983081425370532, guid: 0245b0e926af3f845b021c32951291e7, type: 2}
   popMesh: {fileID: 1409175222479670, guid: aa484ad151c870749bda521a461b32eb, type: 2}
-  option1: {fileID: 1533717504976106, guid: 7da54a5e8dc57ae4a9498c857fe02c97, type: 2}
-  option2: {fileID: 1424603662579080, guid: 7da54a5e8dc57ae4a9498c857fe02c97, type: 2}
   indexNumber: 0
   iniActionPoints: 5
   curActionPoints: 0
@@ -113,8 +111,12 @@ MonoBehaviour:
   hasTreasure: 0
   inFOW: 0
   state: 0
+  ownerNumber: -1
   stats: {fileID: 0}
   popText: {fileID: 0}
+  squarePrefab: {fileID: 1609588901969278, guid: 29bb8d3f9a35f0241a9c0a745fa7560f,
+    type: 2}
+  statsBG: {fileID: 0}
   weaponsList: []
   weaponNumbers: 2
 --- !u!136 &136201961059295040

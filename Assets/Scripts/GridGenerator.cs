@@ -15,7 +15,6 @@ public class GridGenerator : NetworkBehaviour
 	int messageCounter = -1;
 
     public GameObject tilePrefab;
-    public GameObject shipPrefab;
     public GameObject playerPrefab;
     public GameObject islandPrefab;
     public Text uiText;
@@ -108,7 +107,7 @@ public class GridGenerator : NetworkBehaviour
                 if (tilesCreated == islandSpawnPos)
             {
                 var newIsland = Instantiate(islandPrefab, transform);
-                newIsland.transform.position = new Vector3(newTile.transform.position.x + .5f*transform.localScale.x, newTile.transform.position.y + 0.5f, newTile.transform.position.z + 1f*transform.localScale.z);
+                newIsland.transform.position = new Vector3(newTile.transform.position.x + .5f*transform.localScale.x, newTile.transform.position.y + 0.2f, newTile.transform.position.z + 1f*transform.localScale.z);
                 script.isOccupied = true;
                 script.occuObject = newIsland;
                 script.islandTile = true;
@@ -133,6 +132,7 @@ public class GridGenerator : NetworkBehaviour
             playerScript.playerNumber = pN;
             playerArray[pN] = newPlayer;
         }
+        playerArray[1].transform.rotation = new Quaternion(0, -90, 0, 1);
             //currentShip = playerArray[currentPlayer+1].GetComponent<Players>().firstShip;
     }
 
@@ -322,19 +322,7 @@ public class GridGenerator : NetworkBehaviour
 			currentPlayer = 0;
 		}
 
-		//if (currentPlayer != shortcut.currentPlayer) {
-
-
-			//foreach (PlayerToLog go in GameObject.FindObjectsOfType<PlayerToLog>()){
-				//if (go.userName == "user_Client" && myPlayerNumber == 0)
-				//   shortcut.UpdatePlayer(go.currentPlayer);
-
-				//if (go.userName == "user_Server" && myPlayerNumber == 1)
-				//shortcut.UpdatePlayer(go.currentPlayer);
-			//}
-		//}
-
-		Debug.Log ("In pass turn, i'm player " + myPlayerNumber + " And shortcut.currentplayer is " + currentPlayer);
+		//Debug.Log ("In pass turn, i'm player " + myPlayerNumber + " And shortcut.currentplayer is " + currentPlayer);
 
         
 		UpdateText();
@@ -356,30 +344,33 @@ public class GridGenerator : NetworkBehaviour
         var sH = Screen.height;
         if (currentPlayer == -1)
         {
-            if (GUI.Button(new Rect(sW - 150, sH - 30, 50, 50), "pass"))
+            if (GUI.Button(new Rect(sW - sW/6, sH - sH / 6, sW/6, sH / 6), "Start Game"))
             {
                 SendEndTurnMessage();
             }
         }
         if (currentPlayer == myPlayerNumber)
         { 
-        if (GUI.Button(new Rect(sW-150, sH-30, 50, 50), "pass")) {
-			SendEndTurnMessage();
-        }
-        if (GUI.Button(new Rect(sW-150, sH-80, 50, 50), "attack"))
-        {
-			AttackButton();
-        }
-        if (GUI.Button(new Rect(sW - 150, sH - 130, 50, 50), "Close Range"))
-        {
-            currentShip.GetComponent<Ship>().ChangeWeapons(0);
-            ClearTiles();
-        }
-        if (GUI.Button(new Rect(sW - 150, sH - 180, 50, 50), "Long Range"))
-        {
-            currentShip.GetComponent<Ship>().ChangeWeapons(1);
-            ClearTiles();
-        }
+            if (GUI.Button(new Rect(sW - sW / 6, sH - sH / 6, sW / 6, sH / 6), "Pass")) {
+			    SendEndTurnMessage();
+            }
+            if (GUI.Button(new Rect(sW - sW / 6, sH - 2*sH / 6, sW / 6, sH / 6), "Attack"))
+            {
+			    AttackButton();
+            }
+            if (state == 2)
+            {
+                if (GUI.Button(new Rect(sW - sW / 6, sH - 3 * sH / 6, sW / 6, sH / 6), "Close Range"))
+                {
+                    currentShip.GetComponent<Ship>().ChangeWeapons(0);
+                    ClearTiles();
+                }
+                if (GUI.Button(new Rect(sW - sW / 6, sH - 4 * sH / 6, sW / 6, sH / 6), "Long Range"))
+                {
+                    currentShip.GetComponent<Ship>().ChangeWeapons(1);
+                    ClearTiles();
+                }
+            }
         }
     }
 
@@ -451,18 +442,26 @@ public class GridGenerator : NetworkBehaviour
 			cShip.GetComponent<Ship> ().tile.GetComponent<Tile> ().isOccupied = false;
 			cShip.GetComponent<Ship> ().tile.GetComponent<Tile> ().occuObject = null;
 
-			cShip.GetComponent<Ship> ().tile = newTile; //updates currentShip tile to newTile
+            Vector3 originPos = cShip.GetComponent<Ship>().tile.transform.position;
+
+
+            cShip.GetComponent<Ship> ().tile = newTile; //updates currentShip tile to newTile
 			cShip.GetComponent<Ship> ().curActionPoints = newTile.GetComponent<Tile> ().remAP;
 			currentTile = newTile; //updates currentTile to newTile
 			newTile.GetComponent<Tile> ().isOccupied = true;
 			newTile.GetComponent<Tile> ().occuObject = cShip; //indicate new tile is occupied
 
-			Debug.Log("MoveOrigin");
-			Vector3 newPosition = new Vector3 (currentTile.transform.position.x, currentTile.transform.position.y + 0.1f, currentTile.transform.position.z);
+            Vector3 newPos = newTile.transform.position; 
+            Vector3 relativePos = newPos - originPos;
+
+            Vector3 newPosition = new Vector3 (currentTile.transform.position.x, currentTile.transform.position.y + 0.1f, currentTile.transform.position.z);
 			while (currentShip.transform.position != newPosition)
 				currentShip.transform.position = Vector3.MoveTowards (currentShip.transform.position, newPosition, 5f * Time.deltaTime);
 
-			UpdateFOW ();
+            Debug.Log("Moving in direction: " + relativePos);
+            currentShip.transform.rotation.SetLookRotation(Vector3.Normalize(relativePos));
+            //currentShip.transform.rotation.SetLookRotation(relativePos, Vector3.up);
+            UpdateFOW ();
 			List<int> targets = FindTargets (currentShip.GetComponent<Ship> ().atkRange, currentTile);
 			SetTargets (targets);
 
