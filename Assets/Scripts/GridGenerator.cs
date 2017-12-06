@@ -532,7 +532,7 @@ public class GridGenerator : NetworkBehaviour
                     Debug.Log("Button has press");
                     //return;
                 }*/
-                if (hit.collider.tag == "Ship" && hitGO.GetComponent<Ship>().currentPlayerTurn == true && hitGO != currentShip && hitGO.GetComponent<Ship>().state != 3)
+                if (hit.collider.tag == "Ship" && hitGO.GetComponent<Ship>().ownerNumber == myPlayerNumber && hitGO != currentShip && hitGO.GetComponent<Ship>().state != 3)
                 {
                     ClearTiles();
                     currentShip = hitGO; //switch operating ship to new
@@ -541,7 +541,7 @@ public class GridGenerator : NetworkBehaviour
                     return;
                 }
                 else if (hit.collider.tag == "Tile" && hitGO.GetComponent<Tile>().isOccupied && hitGO.GetComponent<Tile>().occuObject.tag == "Ship" &&
-                         hitGO.GetComponent<Tile>().occuObject.GetComponent<Ship>().currentPlayerTurn == true && hitGO.GetComponent<Tile>().occuObject.GetComponent<Ship>().state != 3 &&
+                         hitGO.GetComponent<Tile>().occuObject.GetComponent<Ship>().ownerNumber == myPlayerNumber && hitGO.GetComponent<Tile>().occuObject.GetComponent<Ship>().state != 3 &&
                          hitGO.GetComponent<Tile>().occuObject != currentShip)
                 {
                     ClearTiles();

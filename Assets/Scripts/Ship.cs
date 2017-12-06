@@ -26,6 +26,7 @@ public class Ship : MonoBehaviour {
     public bool hasTreasure = false;
     public bool inFOW = false;
     public int state = 0;
+    public int ownerNumber = -1;
 
     private int searchTimer = 0;
 
