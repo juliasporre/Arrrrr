@@ -613,8 +613,8 @@ public class GridGenerator : NetworkBehaviour
                     currentShip.GetComponent<Ship>().curActionPoints--;
                     return;
                 }
-                if (hitGO.tag == "Tile" && hitGO.GetComponent<Tile>().occuObject.GetComponent<Ship>().ownerNumber != myPlayerNumber && hitGO.GetComponent<Tile>().isOccupied == true && hitGO.GetComponent<Tile>().state == 2)
-                {
+                if (hitGO.tag == "Tile" && hitGO.GetComponent<Tile>().isOccupied == true && hitGO.GetComponent<Tile>().occuObject.GetComponent<Ship>().ownerNumber != myPlayerNumber && hitGO.GetComponent<Tile>().state == 2)
+                    {
                     int messageNumber = messageCounter + 1;
 					string msg = messageNumber + " attack " + currentShip.name + " attacking " + hitGO.GetComponent<Tile> ().occuObject.GetComponent<Ship> ().name + " withDamage " + currentShip.GetComponent<Ship>().GetComponent<Ship>().damage;
                     shortcut.SendMsg(msg);

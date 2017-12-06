@@ -50,12 +50,12 @@ public class LogWriter : NetworkBehaviour {
 		lastMessage = str;
 
 		//Writes the list to string
-		for (int i = 9; i > 0 ; i--) {
+		/*for (int i = 9; i > 0 ; i--) {
 			newMessageString += "\n " + messages [messages.Count - i];
 		}
 
 		//Adds text to gameObject
-		gameObject.GetComponentInChildren<Text>().text = newMessageString;
+		gameObject.GetComponentInChildren<Text>().text = newMessageString;*/
 	}
 
 	/*void OnGUI()
