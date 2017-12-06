@@ -53,6 +53,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shipPrefab: {fileID: 1567262752366674, guid: 642e74a5bf68553469bcd93332af5207, type: 2}
+  shipPrefab2: {fileID: 1466492953127068, guid: d2debdc373f107448ae2c4c214c9ac32,
+    type: 2}
   shipArray: []
   tileArray: []
   numberOfShips: 0

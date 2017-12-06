@@ -5,6 +5,7 @@ using UnityEngine;
 public class Players : MonoBehaviour {
 
     public GameObject shipPrefab;
+    public GameObject shipPrefab2;
 
     //public static GameObject[] shipArray;
     public List<GameObject> shipArray;
@@ -35,8 +36,11 @@ public class Players : MonoBehaviour {
         float yOffset = 0.1f;
         for (int shipsCreated = 0; shipsCreated < numberOfShips; shipsCreated++)
         {
+            GameObject newShip;
             //instantiate new ship
-            var newShip = Instantiate(shipPrefab, transform);
+            if (shipsCreated == 0)
+                newShip = Instantiate(shipPrefab, transform);
+            else newShip = Instantiate(shipPrefab2, transform);
             //assign variables to new ship
             currentTile = tileArray[spawnInd++];
             currentTile.GetComponent<Tile>().isOccupied = true;
