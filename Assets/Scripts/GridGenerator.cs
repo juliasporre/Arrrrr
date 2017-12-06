@@ -388,14 +388,16 @@ public class GridGenerator : NetworkBehaviour
 
 	void decryptMessage(string[] message){
 		if (message [2] == "nextturn") {
+			Debug.Log ("decrypt success next turn");
 			EndTurn (); //true is set to tell it is only an update from server
 		} else if (message [2] == "move") { // username, messageNumber, "moved SHIPNAME TILENAME"
+			Debug.Log ("decrypt success move");
 			MoveShip (message [3],message [4]); // Pass variables
 		}
 	}
 
 	void MoveShip(string movedShip, string tile){
-		Debug.Log ("decrypt success");
+		
 		MoveShip (GameObject.Find (movedShip), GameObject.Find (tile));
 
 	}
