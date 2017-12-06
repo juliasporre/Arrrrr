@@ -102,7 +102,10 @@ public class Players : MonoBehaviour {
         {
             var ships = ship.GetComponent<Ship>();
             if (ships.tile.GetComponent<Tile>().state == 4)
+            {
+                Debug.Log("ship at base with treasure");
                 return true;
+            }
         }
         return false;
     }

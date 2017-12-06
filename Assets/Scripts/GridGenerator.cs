@@ -47,6 +47,7 @@ public class GridGenerator : NetworkBehaviour
     void Start()
     {
         startGame();
+        uiText = GameObject.Find("uiText").GetComponent<Text>();
     }
 
     void startGame()

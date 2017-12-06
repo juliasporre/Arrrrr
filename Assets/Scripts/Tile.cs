@@ -212,5 +212,10 @@ public class Tile : MonoBehaviour {
         {
             hit.collider.gameObject.GetComponent<Renderer>().material = materialActive;
         }
+
+        if (indexNumber == 0 || indexNumber == 195)
+        {
+            state = 4;
+        }
     }
 }
