@@ -126,17 +126,6 @@ public class Players : MonoBehaviour {
         }
         return;
     }
-    /*
-     * Enables Renderer for ships under control 
-     */
-    public void EnableShips()
-    {
-        foreach (GameObject ships in shipArray)
-        {
-            ships.GetComponent<Ship>().inFOW = false;
-            //ships.GetComponent<Renderer>().enabled = true;
-        }
-    }
 
     // Update is called once per frame
     void Update () {

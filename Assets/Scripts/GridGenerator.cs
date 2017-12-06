@@ -185,7 +185,7 @@ public class GridGenerator : NetworkBehaviour
 
         if (currentTile != null)
         {
-            if (tile.GetComponent<Tile>().isOccupied && tile.GetComponent<Tile>().occuObject.tag == "Ship" && !tile.GetComponent<Tile>().occuObject.GetComponent<Ship>().currentPlayerTurn)
+            if (tile.GetComponent<Tile>().isOccupied && tile.GetComponent<Tile>().occuObject.tag == "Ship")
             {
                 foundObjects.Add(tile.GetComponent<Tile>().indexNumber);
             }
@@ -499,8 +499,7 @@ public class GridGenerator : NetworkBehaviour
     void Update()
     {
 
-		readLastMessage ();
-
+        readLastMessage ();
 
         if (currentPlayer != myPlayerNumber)
         {
@@ -612,7 +611,7 @@ public class GridGenerator : NetworkBehaviour
                     currentShip.GetComponent<Ship>().curActionPoints--;
                     return;
                 }
-                if (hitGO.tag == "Tile" && hitGO.GetComponent<Tile>().isOccupied == true && hitGO.GetComponent<Tile>().state == 2)
+                if (hitGO.tag == "Tile" && hitGO.GetComponent<Tile>().occuObject.GetComponent<Ship>().ownerNumber != myPlayerNumber && hitGO.GetComponent<Tile>().isOccupied == true && hitGO.GetComponent<Tile>().state == 2)
                 {
                     int messageNumber = messageCounter + 1;
 					string msg = messageNumber + " attack " + currentShip.name + " attacking " + hitGO.GetComponent<Tile> ().occuObject.GetComponent<Ship> ().name + " withDamage " + currentShip.GetComponent<Ship>().GetComponent<Ship>().damage;
