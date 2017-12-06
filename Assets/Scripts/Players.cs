@@ -150,6 +150,7 @@ public class Players : MonoBehaviour {
             if (shipscript.CheckHealth() == false)
             {
                 shipArray.Remove(thisShip);
+                Destroy(thisShip);
             }
         }
     }

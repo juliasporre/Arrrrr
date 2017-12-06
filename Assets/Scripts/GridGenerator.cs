@@ -505,22 +505,11 @@ public class GridGenerator : NetworkBehaviour
             Debug.Log("Not my turn" + shortcut.currentPlayer);
             return;
         }
-        /* if (!isServer)
-		{
-			return;
-		}*/
-        
-		/*
-        if (GameObject.Find("Log").GetComponent<Text>().text == "")
-            Debug.Log("Player: 1 shoots at Player 2: with damage: 3");
-        else
-            Debug.Log("NOT EMPTY");*/
-        
         //Ray shoots from camera POV
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         //Debug.DrawRay(ray.origin, ray.direction);
         RaycastHit hit;
-
+        /*
         if (currentShip != null && currentShip.GetComponent<Ship>().state != 3)
         {
             currentTile = currentShip.GetComponent<Ship>().tile;
@@ -528,7 +517,7 @@ public class GridGenerator : NetworkBehaviour
             List<int> targets = FindTargets(currentShip.GetComponent<Ship>().atkRange, currentTile);
             SetTargets(targets);
             currentShip.GetComponent<Ship>().stats.GetComponent<Renderer>().enabled = true;
-        }
+        }*/
         if (state == 1) //movement state
         {
             if (currentShip != null)
@@ -623,9 +612,8 @@ public class GridGenerator : NetworkBehaviour
                 }
                 if (hitGO.tag == "Tile" && hitGO.GetComponent<Tile>().isOccupied == true && hitGO.GetComponent<Tile>().state == 2)
                 {
-                    currentShip = hitGO.GetComponent<Tile>().occuObject;
                     int messageNumber = messageCounter + 1;
-					string msg = messageNumber + " attack " + currentShip.name + " attacking " + hitGO.GetComponent<Tile> ().occuObject.GetComponent<Ship> ().name + " withDamage " + hitGO.GetComponent<Tile>().occuObject.GetComponent<Ship>().GetComponent<Ship>().damage;
+					string msg = messageNumber + " attack " + currentShip.name + " attacking " + hitGO.GetComponent<Tile> ().occuObject.GetComponent<Ship> ().name + " withDamage " + currentShip.GetComponent<Ship>().GetComponent<Ship>().damage;
                     shortcut.SendMsg(msg);
                     //Debug.Log("11dmg " + currentShip.GetComponent<Ship>().damage);
                     //hitGO.GetComponent<Tile>().occuObject.GetComponent<Ship>().GetDamaged(currentShip.GetComponent<Ship>().damage);
@@ -649,5 +637,9 @@ public class GridGenerator : NetworkBehaviour
 			return;
 		}
         UpdateText();
+        if (currentShip.GetComponent<Ship>().ownerNumber != myPlayerNumber)
+        {
+            currentShip = null;
+        }
     }
 }

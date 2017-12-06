@@ -186,7 +186,6 @@ public class Ship : MonoBehaviour {
             tilescript.occuObject = null;
             tilescript.state = 0;
             GetComponent<Renderer>().enabled = false;
-            Destroy(this);
             return false;
         }
         return true;
