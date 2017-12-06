@@ -58,7 +58,7 @@ public class LogWriter : NetworkBehaviour {
 		gameObject.GetComponentInChildren<Text>().text = newMessageString;
 	}
 
-	void OnGUI()
+	/*void OnGUI()
 	{
 
 		inputMsg = GUILayout.TextField(inputMsg);
@@ -67,7 +67,7 @@ public class LogWriter : NetworkBehaviour {
 			inputMsg = "";
 		}
 
-	}
+	}*/
 
 	public bool CheckSameName(string name)
 	{
