@@ -131,7 +131,7 @@ public class GridGenerator : NetworkBehaviour
             playerScript.playerNumber = pN;
             playerArray[pN] = newPlayer;
         }
-            currentShip = playerArray[currentPlayer+1].GetComponent<Players>().firstShip;
+            //currentShip = playerArray[currentPlayer+1].GetComponent<Players>().firstShip;
     }
 
     void UpdateText()
@@ -322,23 +322,19 @@ public class GridGenerator : NetworkBehaviour
 			currentPlayer = 0;
 		}
 
-		if (currentPlayer != shortcut.currentPlayer) {
-
-			Debug.Log ("I AM HERE");
-			messageCounter ++;
-			shortcut.SendMsg (messageCounter + " nextturn");
+		//if (currentPlayer != shortcut.currentPlayer) {
 
 
-			foreach (PlayerToLog go in GameObject.FindObjectsOfType<PlayerToLog>()){
+			//foreach (PlayerToLog go in GameObject.FindObjectsOfType<PlayerToLog>()){
 				//if (go.userName == "user_Client" && myPlayerNumber == 0)
 				//   shortcut.UpdatePlayer(go.currentPlayer);
 
 				//if (go.userName == "user_Server" && myPlayerNumber == 1)
-				shortcut.UpdatePlayer(go.currentPlayer);
-			}
-		}
+				//shortcut.UpdatePlayer(go.currentPlayer);
+			//}
+		//}
 
-		Debug.Log ("In pass turn, i'm player " + myPlayerNumber + " And shortcut.currentplayer is " + shortcut.currentPlayer);
+		Debug.Log ("In pass turn, i'm player " + myPlayerNumber + " And shortcut.currentplayer is " + currentPlayer);
 
         
 		UpdateText();
@@ -365,6 +361,12 @@ public class GridGenerator : NetworkBehaviour
         }
 
     }
+
+	void SendEndTurnMessage(){
+		Debug.Log ("I'm sending a end trun message");
+		int messageNumber = messageCounter + 1;
+		shortcut.SendMsg (messageNumber + " nextturn");
+	}
 
 	void readLastMessage(){
 		string newMessage = lw.lastMessage;
@@ -393,6 +395,7 @@ public class GridGenerator : NetworkBehaviour
 	}
 
 	void MoveShip(string movedShip, string tile){
+		Debug.Log ("decrypt success");
 		MoveShip (GameObject.Find (movedShip), GameObject.Find (tile));
 
 	}
@@ -436,6 +439,7 @@ public class GridGenerator : NetworkBehaviour
 
 			Debug.Log("MoveClient");
 			Vector3 newPosition = new Vector3 (currentTile.transform.position.x, currentTile.transform.position.y + 0.1f, currentTile.transform.position.z);
+			currentShip = cShip;
 			while (currentShip.transform.position != newPosition)
 				currentShip.transform.position = Vector3.MoveTowards (currentShip.transform.position, newPosition, 5f * Time.deltaTime);
 
@@ -462,15 +466,16 @@ public class GridGenerator : NetworkBehaviour
 		readLastMessage ();
 
 
-        if (shortcut.currentPlayer != myPlayerNumber)
+        if (currentPlayer != myPlayerNumber)
         {
             Debug.Log("Not my turn" + shortcut.currentPlayer);
         }
-        /*if (!isServer)
+        /* if (!isServer)
 		{
 			return;
 		}*/
-        /*
+        
+		/*
         if (GameObject.Find("Log").GetComponent<Text>().text == "")
             Debug.Log("Player: 1 shoots at Player 2: with damage: 3");
         else
@@ -533,9 +538,10 @@ public class GridGenerator : NetworkBehaviour
                     //hit.collider.gameObject now refers to the tile under the mouse cursor
                     if (hitGO.GetComponent<Tile>().state == 1 || hitGO.GetComponent<Tile>().state == 4)
                     {
+						int messageNumber = messageCounter + 1;
                         //MoveShip(currentShip, hitGO); //move the ship if tile state is 1
-						shortcut.SendMsg (messageCounter + " move " + currentShip.name + " " + hitGO.name);
-						messageCounter++;
+						shortcut.SendMsg (messageNumber + " move " + currentShip.name + " " + hitGO.name);
+						//messageCounter++;
 						currentTile = hitGO;
 						state = 999;
 
