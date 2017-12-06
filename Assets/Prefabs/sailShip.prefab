@@ -1583,9 +1583,11 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4790396681126540}
+  - component: {fileID: 114283197544242784}
+  - component: {fileID: 23022161423931444}
   m_Layer: 0
   m_Name: sailShip
-  m_TagString: Untagged
+  m_TagString: Ship
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5470,9 +5472,9 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1466492953127068}
-  m_LocalRotation: {x: -0, y: -0.9998717, z: -0, w: 0.016022895}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0.6770148, y: -1.7760096, z: 0.7315202}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.15, y: 0.15, z: 0.15}
   m_Children:
   - {fileID: 4721902314554956}
   - {fileID: 4628206933615482}
@@ -5672,7 +5674,7 @@ Transform:
   - {fileID: 4748097885006958}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 1261.8359, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!4 &4799552162250866
 Transform:
   m_ObjectHideFlags: 1
@@ -6300,6 +6302,40 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_Materials:
   - {fileID: 2100000, guid: 7394fb67bd7ba8443b0bf020bbf277df, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!23 &23022161423931444
+MeshRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1466492953127068}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_Materials:
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -14151,3 +14187,37 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1642670443654808}
   m_Mesh: {fileID: 4300388, guid: 7c0e7a1bc2755da47911d00c25a474f0, type: 3}
+--- !u!114 &114283197544242784
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1466492953127068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65c3da451ac8efc44b796a049a75774a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tile: {fileID: 0}
+  weaponPrefab: {fileID: 1340538310194264, guid: 69aedce4ce6dfdc4185abc4b74474ab4,
+    type: 2}
+  statsMesh: {fileID: 1983081425370532, guid: 0245b0e926af3f845b021c32951291e7, type: 2}
+  popMesh: {fileID: 1409175222479670, guid: aa484ad151c870749bda521a461b32eb, type: 2}
+  indexNumber: 0
+  iniActionPoints: 0
+  curActionPoints: 0
+  atkRange: 0
+  health: 15
+  damage: 0
+  currentPlayerTurn: 0
+  hasAttacked: 0
+  hasTreasure: 0
+  inFOW: 0
+  state: 0
+  ownerNumber: -1
+  stats: {fileID: 0}
+  popText: {fileID: 0}
+  bgPrefab: {fileID: 1609588901969278, guid: 29bb8d3f9a35f0241a9c0a745fa7560f, type: 2}
+  statsBG: {fileID: 0}
+  weaponsList: []
+  weaponNumbers: 2
