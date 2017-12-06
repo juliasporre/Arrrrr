@@ -353,7 +353,7 @@ public class GridGenerator : NetworkBehaviour
 
     void OnGUI() {
         if (GUI.Button(new Rect(300, 150, 50, 50), "pass")) {
-            EndTurn();
+			SendEndTurnMessage();
         }
         if (GUI.Button(new Rect(300, 350, 50, 50), "attack"))
         {
