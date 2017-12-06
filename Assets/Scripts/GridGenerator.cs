@@ -5,13 +5,14 @@ using UnityEngine.UI;
 using System.Linq;
 using UnityEngine.EventSystems;
 using UnityEngine.Networking;
+using System;
 
 public class GridGenerator : NetworkBehaviour
 {
     
     public PlayerToLog shortcut;
 	public LogWriter lw;
-	int messageCounter = 0;
+	int messageCounter = -1;
 
     public GameObject tilePrefab;
     public GameObject shipPrefab;
@@ -52,10 +53,12 @@ public class GridGenerator : NetworkBehaviour
     {
 		lw = GameObject.Find("LogCanvas").GetComponent<LogWriter>();
 
-        if (shortcut.nameStr == "user_Server")
-            myPlayerNumber = 0;
-        else
-            myPlayerNumber = 1;
+		if (shortcut.nameStr == "user_Server")
+			myPlayerNumber = 0;
+		else {
+			myPlayerNumber = 1;
+			messageCounter = 0;
+		}
         Debug.Log("Server says I'm: " + shortcut.nameStr);
         Debug.Log("My player number is: " + myPlayerNumber.ToString());
         CreateTiles();
@@ -172,18 +175,32 @@ public class GridGenerator : NetworkBehaviour
     /*
      * Function for moving ship to selected newTile.
      */
-    void MoveShip(GameObject newTile)
+	void MoveShip(GameObject cShip, GameObject newTile)
     {
-        currentShip.GetComponent<Ship>().tile.GetComponent<Tile>().isOccupied = false;
-        currentShip.GetComponent<Ship>().tile.GetComponent<Tile>().occuObject = null;
-        
-        currentShip.GetComponent<Ship>().tile = newTile; //updates currentShip tile to newTile
-        currentShip.GetComponent<Ship>().curActionPoints = newTile.GetComponent<Tile>().remAP;
-        currentTile = newTile; //updates currentTile to newTile
-        newTile.GetComponent<Tile>().isOccupied = true;
-        newTile.GetComponent<Tile>().occuObject = currentShip; //indicate new tile is occupied
+		if (cShip == currentShip) {
+			cShip.GetComponent<Ship> ().tile.GetComponent<Tile> ().isOccupied = false;
+			cShip.GetComponent<Ship> ().tile.GetComponent<Tile> ().occuObject = null;
+
+			cShip.GetComponent<Ship> ().tile = newTile; //updates currentShip tile to newTile
+			cShip.GetComponent<Ship> ().curActionPoints = newTile.GetComponent<Tile> ().remAP;
+			currentTile = newTile; //updates currentTile to newTile
+			newTile.GetComponent<Tile> ().isOccupied = true;
+			newTile.GetComponent<Tile> ().occuObject = cShip; //indicate new tile is occupied
+			ClearTiles();
+			return;
+		} else {
+			cShip.GetComponent<Ship> ().tile.GetComponent<Tile> ().isOccupied = false;
+			cShip.GetComponent<Ship> ().tile.GetComponent<Tile> ().occuObject = null;
+
+			cShip.GetComponent<Ship>().tile = newTile; //updates currentShip tile to newTile
+			cShip.GetComponent<Ship>().curActionPoints = newTile.GetComponent<Tile>().remAP;
+			currentTile = newTile; //updates currentTile to newTile
+			newTile.GetComponent<Tile>().isOccupied = true;
+			newTile.GetComponent<Tile>().occuObject = cShip; //indicate new tile is occupied
+		}
 
         ClearTiles(); //set state=1 tiles to 0.
+
 
     }
 
@@ -323,21 +340,30 @@ public class GridGenerator : NetworkBehaviour
     /*
      * Button for Passing turn / starting game.
      */
-    public void EndTurn()
+	public void EndTurn()
     {
-        //buttonText.text = "Pass Turn";
-        currentPlayer++;
-        shortcut.SendMsg("Current Player: " + currentPlayer.ToString());
 
-        if (CheckVictory()) //if victory conditions are met
-            return; //finish game immediately
-        if (currentPlayer+1 > numberOfPlayers)
-        {
-            currentPlayer = 0;
-        }
-		shortcut.SendMsg(messageCounter + "You are next spansk");
-		messageCounter++;
-        UpdateText();
+		//buttonText.text = "Pass Turn";
+		currentPlayer++;
+
+		if (CheckVictory()) //if victory conditions are met
+			return; //finish game immediately
+		if (currentPlayer+1 > numberOfPlayers)
+		{
+			currentPlayer = 0;
+		}
+
+		if (currentPlayer != shortcut.currentPlayer) {
+			shortcut.SendMsg (messageCounter + " nextturn");
+			messageCounter++;
+			shortcut.currentPlayer = currentPlayer;
+		}
+
+		Debug.Log ("In pass turn, i'm player " + myPlayerNumber + " And shortcut.currentplayer is " + shortcut.currentPlayer);
+
+        
+		UpdateText();
+
         foreach (GameObject player in playerArray)
         {
             player.GetComponent<Players>().SetTurn(currentPlayer);
@@ -363,17 +389,45 @@ public class GridGenerator : NetworkBehaviour
 
 	void readLastMessage(){
 		string newMessage = lw.lastMessage;
+		string[] array = newMessage.Split(' ');
+		try{ 
 
-		if ((int)newMessage.Split (" ") [0] > messageCounter) {
-			Debug.Log (newMessage);
-			messageCounter++;
+			if (array.Length > 1 && array[0] != shortcut.userName && Int32.Parse(array[1]) > messageCounter) {
+				Debug.Log (newMessage);
+				messageCounter++;
+				decryptMessage(array);
+			}
+		} catch (FormatException e){
+			Debug.Log("Something wrong");
 		}
 
+	}
+
+	void decryptMessage(string[] message){
+		if (message [2] == "nextturn") {
+			EndTurn (); //true is set to tell it is only an update from server
+		} else if (message [2] == "move") { // username, messageNumber, "moved SHIPNAME TILENAME"
+			MoveShip (message [3],message [4]); // Pass variables
+		}
+	}
+
+	void MoveShip(string movedShip, string tile){
+		MoveShip (GameObject.Find (movedShip), GameObject.Find (tile));
+
+	}
+
+	void HitShip(string opponentShip, string attackingShip, string damage){
+		
+		
 	}
 
     // Update is called once per frame
     void Update()
     {
+
+		readLastMessage ();
+
+
         if (shortcut.currentPlayer != myPlayerNumber)
         {
             Debug.Log("Not my turn" + shortcut.currentPlayer);
@@ -410,7 +464,7 @@ public class GridGenerator : NetworkBehaviour
             SetTargets(targets);
             currentShip.GetComponent<Ship>().stats.GetComponent<Renderer>().enabled = true;
         }
-        if (state == 1)
+        if (state == 1) //movement state
         {
             if (currentShip != null)
             {
@@ -453,8 +507,12 @@ public class GridGenerator : NetworkBehaviour
                     //hit.collider.gameObject now refers to the tile under the mouse cursor
                     if (hitGO.GetComponent<Tile>().state == 1 || hitGO.GetComponent<Tile>().state == 4)
                     {
-                        MoveShip(hitGO); //move the ship if tile state is 1
-                        state = 999;
+                        //MoveShip(currentShip, hitGO); //move the ship if tile state is 1
+						shortcut.SendMsg (messageCounter + " move " + currentShip.name + " " + hitGO.name);
+						messageCounter++;
+						state = 999;
+
+
                     }
                     else if (hitGO.GetComponent<Tile>().state == 3 && hitGO.GetComponent<Tile>().IsAdjacent(currentTile))
                     {
@@ -469,7 +527,7 @@ public class GridGenerator : NetworkBehaviour
         // conly shoot at target if it's a ship not controlled by player and the targets tile's state is 2
         if (state == 2 && currentShip != null && !currentShip.GetComponent<Ship>().hasAttacked)
         {
-            UpdateTiles(currentShip.GetComponent<Ship>().atkRange, 2);
+            UpdateTiles(currentShip.GetComponent<Ship>().atkRange, 2); //shows range of ship
             if (Input.GetButtonDown("Fire1") && Physics.Raycast(ray, out hit)) //On Mouse Click
             {
                 GameObject hitGO = hit.collider.gameObject;
@@ -515,7 +573,8 @@ public class GridGenerator : NetworkBehaviour
             Vector3 newPosition = new Vector3(currentTile.transform.position.x, currentTile.transform.position.y + 0.1f, currentTile.transform.position.z);
             if (currentShip.transform.position != newPosition)
                 currentShip.transform.position = Vector3.MoveTowards(currentShip.transform.position, newPosition, 5f * Time.deltaTime);
-            else
+			
+			else
             {
 
                 UpdateFOW();

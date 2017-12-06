@@ -46,6 +46,7 @@ public class Players : MonoBehaviour {
             newShip.transform.position = new Vector3(currentTile.transform.position.x, currentTile.transform.position.y + yOffset, currentTile.transform.position.z);
             newShip.GetComponent<Ship>().iniActionPoints = iniActionPoints;
             newShip.GetComponent<Ship>().indexNumber = shipsCreated;
+			newShip.name = "Ship" + playerNumber.ToString () + shipsCreated.ToString ();
             //insert into shipArray
             shipArray.Add(newShip);
         }

@@ -37,7 +37,7 @@ public class Ship : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
-        gameObject.name = "Ship " + indexNumber.ToString();
+        //gameObject.name = "Ship " + indexNumber.ToString();
         curActionPoints = iniActionPoints;
 
         var statsClone = Instantiate(statsMesh, transform);
