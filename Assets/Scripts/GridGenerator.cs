@@ -280,8 +280,9 @@ public class GridGenerator : NetworkBehaviour
     * To be called we the users press the end turn button
     * iterates through the ship array and flips the value of currentPlayerTurn
     */
-            public void AttackButton()
+    public void AttackButton()
     {
+		
         if (currentShip && currentShip.GetComponent<Ship>().curActionPoints > 0)
         {
             if (state == 1)
@@ -357,8 +358,9 @@ public class GridGenerator : NetworkBehaviour
         }
         if (GUI.Button(new Rect(90, 120, 50, 50), "attack"))
         {
-            AttackButton();
+			AttackButton();
         }
+
 
     }
 
@@ -393,14 +395,33 @@ public class GridGenerator : NetworkBehaviour
 		} else if (message [2] == "move") { // username, messageNumber, "moved SHIPNAME TILENAME"
 			Debug.Log ("decrypt success move");
 			MoveShip (message [3],message [4]); // Pass variables
+		} else if (message [2] == "attack") { // username, messageNumber, "attack SHIPNAME attacking SHIPNAME2 withDamage DAMAGE"
+			Debug.Log ("decrypt success attack");
+			AttackShip (message [3],message [5]); // Pass variables
 		}
 	}
 
-	void MoveShip(string movedShip, string tile){
+	void AttackShip(string attackingShip, string attackedShip){
 		
+		AttackShip (GameObject.Find (attackingShip), GameObject.Find (attackedShip));
+
+	}
+
+	void MoveShip(string movedShip, string tile){
+
 		MoveShip (GameObject.Find (movedShip), GameObject.Find (tile));
 
 	}
+
+
+	void AttackShip(GameObject attackingShip, GameObject attackedShip)
+	{
+		//Run code from update
+		Debug.Log("Now " + attackedShip.name + "is being attacked");
+
+		attackedShip.GetComponent<Ship>().GetDamaged(currentShip.GetComponent<Ship>().damage);
+	}
+
 
 	/*
      * Function for moving ship to selected newTile.
@@ -454,11 +475,6 @@ public class GridGenerator : NetworkBehaviour
 		ClearTiles(); //set state=1 tiles to 0.
 
 
-	}
-
-	void HitShip(string opponentShip, string attackingShip, string damage){
-		
-		
 	}
 
     // Update is called once per frame
@@ -565,6 +581,8 @@ public class GridGenerator : NetworkBehaviour
             UpdateTiles(currentShip.GetComponent<Ship>().atkRange, 2); //shows range of ship
             if (Input.GetButtonDown("Fire1") && Physics.Raycast(ray, out hit)) //On Mouse Click
             {
+				
+
                 GameObject hitGO = hit.collider.gameObject;
                 //Debug.Log("damage has happened");
 
@@ -575,8 +593,11 @@ public class GridGenerator : NetworkBehaviour
 
                 if (hitGO.tag == "Ship" && hitGO.GetComponent<Ship>().currentPlayerTurn == false && hitGO.GetComponent<Ship>().tile.GetComponent<Tile>().state == 2)
                 {
-                    //Debug.Log("11dmg " + currentShip.GetComponent<Ship>().damage);
-                    hitGO.GetComponent<Ship>().GetDamaged(currentShip.GetComponent<Ship>().damage);
+					int messageNumber = messageCounter + 1;
+					string msg = messageNumber + " attack " + currentShip.name + " attacking " + hitGO.GetComponent<Ship> ().name;
+					shortcut.SendMsg(msg);
+					//Debug.Log("11dmg " + currentShip.GetComponent<Ship>().damage);
+                    //hitGO.GetComponent<Ship>().GetDamaged(currentShip.GetComponent<Ship>().damage);
                     //Debug.Log("dmg " + currentShip.GetComponent<Ship>().damage);
                     state = 1;
                     currentShip.GetComponent<Ship>().hasAttacked = true;
@@ -585,8 +606,11 @@ public class GridGenerator : NetworkBehaviour
                 }
                 if (hitGO.tag == "Tile" && hitGO.GetComponent<Tile>().isOccupied == true && hitGO.GetComponent<Tile>().state == 2)
                 {
+					int messageNumber = messageCounter + 1;
+					string msg = messageNumber + " attack " + currentShip.name + " attacking " + hitGO.GetComponent<Tile> ().occuObject.GetComponent<Ship> ().name;
+					shortcut.SendMsg(msg);
                     //Debug.Log("11dmg " + currentShip.GetComponent<Ship>().damage);
-                    hitGO.GetComponent<Tile>().occuObject.GetComponent<Ship>().GetDamaged(currentShip.GetComponent<Ship>().damage);
+                    //hitGO.GetComponent<Tile>().occuObject.GetComponent<Ship>().GetDamaged(currentShip.GetComponent<Ship>().damage);
                     //Debug.Log("dmg " + currentShip.GetComponent<Ship>().damage);
                     state = 1;
                     currentShip.GetComponent<Ship>().hasAttacked = true;
