@@ -413,13 +413,13 @@ public class GridGenerator : NetworkBehaviour
 			MoveShip (message [3],message [4]); // Pass variables
 		} else if (message [2] == "attack") { // username, messageNumber, "attack SHIPNAME attacking SHIPNAME2 withDamage DAMAGE"
 			Debug.Log ("decrypt success attack");
-			AttackShip (message [3],message [5]); // Pass variables
+			AttackShip (message [3],message [5],message[7]); // Pass variables
 		}
 	}
 
-	void AttackShip(string attackingShip, string attackedShip){
+	void AttackShip(string attackingShip, string attackedShip, string damage){
 		
-		AttackShip (GameObject.Find (attackingShip), GameObject.Find (attackedShip));
+		AttackShip (GameObject.Find (attackingShip), GameObject.Find (attackedShip), damage);
 
 	}
 
@@ -430,12 +430,12 @@ public class GridGenerator : NetworkBehaviour
 	}
 
 
-	void AttackShip(GameObject attackingShip, GameObject attackedShip)
+	void AttackShip(GameObject attackingShip, GameObject attackedShip, string damage)
 	{
 		//Run code from update
 		Debug.Log("Now " + attackedShip.name + "is being attacked");
 
-		attackedShip.GetComponent<Ship>().GetDamaged(currentShip.GetComponent<Ship>().damage);
+		attackedShip.GetComponent<Ship>().GetDamaged(Int32.Parse(damage));
 	}
 
 
@@ -611,7 +611,7 @@ public class GridGenerator : NetworkBehaviour
                 if (hitGO.tag == "Ship" && hitGO.GetComponent<Ship>().currentPlayerTurn == false && hitGO.GetComponent<Ship>().tile.GetComponent<Tile>().state == 2)
                 {
 					int messageNumber = messageCounter + 1;
-					string msg = messageNumber + " attack " + currentShip.name + " attacking " + hitGO.GetComponent<Ship> ().name;
+					string msg = messageNumber + " attack " + currentShip.name + " attacking " + hitGO.GetComponent<Ship> ().name + " withDamage " + currentShip.GetComponent<Ship>().damage;
 					shortcut.SendMsg(msg);
 					//Debug.Log("11dmg " + currentShip.GetComponent<Ship>().damage);
                     //hitGO.GetComponent<Ship>().GetDamaged(currentShip.GetComponent<Ship>().damage);
@@ -623,9 +623,10 @@ public class GridGenerator : NetworkBehaviour
                 }
                 if (hitGO.tag == "Tile" && hitGO.GetComponent<Tile>().isOccupied == true && hitGO.GetComponent<Tile>().state == 2)
                 {
-					int messageNumber = messageCounter + 1;
-					string msg = messageNumber + " attack " + currentShip.name + " attacking " + hitGO.GetComponent<Tile> ().occuObject.GetComponent<Ship> ().name;
-					shortcut.SendMsg(msg);
+                    currentShip = hitGO.GetComponent<Tile>().occuObject;
+                    int messageNumber = messageCounter + 1;
+					string msg = messageNumber + " attack " + currentShip.name + " attacking " + hitGO.GetComponent<Tile> ().occuObject.GetComponent<Ship> ().name + " withDamage " + hitGO.GetComponent<Tile>().occuObject.GetComponent<Ship>().GetComponent<Ship>().damage;
+                    shortcut.SendMsg(msg);
                     //Debug.Log("11dmg " + currentShip.GetComponent<Ship>().damage);
                     //hitGO.GetComponent<Tile>().occuObject.GetComponent<Ship>().GetDamaged(currentShip.GetComponent<Ship>().damage);
                     //Debug.Log("dmg " + currentShip.GetComponent<Ship>().damage);
